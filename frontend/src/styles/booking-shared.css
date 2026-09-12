@@ -1,0 +1,367 @@
+.time-slot {
+    @apply w-full text-left rounded-xl text-sm tracking-wide transition disabled:opacity-40 disabled:cursor-not-allowed;
+    min-height: 72px;
+    padding: 10px 12px;
+    display: grid;
+    grid-template-rows: minmax(20px, auto) minmax(16px, auto);
+    gap: 4px;
+    align-items: start;
+    align-content: stretch;
+    color: var(--lux-text);
+    border: 1px solid var(--lux-line);
+    background:
+        radial-gradient(circle at top left, rgba(255, 255, 255, 0.05), transparent 30%),
+        linear-gradient(180deg, rgba(20, 20, 20, 0.96), rgba(7, 7, 7, 0.93));
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.06),
+        0 12px 22px rgba(0, 0, 0, 0.16);
+}
+
+.time-slot:hover:not(:disabled) {
+    border-color: rgba(244, 220, 169, 0.42);
+    box-shadow:
+        0 0 0 1px rgba(244, 220, 169, 0.08),
+        0 12px 24px rgba(0, 0, 0, 0.24);
+}
+
+.time-slot.time-slot-selected {
+    color: #170f09;
+    border-color: rgba(255, 226, 168, 0.2);
+    background: linear-gradient(180deg, #f6e3bb 0%, #dfbc7b 45%, #b77f37 100%);
+    box-shadow:
+        0 0 0 2px rgba(244, 220, 169, 0.14),
+        0 16px 28px rgba(0, 0, 0, 0.24),
+        0 0 30px rgba(212, 166, 90, 0.22),
+        inset 0 1px 0 rgba(255, 246, 220, 0.52);
+}
+
+.time-slot.booked {
+    background: rgba(16, 16, 16, 0.94);
+    color: #857868;
+    border-color: rgba(255, 255, 255, 0.04);
+}
+
+.time-slot.time-slot-held {
+    background: rgba(22, 22, 22, 0.94);
+    color: #ebdbb9;
+    border-color: rgba(242, 215, 159, 0.16);
+}
+
+.time-slot.time-slot-break {
+    background: rgba(22, 22, 22, 0.94);
+    color: #b8a893;
+    border-color: rgba(255, 255, 255, 0.06);
+}
+
+.time-slot-primary {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 8px;
+}
+
+.time-slot-label {
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    line-height: 1.25;
+    font-size: 0.93rem;
+}
+
+.time-slot-status {
+    color: inherit;
+    opacity: 0.82;
+    font-size: 0.72rem;
+    line-height: 1.2;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.time-slot-status-placeholder {
+    visibility: hidden;
+}
+
+.time-slot-selected-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    min-height: 20px;
+    padding: 3px 8px;
+    border-radius: 999px;
+    border: 1px solid rgba(23, 15, 9, 0.12);
+    background: rgba(23, 15, 9, 0.1);
+    color: #170f09;
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+.booking-calendar-shell {
+    --calendar-gap: 0.3rem;
+    --calendar-nav-size: 2.55rem;
+    --calendar-nav-color: rgba(255, 248, 239, 0.84);
+    --calendar-nav-border: rgba(255, 255, 255, 0.08);
+    --calendar-nav-background:
+        radial-gradient(circle at top, rgba(255, 255, 255, 0.045), transparent 42%),
+        linear-gradient(180deg, rgba(18, 18, 18, 0.96), rgba(8, 8, 8, 0.92));
+    --calendar-nav-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.05),
+        0 10px 18px rgba(0, 0, 0, 0.14);
+    --calendar-nav-hover-border: rgba(227, 192, 122, 0.34);
+    --calendar-title-color: #fff8ef;
+    --calendar-weekday-color: rgba(255, 255, 255, 0.62);
+    --calendar-day-color: var(--lux-text);
+    --calendar-day-border: rgba(255, 255, 255, 0.03);
+    --calendar-day-background:
+        radial-gradient(circle at top, rgba(255, 255, 255, 0.035), transparent 40%),
+        linear-gradient(180deg, rgba(18, 18, 18, 0.95), rgba(8, 8, 8, 0.92));
+    --calendar-day-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+    --calendar-outside-color: rgba(255, 248, 239, 0.68);
+    --calendar-outside-border: rgba(255, 255, 255, 0.05);
+    --calendar-outside-background:
+        radial-gradient(circle at top, rgba(255, 255, 255, 0.02), transparent 42%),
+        linear-gradient(180deg, rgba(14, 14, 14, 0.84), rgba(8, 8, 8, 0.82));
+    --calendar-active-color: #140d09;
+    --calendar-active-border: transparent;
+    --calendar-active-background:
+        linear-gradient(180deg, var(--lux-accent-1) 0%, var(--lux-accent-2) 48%, var(--lux-accent-3) 100%);
+    --calendar-active-shadow:
+        0 10px 20px rgba(141, 91, 36, 0.24),
+        0 0 22px rgba(213, 164, 93, 0.12);
+    --calendar-muted-color: #7f6b58;
+    --calendar-hover-border: rgba(227, 192, 122, 0.45);
+    --calendar-day-size: clamp(2.35rem, 10vw, 2.85rem);
+}
+
+.calendar-header {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 0.75rem;
+}
+
+.calendar-nav-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: var(--calendar-nav-size);
+    min-width: var(--calendar-nav-size);
+    height: var(--calendar-nav-size);
+    border-radius: 999px;
+    color: var(--calendar-nav-color);
+    border: 1px solid var(--calendar-nav-border);
+    background: var(--calendar-nav-background);
+    box-shadow: var(--calendar-nav-shadow);
+    transition:
+        border-color 0.2s ease,
+        color 0.2s ease,
+        box-shadow 0.2s ease,
+        transform 0.2s ease;
+}
+
+.calendar-nav-button:hover {
+    border-color: var(--calendar-nav-hover-border);
+    transform: translateY(-1px);
+}
+
+.calendar-nav-button:active {
+    transform: translateY(0);
+}
+
+.calendar-title {
+    color: var(--calendar-title-color);
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    font-size: clamp(0.9rem, 2.8vw, 1rem);
+    letter-spacing: 0.16em;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+.calendar-weekdays {
+    display: grid;
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+    gap: var(--calendar-gap);
+    margin-bottom: 0.75rem;
+    color: var(--calendar-weekday-color);
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+.calendar-weekday {
+    min-width: 0;
+}
+
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+    gap: var(--calendar-gap);
+}
+
+.calendar-day-placeholder {
+    width: 100%;
+    min-width: 0;
+    min-height: var(--calendar-day-size);
+    aspect-ratio: 1 / 1;
+    pointer-events: none;
+}
+
+.calendar-day {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    min-width: 0;
+    min-height: var(--calendar-day-size);
+    aspect-ratio: 1 / 1;
+    border-radius: 999px;
+    font-size: clamp(0.88rem, 3vw, 0.96rem);
+    line-height: 1;
+    transition:
+        border-color 0.2s ease,
+        background 0.2s ease,
+        box-shadow 0.2s ease,
+        color 0.2s ease,
+        transform 0.2s ease,
+        opacity 0.2s ease;
+    color: var(--calendar-day-color);
+    border: 1px solid var(--calendar-day-border);
+    background: var(--calendar-day-background);
+    box-shadow: var(--calendar-day-shadow);
+}
+
+.calendar-day.active {
+    background: var(--calendar-active-background);
+    color: var(--calendar-active-color);
+    border-color: var(--calendar-active-border);
+    box-shadow: var(--calendar-active-shadow);
+}
+
+.calendar-day.muted {
+    color: var(--calendar-muted-color);
+    opacity: 0.58;
+}
+
+.calendar-day:hover:not(.muted),
+.calendar-day:focus-visible:not(.muted) {
+    border-color: var(--calendar-hover-border);
+    transform: translateY(-1px);
+}
+
+.calendar-day:hover:not(.muted) {
+    border-color: var(--calendar-hover-border);
+}
+
+.payment-input {
+    @apply w-full rounded-[12px] px-4 py-3 placeholder:text-smoke focus:outline-none transition;
+    min-height: 48px;
+    font-size: 16px;
+    color: var(--lux-text);
+    background:
+        radial-gradient(circle at top, rgba(255, 255, 255, 0.04), transparent 38%),
+        linear-gradient(180deg, rgba(14, 14, 14, 0.96), rgba(5, 5, 5, 0.92));
+    border: 1px solid var(--lux-line);
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.05),
+        0 10px 18px rgba(0, 0, 0, 0.12);
+    caret-color: var(--lux-accent-1);
+}
+
+.payment-input::placeholder {
+    color: rgba(255, 255, 255, 0.42);
+}
+
+.payment-input:focus {
+    border-color: rgba(244, 220, 169, 0.5);
+    box-shadow:
+        0 0 0 3px rgba(213, 164, 93, 0.09),
+        0 14px 26px rgba(0, 0, 0, 0.16),
+        inset 0 1px 0 rgba(255, 238, 208, 0.05);
+}
+
+@media (max-width: 480px) {
+    .booking-calendar-shell {
+        --calendar-gap: 0.22rem;
+        --calendar-nav-size: 2.35rem;
+        --calendar-day-size: clamp(2.15rem, 11vw, 2.45rem);
+    }
+
+    .calendar-header {
+        gap: 0.45rem;
+        margin-bottom: 0.65rem;
+    }
+
+    .calendar-title {
+        font-size: 0.78rem;
+        letter-spacing: 0.12em;
+    }
+
+    .calendar-weekdays {
+        font-size: 10px;
+        margin-bottom: 0.65rem;
+        letter-spacing: 0.1em;
+    }
+
+    .time-slot {
+        font-size: 0.95rem;
+        line-height: 1.35;
+        letter-spacing: 0.02em;
+    }
+
+    .calendar-day {
+        font-size: 0.82rem;
+    }
+
+    .payment-input {
+        font-size: 16px;
+        line-height: 1.4;
+    }
+}
+
+@media (min-width: 768px) {
+    .booking-calendar-shell {
+        --calendar-gap: 0.36rem;
+        --calendar-nav-size: 2.7rem;
+        --calendar-day-size: clamp(2.45rem, 5vw, 2.8rem);
+    }
+}
+
+@media (min-width: 1024px) {
+    .booking-calendar-shell {
+        --calendar-gap: 0.42rem;
+        --calendar-nav-size: 2.85rem;
+        --calendar-day-size: 2.9rem;
+    }
+}
+
+@media (hover: none) and (pointer: coarse) {
+    .time-slot:hover:not(:disabled),
+    .calendar-day:hover:not(.muted),
+    .calendar-nav-button:hover {
+        border-color: transparent;
+        transform: none;
+    }
+
+    .time-slot:active:not(:disabled) {
+        border-color: rgba(227, 192, 122, 0.52);
+    }
+
+    .calendar-day:active:not(.muted),
+    .calendar-day:focus-visible:not(.muted),
+    .calendar-nav-button:active {
+        border-color: rgba(227, 192, 122, 0.45);
+        transform: none;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .time-slot,
+    .calendar-day,
+    .calendar-nav-button {
+        transition: none;
+    }
+}

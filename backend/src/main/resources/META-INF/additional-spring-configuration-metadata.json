@@ -1,0 +1,29 @@
+{
+  "properties": [
+    {
+      "name": "app.hair-salon.id",
+      "type": "java.util.UUID",
+      "description": "Default hair salon ID (singleton pattern)."
+    },
+    {
+      "name": "app.admin.bootstrap.enabled",
+      "type": "java.lang.Boolean",
+      "description": "Enables secure admin bootstrap from environment variables."
+    },
+    {
+      "name": "app.admin.bootstrap.username",
+      "type": "java.lang.String",
+      "description": "Admin username to create or update during bootstrap."
+    },
+    {
+      "name": "app.admin.bootstrap.password",
+      "type": "java.lang.String",
+      "description": "Admin password to hash and store during bootstrap."
+    },
+    {
+      "name": "app.security.trusted-proxy-cidrs",
+      "type": "java.util.List<java.lang.String>",
+      "description": "Exact IPs or CIDR ranges that are allowed to supply forwarded headers."
+    }
+  ]
+}

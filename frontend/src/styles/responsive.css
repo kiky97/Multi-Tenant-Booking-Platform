@@ -1,0 +1,122 @@
+/* ================= GLOBAL MOBILE READABILITY ================= */
+@media (max-width: 480px) {
+    html {
+        -webkit-text-size-adjust: 100%;
+        text-size-adjust: 100%;
+    }
+
+    body {
+        font-size: 16px;
+        line-height: 1.6;
+    }
+
+    .lux-section-title {
+        font-size: clamp(1.7rem, 7vw, 2.15rem);
+        line-height: 1.18;
+        letter-spacing: 0.08em;
+        text-wrap: balance;
+    }
+
+    .lux-subtitle {
+        font-size: 0.9rem;
+        line-height: 1.5;
+        letter-spacing: 0.14em;
+        max-width: 28rem;
+        margin-left: auto;
+        margin-right: auto;
+        text-wrap: balance;
+    }
+
+    /* Generic paragraph readability */
+    p,
+    .text-smoke,
+    .text-ivory\/80,
+    .text-ivory\/70 {
+        line-height: 1.7;
+    }
+
+    /* Buttons */
+    .btn-gold {
+        font-size: 0.95rem;
+        line-height: 1.2;
+        letter-spacing: 0.08em;
+        min-height: 50px;
+        padding: 14px 20px;
+    }
+
+    /* Service cards / reusable card text */
+    .service-card-title {
+        font-size: 1.08rem;
+        line-height: 1.4;
+        letter-spacing: 0.06em;
+        text-wrap: balance;
+    }
+
+    .service-card-meta-label {
+        font-size: 11px;
+        line-height: 1.3;
+        letter-spacing: 0.1em;
+    }
+
+    .service-card-meta-value {
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        font-size: 1.02rem;
+        line-height: 1.35;
+        letter-spacing: 0.01em;
+        font-weight: 600;
+    }
+
+    .services-intro-text {
+        font-size: 1rem;
+        line-height: 1.75;
+    }
+
+    /* Common numeric / pricing readability */
+    .text-gold,
+    .text-goldBright {
+        font-variant-numeric: tabular-nums;
+    }
+
+    /* Decorative uppercase text is harder to read on phones */
+    .font-heading.uppercase,
+    .uppercase.font-heading {
+        letter-spacing: 0.08em;
+    }
+
+    /* Avoid ultra-tight layouts */
+    .glass-card {
+        padding: 18px;
+    }
+}
+
+/* ================= SMALL PHONE READABILITY ================= */
+@media (max-width: 390px) {
+    .lux-section-title {
+        font-size: clamp(1.55rem, 8vw, 1.9rem);
+        letter-spacing: 0.06em;
+    }
+
+    .lux-subtitle {
+        font-size: 0.82rem;
+        letter-spacing: 0.1em;
+    }
+
+    .btn-gold {
+        font-size: 0.9rem;
+        letter-spacing: 0.06em;
+    }
+
+    .service-card-title {
+        font-size: 1rem;
+        letter-spacing: 0.05em;
+    }
+
+    .service-card-meta-label {
+        font-size: 10px;
+        letter-spacing: 0.08em;
+    }
+
+    .service-card-meta-value {
+        font-size: 0.98rem;
+    }
+}
