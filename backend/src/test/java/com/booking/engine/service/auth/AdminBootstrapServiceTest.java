@@ -8,8 +8,8 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import com.booking.engine.entity.AdminRole;
-import com.booking.engine.entity.AdminUserEntity;
+import com.booking.engine.entity.UserRole;
+import com.booking.engine.entity.User;
 import com.booking.engine.properties.AdminBootstrapProperties;
 import com.booking.engine.repository.AdminUserRepository;
 import com.booking.engine.security.AdminPasswordPolicyValidator;
@@ -59,7 +59,7 @@ class AdminBootstrapServiceTest {
                 securityAuditLogger,
                 policy);
 
-        org.mockito.Mockito.lenient().when(adminUserRepository.save(any(AdminUserEntity.class)))
+        org.mockito.Mockito.lenient().when(adminUserRepository.save(any(User.class)))
                 .thenAnswer(invocation -> invocation.getArgument(0));
         org.mockito.Mockito.lenient().when(securityAuditLogger.event(anyString(), anyString()))
                 .thenAnswer(invocation -> SecurityAuditEvent.builder()
@@ -100,12 +100,12 @@ class AdminBootstrapServiceTest {
 
         service.bootstrapIfEnabled();
 
-        ArgumentCaptor<AdminUserEntity> savedUser = ArgumentCaptor.forClass(AdminUserEntity.class);
+        ArgumentCaptor<User> savedUser = ArgumentCaptor.forClass(User.class);
         verify(adminUserRepository).save(savedUser.capture());
         verify(adminPasswordPolicyValidator).validate("StrongPass123!");
 
         assertThat(savedUser.getValue().getUsername()).isEqualTo("admin");
-        assertThat(savedUser.getValue().getRole()).isEqualTo(AdminRole.ADMIN);
+        assertThat(savedUser.getValue().getRole()).isEqualTo(UserRole.ADMIN);
         assertThat(savedUser.getValue().getActive()).isTrue();
         assertThat(savedUser.getValue().getPasswordHash()).isEqualTo("hashed-secret");
         verify(securityAuditLogger)
@@ -114,7 +114,7 @@ class AdminBootstrapServiceTest {
 
     @Test
     void bootstrapIfEnabledUpdatesExistingUserWhenRoleStatusOrPasswordNeedCorrection() {
-        AdminUserEntity existingUser = AdminUserEntity.builder()
+        User existingUser = User.builder()
                 .username("admin")
                 .role(null)
                 .active(false)
@@ -133,7 +133,7 @@ class AdminBootstrapServiceTest {
         service.bootstrapIfEnabled();
 
         verify(adminUserRepository).save(existingUser);
-        assertThat(existingUser.getRole()).isEqualTo(AdminRole.ADMIN);
+        assertThat(existingUser.getRole()).isEqualTo(UserRole.ADMIN);
         assertThat(existingUser.getActive()).isTrue();
         assertThat(existingUser.getPasswordHash()).isEqualTo("new-hash");
         assertThat(existingUser.getTokenVersion()).isEqualTo(1);
@@ -143,9 +143,9 @@ class AdminBootstrapServiceTest {
 
     @Test
     void bootstrapIfEnabledDoesNotPersistWhenExistingAdminCredentialsAreAlreadyValid() {
-        AdminUserEntity existingUser = AdminUserEntity.builder()
+        User existingUser = User.builder()
                 .username("admin")
-                .role(AdminRole.ADMIN)
+                .role(UserRole.ADMIN)
                 .active(true)
                 .passwordHash("stored-hash")
                 .build();
@@ -183,9 +183,9 @@ class AdminBootstrapServiceTest {
 
     @Test
     void bootstrapIfEnabledFailsWhenExistingPasswordWouldBeOverwrittenWithoutExplicitOptIn() {
-        AdminUserEntity existingUser = AdminUserEntity.builder()
+        User existingUser = User.builder()
                 .username("admin")
-                .role(AdminRole.ADMIN)
+                .role(UserRole.ADMIN)
                 .active(true)
                 .passwordHash("old-hash")
                 .build();
@@ -207,9 +207,9 @@ class AdminBootstrapServiceTest {
 
     @Test
     void bootstrapIfEnabledAllowsExistingPasswordOverwriteWhenExplicitlyEnabled() {
-        AdminUserEntity existingUser = AdminUserEntity.builder()
+        User existingUser = User.builder()
                 .username("admin")
-                .role(AdminRole.ADMIN)
+                .role(UserRole.ADMIN)
                 .active(true)
                 .passwordHash("old-hash")
                 .build();

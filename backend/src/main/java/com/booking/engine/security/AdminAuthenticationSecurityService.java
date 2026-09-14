@@ -1,6 +1,6 @@
 package com.booking.engine.security;
 
-import com.booking.engine.entity.AdminUserEntity;
+import com.booking.engine.entity.User;
 import com.booking.engine.properties.AuthSecurityProperties;
 import com.booking.engine.repository.AdminUserRepository;
 import java.time.LocalDateTime;
@@ -61,11 +61,11 @@ public class AdminAuthenticationSecurityService {
                 });
     }
 
-    public boolean isLocked(AdminUserEntity user, LocalDateTime now) {
+    public boolean isLocked(User user, LocalDateTime now) {
         return user.getLockedUntil() != null && user.getLockedUntil().isAfter(now);
     }
 
-    private void applyFailedLogin(AdminUserEntity user, LocalDateTime now) {
+    private void applyFailedLogin(User user, LocalDateTime now) {
         if (isLocked(user, now)) {
             log.warn("event=admin_authentication_rejected reason=account_locked principalFingerprint={}",
                     fingerprint(user.getUsername()));
@@ -105,7 +105,7 @@ public class AdminAuthenticationSecurityService {
         }
     }
 
-    private void resetFailedLoginState(AdminUserEntity user) {
+    private void resetFailedLoginState(User user) {
         if (user.getFailedLoginAttempts() == 0
                 && user.getLockedUntil() == null
                 && user.getLastFailedLoginAt() == null) {
@@ -117,7 +117,7 @@ public class AdminAuthenticationSecurityService {
         user.setLastFailedLoginAt(null);
     }
 
-    private void incrementTokenVersion(AdminUserEntity user) {
+    private void incrementTokenVersion(User user) {
         user.setTokenVersion(Math.max(0, user.getTokenVersion()) + 1);
     }
 

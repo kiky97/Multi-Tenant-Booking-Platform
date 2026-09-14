@@ -3,8 +3,8 @@ package com.booking.engine.service.auth;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import com.booking.engine.entity.AdminRole;
-import com.booking.engine.entity.AdminUserEntity;
+import com.booking.engine.entity.UserRole;
+import com.booking.engine.entity.User;
 import com.booking.engine.security.AdminPasswordPolicyValidator;
 import com.booking.engine.service.AdminBootstrapPolicy;
 import com.booking.engine.service.impl.AdminBootstrapPolicyImpl;
@@ -36,14 +36,14 @@ class AdminBootstrapPolicyTest {
 
     @Test
     void ensureBootstrapAccountStatePromotesRoleAndActiveFlag() {
-        AdminUserEntity adminUser = AdminUserEntity.builder()
+        User adminUser = User.builder()
                 .username("admin")
                 .role(null)
                 .active(false)
                 .build();
 
         assertThat(policy.ensureBootstrapAccountState(adminUser)).isTrue();
-        assertThat(adminUser.getRole()).isEqualTo(AdminRole.ADMIN);
+        assertThat(adminUser.getRole()).isEqualTo(UserRole.ADMIN);
         assertThat(adminUser.getActive()).isTrue();
     }
 
@@ -61,7 +61,7 @@ class AdminBootstrapPolicyTest {
 
     @Test
     void incrementTokenVersionUsesNonNegativeBase() {
-        AdminUserEntity adminUser = AdminUserEntity.builder()
+        User adminUser = User.builder()
                 .username("admin")
                 .tokenVersion(-5)
                 .build();

@@ -1,6 +1,6 @@
 package com.booking.engine.security;
 
-import com.booking.engine.entity.AdminUserEntity;
+import com.booking.engine.entity.User;
 import com.booking.engine.repository.AdminUserRepository;
 import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +22,7 @@ public class AdminUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        AdminUserEntity user = findActiveAdminOrThrow(username);
+        User user = findActiveAdminOrThrow(username);
 
         return User.builder()
                 .username(user.getUsername())
@@ -36,7 +36,7 @@ public class AdminUserDetailsService implements UserDetailsService {
         return findActiveAdminOrThrow(username).getTokenVersion();
     }
 
-    private AdminUserEntity findActiveAdminOrThrow(String username) {
+    private User findActiveAdminOrThrow(String username) {
         return adminUserRepository.findByUsernameAndActiveTrue(username)
                 .orElseThrow(() -> new UsernameNotFoundException("Authentication failed"));
     }

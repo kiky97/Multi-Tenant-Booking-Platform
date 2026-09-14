@@ -5,8 +5,8 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import com.booking.engine.entity.AdminRole;
-import com.booking.engine.entity.AdminUserEntity;
+import com.booking.engine.entity.UserRole;
+import com.booking.engine.entity.User;
 import com.booking.engine.properties.AuthSecurityProperties;
 import com.booking.engine.repository.AdminUserRepository;
 import java.time.LocalDateTime;
@@ -45,7 +45,7 @@ class AdminAuthenticationSecurityServiceTest {
 
     @Test
     void registerFailedLoginIncrementsAttemptsAndStoresFailureTimestamp() {
-        AdminUserEntity admin = activeAdmin();
+        User admin = activeAdmin();
         admin.setFailedLoginAttempts(1);
         when(adminUserRepository.findByUsernameAndActiveTrueForUpdate("admin")).thenReturn(Optional.of(admin));
 
@@ -60,7 +60,7 @@ class AdminAuthenticationSecurityServiceTest {
     void registerFailedLoginLocksAccountAfterConfiguredThreshold() {
         authSecurityProperties.setMaxFailedAttempts(3);
         authSecurityProperties.setLockDurationSeconds(600);
-        AdminUserEntity admin = activeAdmin();
+        User admin = activeAdmin();
         admin.setFailedLoginAttempts(2);
         when(adminUserRepository.findByUsernameAndActiveTrueForUpdate("admin")).thenReturn(Optional.of(admin));
         service.registerFailedLogin("admin");
@@ -79,7 +79,7 @@ class AdminAuthenticationSecurityServiceTest {
     @Test
     void registerFailedLoginResetsExpiredLockBeforeCountingNewFailure() {
         authSecurityProperties.setMaxFailedAttempts(3);
-        AdminUserEntity admin = activeAdmin();
+        User admin = activeAdmin();
         admin.setFailedLoginAttempts(3);
         admin.setLockedUntil(LocalDateTime.now().minusMinutes(1));
         when(adminUserRepository.findByUsernameAndActiveTrueForUpdate("admin")).thenReturn(Optional.of(admin));
@@ -93,7 +93,7 @@ class AdminAuthenticationSecurityServiceTest {
 
     @Test
     void registerSuccessfulLoginClearsFailedAttemptState() {
-        AdminUserEntity admin = activeAdmin();
+        User admin = activeAdmin();
         admin.setFailedLoginAttempts(4);
         admin.setLockedUntil(LocalDateTime.now().plusMinutes(10));
         admin.setLastFailedLoginAt(LocalDateTime.now().minusMinutes(1));
@@ -109,7 +109,7 @@ class AdminAuthenticationSecurityServiceTest {
 
     @Test
     void logoutShouldIncrementTokenVersion() {
-        AdminUserEntity admin = activeAdmin();
+        User admin = activeAdmin();
         admin.setTokenVersion(2);
         when(adminUserRepository.findByUsernameAndActiveTrueForUpdate("admin")).thenReturn(Optional.of(admin));
         service.logout("admin");
@@ -120,11 +120,11 @@ class AdminAuthenticationSecurityServiceTest {
                         && "LOGOUT".equals(event.getReasonCode())));
     }
 
-    private AdminUserEntity activeAdmin() {
-        return AdminUserEntity.builder()
+    private User activeAdmin() {
+        return User.builder()
                 .username("admin")
                 .passwordHash("$2a$10$hash")
-                .role(AdminRole.ADMIN)
+                .role(UserRole.ADMIN)
                 .active(true)
                 .build();
     }

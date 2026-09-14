@@ -1,6 +1,6 @@
 package com.booking.engine.service;
 
-import com.booking.engine.entity.AdminUserEntity;
+import com.booking.engine.entity.User;
 
 /**
  * Service contract for admin bootstrap policy operations.
@@ -44,7 +44,7 @@ public interface AdminBootstrapPolicy {
      * @param adminUser admin user entity
      * @return true when the account state was changed
      */
-    boolean ensureBootstrapAccountState(AdminUserEntity adminUser);
+    boolean ensureBootstrapAccountState(User adminUser);
 
     /**
      * Checks whether the admin account already has a stored password hash.
@@ -52,7 +52,7 @@ public interface AdminBootstrapPolicy {
      * @param adminUser admin user entity
      * @return true when a password hash is present
      */
-    boolean hasStoredPassword(AdminUserEntity adminUser);
+    boolean hasStoredPassword(User adminUser);
 
     /**
      * Rejects unsafe bootstrap password overwrites for existing accounts.
@@ -82,7 +82,7 @@ public interface AdminBootstrapPolicy {
      *
      * @param adminUser admin user entity
      */
-    void incrementTokenVersion(AdminUserEntity adminUser);
+    void incrementTokenVersion(User adminUser);
 
     /**
      * Resolves the audit reason code for a bootstrap account change.

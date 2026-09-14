@@ -1,8 +1,8 @@
 package com.booking.engine.service.impl;
 
 import com.booking.engine.service.AdminBootstrapPolicy;
-import com.booking.engine.entity.AdminRole;
-import com.booking.engine.entity.AdminUserEntity;
+import com.booking.engine.entity.UserRole;
+import com.booking.engine.entity.User;
 import com.booking.engine.security.AdminPasswordPolicyValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -76,11 +76,11 @@ public class AdminBootstrapPolicyImpl implements AdminBootstrapPolicy {
      * {@inheritDoc}
      */
     @Override
-    public boolean ensureBootstrapAccountState(AdminUserEntity adminUser) {
+    public boolean ensureBootstrapAccountState(User adminUser) {
         boolean changed = false;
 
-        if (adminUser.getRole() != AdminRole.ADMIN) {
-            adminUser.setRole(AdminRole.ADMIN);
+        if (adminUser.getRole() != UserRole.ADMIN) {
+            adminUser.setRole(UserRole.ADMIN);
             changed = true;
         }
 
@@ -96,7 +96,7 @@ public class AdminBootstrapPolicyImpl implements AdminBootstrapPolicy {
      * {@inheritDoc}
      */
     @Override
-    public boolean hasStoredPassword(AdminUserEntity adminUser) {
+    public boolean hasStoredPassword(User adminUser) {
         return adminUser.getPasswordHash() != null && !adminUser.getPasswordHash().isBlank();
     }
 
@@ -128,7 +128,7 @@ public class AdminBootstrapPolicyImpl implements AdminBootstrapPolicy {
      * {@inheritDoc}
      */
     @Override
-    public void incrementTokenVersion(AdminUserEntity adminUser) {
+    public void incrementTokenVersion(User adminUser) {
         adminUser.setTokenVersion(Math.max(0, adminUser.getTokenVersion()) + 1);
     }
 

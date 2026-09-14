@@ -2,8 +2,8 @@ package com.booking.engine.service.impl;
 
 import com.booking.engine.service.AdminBootstrapPolicy;
 import com.booking.engine.service.AdminBootstrapService;
-import com.booking.engine.entity.AdminRole;
-import com.booking.engine.entity.AdminUserEntity;
+import com.booking.engine.entity.UserRole;
+import com.booking.engine.entity.User;
 import com.booking.engine.properties.AdminBootstrapProperties;
 import com.booking.engine.repository.AdminUserRepository;
 import com.booking.engine.security.SecurityAuditLogger;
@@ -71,10 +71,10 @@ public class AdminBootstrapServiceImpl implements AdminBootstrapService {
             adminBootstrapPolicy.validateMayCreateFirstActiveAdmin(adminUserRepository.existsByActiveTrue());
         }
 
-        AdminUserEntity adminUser = existingUser
-                .orElseGet(() -> AdminUserEntity.builder()
+        User adminUser = existingUser
+                .orElseGet(() -> User.builder()
                         .username(username)
-                        .role(AdminRole.ADMIN)
+                        .role(UserRole.ADMIN)
                         .active(true)
                         .build());
 
@@ -104,7 +104,7 @@ public class AdminBootstrapServiceImpl implements AdminBootstrapService {
         }
 
         if (changed) {
-            AdminUserEntity persistedUser = adminUserRepository.save(adminUser);
+            User persistedUser = adminUserRepository.save(adminUser);
             log.info(
                     "event=admin_bootstrap_account_updated usernameHash={} created={} passwordOverwritten={}",
                     hashUsernameForLogs(username),
@@ -137,7 +137,7 @@ public class AdminBootstrapServiceImpl implements AdminBootstrapService {
     /*
      * Records the security audit event for created or updated bootstrap accounts.
      */
-    private void auditBootstrapChange(AdminUserEntity adminUser, boolean created, boolean passwordOverwritten) {
+    private void auditBootstrapChange(User adminUser, boolean created, boolean passwordOverwritten) {
         Map<String, Object> additionalFields = new LinkedHashMap<>();
         additionalFields.put("tokenVersion", adminUser.getTokenVersion());
         securityAuditLogger.log(securityAuditLogger.event(

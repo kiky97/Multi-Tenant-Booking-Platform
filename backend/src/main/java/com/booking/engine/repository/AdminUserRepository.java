@@ -1,6 +1,6 @@
 package com.booking.engine.repository;
 
-import com.booking.engine.entity.AdminUserEntity;
+import com.booking.engine.entity.User;
 import jakarta.persistence.LockModeType;
 import java.util.Optional;
 import java.util.UUID;
@@ -14,15 +14,15 @@ import org.springframework.stereotype.Repository;
  * Repository for admin user authentication data.
  */
 @Repository
-public interface AdminUserRepository extends JpaRepository<AdminUserEntity, UUID> {
+public interface AdminUserRepository extends JpaRepository<User, UUID> {
 
-    Optional<AdminUserEntity> findByUsernameAndActiveTrue(String username);
+    Optional<User> findByUsernameAndActiveTrue(String username);
 
     @Lock(LockModeType.PESSIMISTIC_WRITE)
     @Query("select u from AdminUserEntity u where u.username = :username and u.active = true")
-    Optional<AdminUserEntity> findByUsernameAndActiveTrueForUpdate(@Param("username") String username);
+    Optional<User> findByUsernameAndActiveTrueForUpdate(@Param("username") String username);
 
-    Optional<AdminUserEntity> findByUsername(String username);
+    Optional<User> findByUsername(String username);
 
     boolean existsByActiveTrue();
 

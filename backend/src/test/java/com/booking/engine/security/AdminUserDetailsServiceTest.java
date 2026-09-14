@@ -4,8 +4,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.when;
 
-import com.booking.engine.entity.AdminRole;
-import com.booking.engine.entity.AdminUserEntity;
+import com.booking.engine.entity.UserRole;
+import com.booking.engine.entity.User;
 import com.booking.engine.repository.AdminUserRepository;
 import java.time.LocalDateTime;
 import java.util.Optional;
@@ -28,10 +28,10 @@ class AdminUserDetailsServiceTest {
 
     @Test
     void loadUserByUsernameReturnsSpringSecurityUserForActiveAdmin() {
-        AdminUserEntity admin = AdminUserEntity.builder()
+        User admin = User.builder()
                 .username("admin")
                 .passwordHash("$2a$10$hash")
-                .role(AdminRole.ADMIN)
+                .role(UserRole.ADMIN)
                 .tokenVersion(6)
                 .active(true)
                 .build();
@@ -48,10 +48,10 @@ class AdminUserDetailsServiceTest {
 
     @Test
     void loadUserByUsernameMarksLockedAdminAsLocked() {
-        AdminUserEntity admin = AdminUserEntity.builder()
+        User admin = User.builder()
                 .username("admin")
                 .passwordHash("$2a$10$hash")
-                .role(AdminRole.ADMIN)
+                .role(UserRole.ADMIN)
                 .lockedUntil(LocalDateTime.now().plusMinutes(15))
                 .active(true)
                 .build();

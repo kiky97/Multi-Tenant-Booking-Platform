@@ -8,6 +8,6 @@ class SalonBookingPlatformApplicationTests {
 
     @Test
     void applicationEntryPointShouldBeLoadable() {
-        assertThat(SalonBookingPlatformApplication.class).isNotNull();
+        assertThat(BookingPlatformApplication.class).isNotNull();
     }
 }

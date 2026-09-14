@@ -13,7 +13,7 @@
     <artifactId>salon-booking-platform</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>Salon Booking Platform</name>
-    <description>Full-stack salon booking platform with Stripe payments, admin scheduling, secure booking holds, and production-oriented Spring Boot backend architecture.</description>
+    <description>Full-stack booking platform with Stripe payments, admin scheduling, secure booking holds, and production-oriented Spring Boot backend architecture.</description>
     <url />
     <licenses>
         <license />
