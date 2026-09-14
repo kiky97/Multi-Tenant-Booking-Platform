@@ -8,7 +8,7 @@ import com.booking.engine.entity.BookingStatus;
 import com.booking.engine.entity.EmployeeEntity;
 import com.booking.engine.entity.SlotHoldEntity;
 import com.booking.engine.entity.SlotHoldScope;
-import com.booking.engine.entity.TreatmentEntity;
+import com.booking.engine.entity.Service;
 import com.booking.engine.exception.BookingValidationException;
 import com.booking.engine.exception.EntityNotFoundException;
 import com.booking.engine.properties.BookingProperties;
@@ -105,7 +105,7 @@ public class BookingTransactionalOperationsImpl implements BookingTransactionalO
                 request.getCustomer().getEmail(),
                 request.getCustomer().getPhone());
 
-        TreatmentEntity treatment = findTreatmentOrThrow(request.getTreatmentId());
+        Service treatment = findTreatmentOrThrow(request.getTreatmentId());
 
         SlotHoldEntity slotHold = new SlotHoldEntity();
         slotHold.setActive(true);
@@ -467,7 +467,7 @@ public class BookingTransactionalOperationsImpl implements BookingTransactionalO
     /*
      * Finds the requested treatment or throws when it does not exist.
      */
-    private TreatmentEntity findTreatmentOrThrow(UUID treatmentId) {
+    private Service findTreatmentOrThrow(UUID treatmentId) {
         return treatmentRepository.findById(treatmentId)
                 .orElseThrow(() -> {
                     log.warn("event=treatment_lookup_failed reason=not_found treatmentId={}", treatmentId);

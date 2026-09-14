@@ -13,7 +13,7 @@ import com.booking.engine.dto.HairSalonRequestDto;
 import com.booking.engine.dto.TreatmentRequestDto;
 import com.booking.engine.dto.TreatmentResponseDto;
 import com.booking.engine.entity.HairSalonEntity;
-import com.booking.engine.entity.TreatmentEntity;
+import com.booking.engine.entity.Service;
 import com.booking.engine.mapper.BookingMapper;
 import com.booking.engine.mapper.EmployeeMapper;
 import com.booking.engine.mapper.EmployeeScheduleMapper;
@@ -257,7 +257,7 @@ class AdminMethodSecurityTest {
                 .displayOrder(0)
                 .build();
 
-        TreatmentEntity entity = TreatmentEntity.builder()
+        Service entity = Service.builder()
                 .name("Clipper Cut")
                 .durationMinutes(30)
                 .price(new BigDecimal("25.00"))

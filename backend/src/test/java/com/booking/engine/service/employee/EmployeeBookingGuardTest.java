@@ -8,7 +8,7 @@ import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 
 import com.booking.engine.entity.EmployeeEntity;
-import com.booking.engine.entity.TreatmentEntity;
+import com.booking.engine.entity.Service;
 import com.booking.engine.properties.BookingProperties;
 import com.booking.engine.repository.BookingRepository;
 import com.booking.engine.service.EmployeeBookingGuard;
@@ -54,7 +54,7 @@ class EmployeeBookingGuardTest {
         UUID employeeId = UUID.randomUUID();
         UUID treatmentId = UUID.randomUUID();
 
-        TreatmentEntity existingTreatment = new TreatmentEntity();
+        Service existingTreatment = new Service();
         existingTreatment.setId(treatmentId);
         existingTreatment.setName("Hair Color");
 
@@ -79,7 +79,7 @@ class EmployeeBookingGuardTest {
         UUID employeeId = UUID.randomUUID();
         UUID treatmentId = UUID.randomUUID();
 
-        TreatmentEntity treatment = new TreatmentEntity();
+        Service treatment = new Service();
         treatment.setId(treatmentId);
         treatment.setName("Hair Color");
 

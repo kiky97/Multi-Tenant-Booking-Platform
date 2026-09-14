@@ -8,7 +8,7 @@ import com.booking.engine.entity.BookingStatus;
 import com.booking.engine.entity.EmployeeEntity;
 import com.booking.engine.entity.SlotHoldEntity;
 import com.booking.engine.entity.SlotHoldScope;
-import com.booking.engine.entity.TreatmentEntity;
+import com.booking.engine.entity.Service;
 import com.booking.engine.exception.BookingValidationException;
 import com.booking.engine.exception.EntityNotFoundException;
 import com.booking.engine.mapper.BookingMapper;
@@ -99,7 +99,7 @@ public class AdminBookingHoldServiceImpl implements AdminBookingHoldService {
                 request.getStartTime(),
                 request.getEndTime());
 
-        TreatmentEntity treatment = findTreatmentOrThrow(request.getTreatmentId());
+        Service treatment = findTreatmentOrThrow(request.getTreatmentId());
         SlotHoldEntity slotHold = buildSlotHold(
                 request,
                 employee,
@@ -208,7 +208,7 @@ public class AdminBookingHoldServiceImpl implements AdminBookingHoldService {
 
             EmployeeEntity employee = findActiveEmployeeForUpdate(request.getEmployeeId());
             bookingBlacklistService.validateAllowedCustomer(customerEmail, request.getCustomerPhone());
-            TreatmentEntity treatment = findTreatmentOrThrow(request.getTreatmentId());
+            Service treatment = findTreatmentOrThrow(request.getTreatmentId());
 
             BookingEntity booking = new BookingEntity();
             applyConfirmedAdminBookingDetails(booking, request, employee, treatment, customerEmail);
@@ -235,7 +235,7 @@ public class AdminBookingHoldServiceImpl implements AdminBookingHoldService {
                 booking.getId());
         bookingBlacklistService.validateAllowedCustomer(customerEmail, request.getCustomerPhone());
 
-        TreatmentEntity treatment = findTreatmentOrThrow(request.getTreatmentId());
+        Service treatment = findTreatmentOrThrow(request.getTreatmentId());
         applyConfirmedAdminBookingDetails(booking, request, employee, treatment, customerEmail);
         return bookingRepository.save(booking);
     }
@@ -264,7 +264,7 @@ public class AdminBookingHoldServiceImpl implements AdminBookingHoldService {
     /*
      * Loads a treatment reference used by held-slot confirmation.
      */
-    private TreatmentEntity findTreatmentOrThrow(UUID treatmentId) {
+    private Service findTreatmentOrThrow(UUID treatmentId) {
         return treatmentRepository.findById(treatmentId)
                 .orElseThrow(() -> {
                     log.warn("event=treatment_lookup_failed reason=not_found treatmentId={}", treatmentId);
@@ -407,7 +407,7 @@ public class AdminBookingHoldServiceImpl implements AdminBookingHoldService {
     private SlotHoldEntity buildSlotHold(
             BookingHoldRequestDto request,
             EmployeeEntity employee,
-            TreatmentEntity treatment,
+            Service treatment,
             BigDecimal paymentAmount,
             SlotHoldScope holdScope,
             String clientIp,
@@ -451,7 +451,7 @@ public class AdminBookingHoldServiceImpl implements AdminBookingHoldService {
             BookingEntity booking,
             AdminBookingCreateRequestDto request,
             EmployeeEntity employee,
-            TreatmentEntity treatment,
+            Service treatment,
             String customerEmail) {
         bookingStateMachine.applyConfirmedAdminBookingDetails(booking, request, employee, treatment, customerEmail);
     }

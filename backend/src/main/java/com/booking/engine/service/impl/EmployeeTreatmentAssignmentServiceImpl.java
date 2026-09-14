@@ -1,6 +1,6 @@
 package com.booking.engine.service.impl;
 
-import com.booking.engine.entity.TreatmentEntity;
+import com.booking.engine.entity.Service;
 import com.booking.engine.repository.TreatmentRepository;
 import com.booking.engine.service.EmployeeTreatmentAssignmentService;
 import java.util.LinkedHashSet;
@@ -27,13 +27,13 @@ public class EmployeeTreatmentAssignmentServiceImpl implements EmployeeTreatment
      * {@inheritDoc}
      */
     @Override
-    public Set<TreatmentEntity> resolveRequestedTreatments(List<UUID> treatmentIds) {
+    public Set<Service> resolveRequestedTreatments(List<UUID> treatmentIds) {
         LinkedHashSet<UUID> requestedIds = normalizeTreatmentIds(treatmentIds);
         if (requestedIds.isEmpty()) {
             return new LinkedHashSet<>();
         }
 
-        List<TreatmentEntity> activeTreatments = treatmentRepository.findAllByIdInAndActiveTrue(requestedIds);
+        List<Service> activeTreatments = treatmentRepository.findAllByIdInAndActiveTrue(requestedIds);
         if (activeTreatments.size() != requestedIds.size()) {
             throw new IllegalArgumentException("Some selected services no longer exist or are inactive.");
         }

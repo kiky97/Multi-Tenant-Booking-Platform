@@ -2,7 +2,7 @@ package com.booking.engine.service.impl;
 
 import com.booking.engine.dto.TreatmentRequestDto;
 import com.booking.engine.dto.TreatmentResponseDto;
-import com.booking.engine.entity.TreatmentEntity;
+import com.booking.engine.entity.Service;
 import com.booking.engine.exception.EntityNotFoundException;
 import com.booking.engine.mapper.TreatmentMapper;
 import com.booking.engine.repository.TreatmentRepository;
@@ -57,10 +57,10 @@ public class TreatmentServiceImpl implements TreatmentService {
 
         displayOrderService.shiftDisplayOrders(order, treatmentRepository);
 
-        TreatmentEntity treatment = mapper.toEntity(request);
+        Service treatment = mapper.toEntity(request);
         treatment.setDisplayOrder(order);
 
-        TreatmentEntity savedTreatment = treatmentRepository.save(treatment);
+        Service savedTreatment = treatmentRepository.save(treatment);
 
         log.info("event=treatment_created treatmentId={} displayOrder={}",
                 savedTreatment.getId(), savedTreatment.getDisplayOrder());
@@ -84,7 +84,7 @@ public class TreatmentServiceImpl implements TreatmentService {
      */
     @Override
     public TreatmentResponseDto getTreatmentById(UUID id) {
-        TreatmentEntity treatment = findTreatmentOrThrow(id);
+        Service treatment = findTreatmentOrThrow(id);
 
         return mapper.toDto(treatment);
     }
@@ -99,7 +99,7 @@ public class TreatmentServiceImpl implements TreatmentService {
         // Lock active treatment ordering scope to avoid concurrent reorder conflicts.
         displayOrderService.lockActiveOrderingScope(treatmentRepository);
 
-        TreatmentEntity treatment = findTreatmentOrThrow(id);
+        Service treatment = findTreatmentOrThrow(id);
 
         Integer oldOrder = treatment.getDisplayOrder();
         Integer newOrder = displayOrderService.resolveDisplayOrderForUpdate(
@@ -126,7 +126,7 @@ public class TreatmentServiceImpl implements TreatmentService {
         // Lock active treatment ordering scope to avoid concurrent reorder conflicts.
         displayOrderService.lockActiveOrderingScope(treatmentRepository);
 
-        TreatmentEntity treatment = findTreatmentOrThrow(id);
+        Service treatment = findTreatmentOrThrow(id);
         Integer removedOrder = treatment.getDisplayOrder();
 
         treatmentRepository.delete(treatment);
@@ -151,8 +151,8 @@ public class TreatmentServiceImpl implements TreatmentService {
             throw new IllegalArgumentException("Cannot reorder the same treatment id");
         }
 
-        TreatmentEntity treatment1 = findTreatmentOrThrow(treatmentId1);
-        TreatmentEntity treatment2 = findTreatmentOrThrow(treatmentId2);
+        Service treatment1 = findTreatmentOrThrow(treatmentId1);
+        Service treatment2 = findTreatmentOrThrow(treatmentId2);
 
         Integer order1 = treatment1.getDisplayOrder();
         Integer order2 = treatment2.getDisplayOrder();
@@ -179,7 +179,7 @@ public class TreatmentServiceImpl implements TreatmentService {
      * Centralizes active treatment lookup and not-found logging for treatment
      * operations.
      */
-    private TreatmentEntity findTreatmentOrThrow(UUID id) {
+    private Service findTreatmentOrThrow(UUID id) {
         return treatmentRepository.findByIdAndActiveTrue(id)
                 .orElseThrow(() -> {
                     log.warn("event=treatment_lookup_failed reason=not_found treatmentId={}", id);

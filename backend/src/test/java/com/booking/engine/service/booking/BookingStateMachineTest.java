@@ -11,7 +11,7 @@ import com.booking.engine.entity.BookingStatus;
 import com.booking.engine.entity.EmployeeEntity;
 import com.booking.engine.entity.SlotHoldEntity;
 import com.booking.engine.entity.SlotHoldScope;
-import com.booking.engine.entity.TreatmentEntity;
+import com.booking.engine.entity.Service;
 import com.booking.engine.properties.BookingProperties;
 import com.booking.engine.repository.BookingRepository;
 import com.booking.engine.repository.SlotHoldRepository;
@@ -70,7 +70,7 @@ class BookingStateMachineTest {
         employee.setId(UUID.randomUUID());
         employee.setName("Alex");
 
-        TreatmentEntity treatment = new TreatmentEntity();
+        Service treatment = new Service();
         treatment.setId(UUID.randomUUID());
         treatment.setName("Fade");
 

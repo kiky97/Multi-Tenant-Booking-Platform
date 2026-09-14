@@ -1,6 +1,6 @@
 package com.booking.engine.service;
 
-import com.booking.engine.entity.TreatmentEntity;
+import com.booking.engine.entity.Service;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
@@ -17,5 +17,5 @@ public interface EmployeeTreatmentAssignmentService {
      * @param treatmentIds requested treatment identifiers
      * @return active treatment entities
      */
-    Set<TreatmentEntity> resolveRequestedTreatments(List<UUID> treatmentIds);
+    Set<Service> resolveRequestedTreatments(List<UUID> treatmentIds);
 }

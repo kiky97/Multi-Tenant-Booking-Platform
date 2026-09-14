@@ -6,7 +6,7 @@ import com.booking.engine.entity.BookingEntity;
 import com.booking.engine.entity.BookingStatus;
 import com.booking.engine.entity.EmployeeEntity;
 import com.booking.engine.entity.SlotHoldEntity;
-import com.booking.engine.entity.TreatmentEntity;
+import com.booking.engine.entity.Service;
 import java.time.LocalDateTime;
 
 /**
@@ -118,7 +118,7 @@ public interface BookingStateMachine {
             BookingEntity booking,
             AdminBookingCreateRequestDto request,
             EmployeeEntity employee,
-            TreatmentEntity treatment,
+            Service treatment,
             String customerEmail);
 
     /**

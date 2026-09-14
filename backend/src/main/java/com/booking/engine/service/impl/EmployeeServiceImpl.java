@@ -3,7 +3,7 @@ package com.booking.engine.service.impl;
 import com.booking.engine.dto.EmployeeRequestDto;
 import com.booking.engine.dto.EmployeeResponseDto;
 import com.booking.engine.entity.EmployeeEntity;
-import com.booking.engine.entity.TreatmentEntity;
+import com.booking.engine.entity.Service;
 import com.booking.engine.exception.EntityNotFoundException;
 import com.booking.engine.mapper.EmployeeMapper;
 import com.booking.engine.repository.EmployeeRepository;
@@ -69,7 +69,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         displayOrderService.shiftDisplayOrders(order, employeeRepository);
 
         EmployeeEntity employee = mapper.toEntity(request);
-        Set<TreatmentEntity> requestedTreatments = employeeTreatmentAssignmentService
+        Set<Service> requestedTreatments = employeeTreatmentAssignmentService
                 .resolveRequestedTreatments(request.getTreatmentIds());
         employee.setDisplayOrder(order);
         employee.setBookable(Boolean.TRUE.equals(request.getBookable()));
@@ -130,7 +130,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         Integer oldOrder = employee.getDisplayOrder();
         Integer newOrder = displayOrderService.resolveDisplayOrderForUpdate(
                 request.getDisplayOrder(), oldOrder, employeeRepository);
-        Set<TreatmentEntity> requestedTreatments = employeeTreatmentAssignmentService
+        Set<Service> requestedTreatments = employeeTreatmentAssignmentService
                 .resolveRequestedTreatments(request.getTreatmentIds());
 
         employeeBookingGuard.validateRemovedTreatmentsHaveNoFutureBookings(employee, requestedTreatments);

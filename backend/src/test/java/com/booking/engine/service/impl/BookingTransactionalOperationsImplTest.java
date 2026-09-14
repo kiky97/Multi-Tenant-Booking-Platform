@@ -18,7 +18,7 @@ import com.booking.engine.entity.BookingStatus;
 import com.booking.engine.entity.EmployeeEntity;
 import com.booking.engine.entity.SlotHoldEntity;
 import com.booking.engine.entity.SlotHoldScope;
-import com.booking.engine.entity.TreatmentEntity;
+import com.booking.engine.entity.Service;
 import com.booking.engine.exception.BookingValidationException;
 import com.booking.engine.properties.BookingProperties;
 import com.booking.engine.properties.StripeProperties;
@@ -105,7 +105,7 @@ class BookingTransactionalOperationsImplTest {
         UUID slotHoldId = UUID.randomUUID();
         BookingRequestDto request = buildRequest(employeeId, treatmentId);
         EmployeeEntity employee = buildActiveBookableEmployee(employeeId);
-        TreatmentEntity treatment = buildTreatment(treatmentId);
+        Service treatment = buildTreatment(treatmentId);
 
         when(employeeRepository.findByIdAndActiveTrueForUpdate(employeeId)).thenReturn(Optional.of(employee));
         doNothing().when(availabilityService).validateBookingRequest(request);
@@ -420,8 +420,8 @@ class BookingTransactionalOperationsImplTest {
         return employee;
     }
 
-    private TreatmentEntity buildTreatment(UUID treatmentId) {
-        TreatmentEntity treatment = new TreatmentEntity();
+    private Service buildTreatment(UUID treatmentId) {
+        Service treatment = new Service();
         treatment.setId(treatmentId);
         treatment.setPrice(new BigDecimal("35.00"));
         return treatment;

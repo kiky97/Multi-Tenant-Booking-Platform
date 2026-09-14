@@ -1,6 +1,6 @@
 package com.booking.engine.repository;
 
-import com.booking.engine.entity.TreatmentEntity;
+import com.booking.engine.entity.Service;
 import jakarta.persistence.LockModeType;
 import java.util.List;
 import java.util.Optional;
@@ -12,29 +12,29 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-/** Repository for {@link TreatmentEntity}. */
+/** Repository for {@link Service}. */
 @Repository
-public interface TreatmentRepository extends JpaRepository<TreatmentEntity, UUID>,
-        DisplayOrderRepository<TreatmentEntity> {
+public interface TreatmentRepository extends JpaRepository<Service, UUID>,
+        DisplayOrderRepository<Service> {
 
-    List<TreatmentEntity> findAllByActiveTrueOrderByDisplayOrderAsc();
+    List<Service> findAllByActiveTrueOrderByDisplayOrderAsc();
 
     @Override
     @Query("SELECT MAX(t.displayOrder) FROM TreatmentEntity t WHERE t.active = true")
     Optional<Integer> findMaxDisplayOrderByActiveTrue();
 
     @Override
-    List<TreatmentEntity> findByActiveTrueAndDisplayOrderGreaterThanEqual(Integer order);
+    List<Service> findByActiveTrueAndDisplayOrderGreaterThanEqual(Integer order);
 
     @Override
-    List<TreatmentEntity> findByActiveTrueAndDisplayOrderGreaterThanOrderByDisplayOrderAsc(Integer order);
+    List<Service> findByActiveTrueAndDisplayOrderGreaterThanOrderByDisplayOrderAsc(Integer order);
 
     @Override
-    List<TreatmentEntity> findByActiveTrueAndDisplayOrderBetween(Integer start, Integer end);
+    List<Service> findByActiveTrueAndDisplayOrderBetween(Integer start, Integer end);
 
-    Optional<TreatmentEntity> findByIdAndActiveTrue(UUID id);
+    Optional<Service> findByIdAndActiveTrue(UUID id);
 
-    List<TreatmentEntity> findAllByIdInAndActiveTrue(Set<UUID> ids);
+    List<Service> findAllByIdInAndActiveTrue(Set<UUID> ids);
 
     /**
      * Finds active treatment by id with pessimistic write lock.
@@ -46,7 +46,7 @@ public interface TreatmentRepository extends JpaRepository<TreatmentEntity, UUID
      */
     @Lock(LockModeType.PESSIMISTIC_WRITE)
     @Query("SELECT t FROM TreatmentEntity t WHERE t.id = :id AND t.active = true")
-    Optional<TreatmentEntity> findByIdAndActiveTrueForUpdate(@Param("id") UUID id);
+    Optional<Service> findByIdAndActiveTrueForUpdate(@Param("id") UUID id);
 
     /**
      * Locks all active treatments for write in display order.
@@ -57,5 +57,5 @@ public interface TreatmentRepository extends JpaRepository<TreatmentEntity, UUID
     @Override
     @Lock(LockModeType.PESSIMISTIC_WRITE)
     @Query("SELECT t FROM TreatmentEntity t WHERE t.active = true ORDER BY t.displayOrder ASC")
-    List<TreatmentEntity> findAllActiveForUpdateOrderByDisplayOrderAsc();
+    List<Service> findAllActiveForUpdateOrderByDisplayOrderAsc();
 }

@@ -18,7 +18,7 @@ import com.booking.engine.entity.BookingStatus;
 import com.booking.engine.entity.EmployeeEntity;
 import com.booking.engine.entity.SlotHoldEntity;
 import com.booking.engine.entity.SlotHoldScope;
-import com.booking.engine.entity.TreatmentEntity;
+import com.booking.engine.entity.Service;
 import com.booking.engine.exception.BookingValidationException;
 import com.booking.engine.exception.EntityNotFoundException;
 import com.booking.engine.mapper.BookingMapper;
@@ -218,7 +218,7 @@ public class BookingServiceImpl implements BookingService {
                     request.getEndTime());
             bookingBlacklistService.validateAllowedCustomer(customerEmail, request.getCustomerPhone());
 
-            TreatmentEntity treatment = findTreatmentOrThrow(request.getTreatmentId());
+            Service treatment = findTreatmentOrThrow(request.getTreatmentId());
             BookingEntity booking = buildAdminBooking(request, employee, treatment, customerEmail);
             savedBooking = bookingRepository.save(booking);
         }
@@ -250,7 +250,7 @@ public class BookingServiceImpl implements BookingService {
                 request.getStartTime(),
                 request.getEndTime());
 
-        TreatmentEntity treatment = findTreatmentOrThrow(request.getTreatmentId());
+        Service treatment = findTreatmentOrThrow(request.getTreatmentId());
         BigDecimal paymentAmount = treatment.getPrice();
         String holdAccessToken = holdAccessTokenService.generateToken();
 
@@ -473,7 +473,7 @@ public class BookingServiceImpl implements BookingService {
         BookingStatus previousStatus = booking.getStatus();
         validateAdminUpdateFinancialFields(booking, request);
         EmployeeEntity employee = findActiveEmployeeForAdminUpdate(request.getEmployeeId());
-        TreatmentEntity treatment = findActiveTreatmentOrThrow(request.getTreatmentId());
+        Service treatment = findActiveTreatmentOrThrow(request.getTreatmentId());
 
         if (slotDefinitionChanged(booking, request) && shouldValidateAdminBookingSlot(request.getStatus())) {
             availabilityService.validateSlotSelectionExcludingBooking(
@@ -597,7 +597,7 @@ public class BookingServiceImpl implements BookingService {
      * Loads a treatment reference used by booking creation and held-slot
      * confirmation.
      */
-    private TreatmentEntity findTreatmentOrThrow(UUID treatmentId) {
+    private Service findTreatmentOrThrow(UUID treatmentId) {
         return treatmentRepository.findById(treatmentId)
                 .orElseThrow(() -> {
                     log.warn("event=treatment_lookup_failed reason=not_found treatmentId={}", treatmentId);
@@ -608,7 +608,7 @@ public class BookingServiceImpl implements BookingService {
     /*
      * Finds an active treatment for admin booking edits.
      */
-    private TreatmentEntity findActiveTreatmentOrThrow(UUID treatmentId) {
+    private Service findActiveTreatmentOrThrow(UUID treatmentId) {
         return treatmentRepository.findByIdAndActiveTrue(treatmentId)
                 .orElseThrow(() -> {
                     log.warn("event=treatment_lookup_failed reason=not_found_active treatmentId={}", treatmentId);
@@ -841,7 +841,7 @@ public class BookingServiceImpl implements BookingService {
     private SlotHoldEntity buildSlotHold(
             BookingHoldRequestDto request,
             EmployeeEntity employee,
-            TreatmentEntity treatment,
+            Service treatment,
             BigDecimal paymentAmount,
             SlotHoldScope holdScope,
             String clientIp,
@@ -868,7 +868,7 @@ public class BookingServiceImpl implements BookingService {
     private BookingEntity buildAdminBooking(
             AdminBookingCreateRequestDto request,
             EmployeeEntity employee,
-            TreatmentEntity treatment,
+            Service treatment,
             String customerEmail) {
         BookingEntity booking = new BookingEntity();
         booking.setActive(true);

@@ -13,7 +13,7 @@ import com.booking.engine.entity.BookingStatus;
 import com.booking.engine.entity.EmployeeEntity;
 import com.booking.engine.entity.SlotHoldEntity;
 import com.booking.engine.entity.SlotHoldScope;
-import com.booking.engine.entity.TreatmentEntity;
+import com.booking.engine.entity.Service;
 import com.booking.engine.properties.BookingProperties;
 import com.booking.engine.properties.StripeProperties;
 import com.booking.engine.repository.BookingRepository;
@@ -288,7 +288,7 @@ class BookingPaymentSyncServiceImplTest {
     private BookingEntity buildPendingBooking(UUID bookingId) {
         EmployeeEntity employee = buildActiveBookableEmployee(UUID.randomUUID());
 
-        TreatmentEntity treatment = new TreatmentEntity();
+        Service treatment = new Service();
         treatment.setId(UUID.randomUUID());
 
         BookingEntity booking = new BookingEntity();
@@ -310,7 +310,7 @@ class BookingPaymentSyncServiceImplTest {
         EmployeeEntity employee = buildActiveBookableEmployee(UUID.randomUUID());
         employee.setName("Jacob");
 
-        TreatmentEntity treatment = new TreatmentEntity();
+        Service treatment = new Service();
         treatment.setId(UUID.randomUUID());
         treatment.setName("Haircut");
         treatment.setPrice(new BigDecimal("35.00"));

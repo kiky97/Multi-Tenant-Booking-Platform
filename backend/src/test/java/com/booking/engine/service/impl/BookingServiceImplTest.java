@@ -30,7 +30,7 @@ import com.booking.engine.entity.BookingEntity;
 import com.booking.engine.entity.BookingStatus;
 import com.booking.engine.entity.SlotHoldEntity;
 import com.booking.engine.entity.SlotHoldScope;
-import com.booking.engine.entity.TreatmentEntity;
+import com.booking.engine.entity.Service;
 import com.booking.engine.exception.BookingValidationException;
 import com.booking.engine.exception.PaymentProcessingException;
 import com.booking.engine.mapper.BookingMapper;
@@ -232,7 +232,7 @@ class BookingServiceImplTest {
 
         EmployeeEntity employee = buildActiveBookableEmployee(employeeId);
 
-        TreatmentEntity treatment = new TreatmentEntity();
+        Service treatment = new Service();
         treatment.setId(treatmentId);
         treatment.setPrice(new BigDecimal("35.00"));
         AtomicReference<SlotHoldEntity> reservedSlotHoldRef = new AtomicReference<>();
@@ -314,7 +314,7 @@ class BookingServiceImplTest {
         BookingRequestDto request = buildRequest(employeeId, treatmentId);
 
         EmployeeEntity employee = buildActiveBookableEmployee(employeeId);
-        TreatmentEntity treatment = new TreatmentEntity();
+        Service treatment = new Service();
         treatment.setId(treatmentId);
         treatment.setPrice(new BigDecimal("35.00"));
         AtomicReference<SlotHoldEntity> reservedSlotHoldRef = new AtomicReference<>();
@@ -351,7 +351,7 @@ class BookingServiceImplTest {
         BookingRequestDto request = buildRequest(employeeId, treatmentId);
 
         EmployeeEntity employee = buildActiveBookableEmployee(employeeId);
-        TreatmentEntity treatment = new TreatmentEntity();
+        Service treatment = new Service();
         treatment.setId(treatmentId);
         treatment.setPrice(new BigDecimal("35.00"));
         AtomicReference<SlotHoldEntity> reservedSlotHoldRef = new AtomicReference<>();
@@ -400,7 +400,7 @@ class BookingServiceImplTest {
 
         EmployeeEntity employee = buildActiveBookableEmployee(employeeId);
 
-        TreatmentEntity treatment = new TreatmentEntity();
+        Service treatment = new Service();
         treatment.setId(treatmentId);
         treatment.setPrice(new BigDecimal("28.00"));
 
@@ -474,7 +474,7 @@ class BookingServiceImplTest {
 
         EmployeeEntity employee = buildActiveBookableEmployee(employeeId);
 
-        TreatmentEntity treatment = new TreatmentEntity();
+        Service treatment = new Service();
         treatment.setId(treatmentId);
         treatment.setPrice(new BigDecimal("28.00"));
 
@@ -609,7 +609,7 @@ class BookingServiceImplTest {
 
         EmployeeEntity employee = buildActiveBookableEmployee(employeeId);
 
-        TreatmentEntity treatment = new TreatmentEntity();
+        Service treatment = new Service();
         treatment.setId(treatmentId);
         treatment.setPrice(new BigDecimal("35.00"));
 
@@ -669,7 +669,7 @@ class BookingServiceImplTest {
         BookingHoldRequestDto request = buildHoldRequest(employeeId, treatmentId);
 
         EmployeeEntity employee = buildActiveBookableEmployee(employeeId);
-        TreatmentEntity treatment = new TreatmentEntity();
+        Service treatment = new Service();
         treatment.setId(treatmentId);
         treatment.setPrice(new BigDecimal("35.00"));
 
@@ -710,7 +710,7 @@ class BookingServiceImplTest {
         BookingHoldRequestDto request = buildHoldRequest(employeeId, treatmentId);
 
         EmployeeEntity employee = buildActiveBookableEmployee(employeeId);
-        TreatmentEntity treatment = new TreatmentEntity();
+        Service treatment = new Service();
         treatment.setId(treatmentId);
         treatment.setPrice(new BigDecimal("35.00"));
 
@@ -840,7 +840,7 @@ class BookingServiceImplTest {
         BookingHoldRequestDto request = buildHoldRequest(employeeId, treatmentId);
 
         EmployeeEntity employee = buildActiveBookableEmployee(employeeId);
-        TreatmentEntity treatment = new TreatmentEntity();
+        Service treatment = new Service();
         treatment.setId(treatmentId);
         treatment.setPrice(new BigDecimal("35.00"));
 
@@ -1114,7 +1114,7 @@ class BookingServiceImplTest {
         UUID treatmentId = UUID.randomUUID();
 
         EmployeeEntity employee = buildActiveBookableEmployee(employeeId);
-        TreatmentEntity treatment = new TreatmentEntity();
+        Service treatment = new Service();
         treatment.setId(treatmentId);
         treatment.setPrice(new BigDecimal("35.00"));
 
@@ -1953,7 +1953,7 @@ class BookingServiceImplTest {
         UUID treatmentId = UUID.randomUUID();
 
         EmployeeEntity employee = buildActiveBookableEmployee(employeeId);
-        TreatmentEntity treatment = new TreatmentEntity();
+        Service treatment = new Service();
         treatment.setId(treatmentId);
         treatment.setActive(true);
 
@@ -2074,7 +2074,7 @@ class BookingServiceImplTest {
         booking.setPaymentCapturedAt(capturedAt);
 
         EmployeeEntity employee = booking.getEmployee();
-        TreatmentEntity treatment = booking.getTreatment();
+        Service treatment = booking.getTreatment();
 
         AdminBookingUpdateRequestDto request = buildAdminUpdateRequest(
                 booking,
@@ -2115,7 +2115,7 @@ class BookingServiceImplTest {
         booking.setStatus(BookingStatus.CONFIRMED);
 
         EmployeeEntity employee = booking.getEmployee();
-        TreatmentEntity treatment = booking.getTreatment();
+        Service treatment = booking.getTreatment();
 
         AdminBookingUpdateRequestDto request = buildAdminUpdateRequest(
                 booking,
@@ -2146,7 +2146,7 @@ class BookingServiceImplTest {
         UUID treatmentId = UUID.randomUUID();
 
         EmployeeEntity employee = buildActiveBookableEmployee(employeeId);
-        TreatmentEntity treatment = new TreatmentEntity();
+        Service treatment = new Service();
         treatment.setId(treatmentId);
         treatment.setActive(true);
 
@@ -2195,7 +2195,7 @@ class BookingServiceImplTest {
         UUID treatmentId = UUID.randomUUID();
 
         EmployeeEntity employee = buildActiveBookableEmployee(employeeId);
-        TreatmentEntity treatment = new TreatmentEntity();
+        Service treatment = new Service();
         treatment.setId(treatmentId);
         treatment.setActive(true);
 
@@ -2244,7 +2244,7 @@ class BookingServiceImplTest {
         UUID treatmentId = UUID.randomUUID();
 
         EmployeeEntity employee = buildActiveBookableEmployee(employeeId);
-        TreatmentEntity treatment = new TreatmentEntity();
+        Service treatment = new Service();
         treatment.setId(treatmentId);
         treatment.setActive(true);
 
@@ -2525,7 +2525,7 @@ class BookingServiceImplTest {
         UUID treatmentId = UUID.randomUUID();
 
         EmployeeEntity employee = buildActiveBookableEmployee(employeeId);
-        TreatmentEntity treatment = new TreatmentEntity();
+        Service treatment = new Service();
         treatment.setId(treatmentId);
 
         SlotHoldEntity slotHold = new SlotHoldEntity();
@@ -2601,7 +2601,7 @@ class BookingServiceImplTest {
     private BookingEntity buildPendingBooking(UUID bookingId) {
         EmployeeEntity employee = buildActiveBookableEmployee(UUID.randomUUID());
 
-        TreatmentEntity treatment = new TreatmentEntity();
+        Service treatment = new Service();
         treatment.setId(UUID.randomUUID());
 
         BookingEntity booking = new BookingEntity();
@@ -2699,7 +2699,7 @@ class BookingServiceImplTest {
         EmployeeEntity employee = buildActiveBookableEmployee(UUID.randomUUID());
         employee.setName("Jacob");
 
-        TreatmentEntity treatment = new TreatmentEntity();
+        Service treatment = new Service();
         treatment.setId(UUID.randomUUID());
         treatment.setName("Haircut");
         treatment.setPrice(new BigDecimal("35.00"));

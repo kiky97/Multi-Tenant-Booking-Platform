@@ -6,7 +6,7 @@ import static org.mockito.ArgumentMatchers.anySet;
 import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
 
-import com.booking.engine.entity.TreatmentEntity;
+import com.booking.engine.entity.Service;
 import com.booking.engine.repository.TreatmentRepository;
 import com.booking.engine.service.EmployeeTreatmentAssignmentService;
 import com.booking.engine.service.impl.EmployeeTreatmentAssignmentServiceImpl;
@@ -42,12 +42,12 @@ class EmployeeTreatmentAssignmentServiceTest {
         UUID firstId = UUID.randomUUID();
         UUID secondId = UUID.randomUUID();
 
-        TreatmentEntity first = new TreatmentEntity();
+        Service first = new Service();
         first.setId(firstId);
         first.setName("Cut");
         first.setActive(true);
 
-        TreatmentEntity second = new TreatmentEntity();
+        Service second = new Service();
         second.setId(secondId);
         second.setName("Color");
         second.setActive(true);

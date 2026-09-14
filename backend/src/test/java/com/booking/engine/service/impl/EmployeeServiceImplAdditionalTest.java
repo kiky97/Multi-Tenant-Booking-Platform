@@ -8,7 +8,7 @@ import static org.mockito.Mockito.when;
 
 import com.booking.engine.dto.EmployeeRequestDto;
 import com.booking.engine.entity.EmployeeEntity;
-import com.booking.engine.entity.TreatmentEntity;
+import com.booking.engine.entity.Service;
 import com.booking.engine.exception.EntityNotFoundException;
 import com.booking.engine.mapper.EmployeeMapper;
 import com.booking.engine.repository.EmployeeRepository;
@@ -100,7 +100,7 @@ class EmployeeServiceImplAdditionalTest {
     @Test
     void updateEmployeeShiftsDownWhenMovingForward() {
         UUID employeeId = UUID.randomUUID();
-        Set<TreatmentEntity> requestedTreatments = Set.of();
+        Set<Service> requestedTreatments = Set.of();
 
         EmployeeEntity employee = new EmployeeEntity();
         employee.setActive(true);
@@ -131,7 +131,7 @@ class EmployeeServiceImplAdditionalTest {
     @Test
     void updateEmployeeShiftsUpWhenMovingBackward() {
         UUID employeeId = UUID.randomUUID();
-        Set<TreatmentEntity> requestedTreatments = Set.of();
+        Set<Service> requestedTreatments = Set.of();
 
         EmployeeEntity employee = new EmployeeEntity();
         employee.setActive(true);
@@ -187,7 +187,7 @@ class EmployeeServiceImplAdditionalTest {
     @Test
     void updateEmployeeUpdatesBookableFlagWhenProvided() {
         UUID employeeId = UUID.randomUUID();
-        Set<TreatmentEntity> requestedTreatments = Set.of();
+        Set<Service> requestedTreatments = Set.of();
 
         EmployeeEntity employee = new EmployeeEntity();
         employee.setActive(true);
@@ -213,7 +213,7 @@ class EmployeeServiceImplAdditionalTest {
     @Test
     void updateEmployeeLeavesBookableFlagUnchangedWhenNotProvided() {
         UUID employeeId = UUID.randomUUID();
-        Set<TreatmentEntity> requestedTreatments = Set.of();
+        Set<Service> requestedTreatments = Set.of();
 
         EmployeeEntity employee = new EmployeeEntity();
         employee.setActive(true);

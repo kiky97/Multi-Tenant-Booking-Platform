@@ -6,7 +6,7 @@ import com.booking.engine.dto.BookingResponseDto;
 import com.booking.engine.entity.BookingStatus;
 import com.booking.engine.entity.EmployeeEntity;
 import com.booking.engine.entity.SlotHoldEntity;
-import com.booking.engine.entity.TreatmentEntity;
+import com.booking.engine.entity.Service;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -36,7 +36,7 @@ class BookingHoldResponseMapperTest {
         employee.setId(employeeId);
         employee.setName("Jacob");
 
-        TreatmentEntity treatment = new TreatmentEntity();
+        Service treatment = new Service();
         treatment.setId(treatmentId);
         treatment.setName("Haircut");
 

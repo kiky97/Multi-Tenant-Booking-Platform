@@ -7,7 +7,7 @@ import com.booking.engine.entity.BookingStatus;
 import com.booking.engine.entity.EmployeeEntity;
 import com.booking.engine.entity.SlotHoldEntity;
 import com.booking.engine.entity.SlotHoldScope;
-import com.booking.engine.entity.TreatmentEntity;
+import com.booking.engine.entity.Service;
 import com.booking.engine.properties.BookingProperties;
 import com.booking.engine.repository.BookingRepository;
 import com.booking.engine.repository.SlotHoldRepository;
@@ -222,7 +222,7 @@ public class BookingStateMachineImpl implements BookingStateMachine {
             BookingEntity booking,
             AdminBookingCreateRequestDto request,
             EmployeeEntity employee,
-            TreatmentEntity treatment,
+            Service treatment,
             String customerEmail) {
         booking.setActive(true);
         booking.setEmployee(employee);

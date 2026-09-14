@@ -9,7 +9,7 @@ import static org.mockito.Mockito.when;
 import com.booking.engine.entity.BookingEntity;
 import com.booking.engine.entity.BookingStatus;
 import com.booking.engine.entity.EmployeeEntity;
-import com.booking.engine.entity.TreatmentEntity;
+import com.booking.engine.entity.Service;
 import com.booking.engine.security.SecurityAuditEvent;
 import com.booking.engine.security.SecurityAuditLogger;
 import com.booking.engine.service.BookingAuditService;
@@ -49,7 +49,7 @@ class BookingAuditServiceTest {
         EmployeeEntity employee = new EmployeeEntity();
         employee.setId(UUID.randomUUID());
 
-        TreatmentEntity treatment = new TreatmentEntity();
+        Service treatment = new Service();
         treatment.setId(UUID.randomUUID());
 
         BookingEntity booking = new BookingEntity();

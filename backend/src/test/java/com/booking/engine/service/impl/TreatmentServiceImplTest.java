@@ -7,7 +7,7 @@ import static org.mockito.Mockito.when;
 
 import com.booking.engine.dto.TreatmentRequestDto;
 import com.booking.engine.dto.TreatmentResponseDto;
-import com.booking.engine.entity.TreatmentEntity;
+import com.booking.engine.entity.Service;
 import com.booking.engine.exception.EntityNotFoundException;
 import com.booking.engine.mapper.TreatmentMapper;
 import com.booking.engine.repository.TreatmentRepository;
@@ -53,8 +53,8 @@ class TreatmentServiceImplTest {
                 .description("Clean finish with premium detailing.")
                 .build();
 
-        TreatmentEntity entity = new TreatmentEntity();
-        TreatmentEntity saved = new TreatmentEntity();
+        Service entity = new Service();
+        Service saved = new Service();
         saved.setId(UUID.randomUUID());
 
         TreatmentResponseDto dto = TreatmentResponseDto.builder()
@@ -80,7 +80,7 @@ class TreatmentServiceImplTest {
 
     @Test
     void getAllTreatmentsMapsList() {
-        TreatmentEntity entity = new TreatmentEntity();
+        Service entity = new Service();
         TreatmentResponseDto dto = TreatmentResponseDto.builder()
                 .id(UUID.randomUUID())
                 .build();
@@ -115,7 +115,7 @@ class TreatmentServiceImplTest {
     void removeTreatmentDeletes() {
         UUID id = UUID.randomUUID();
 
-        TreatmentEntity entity = new TreatmentEntity();
+        Service entity = new Service();
         entity.setId(id);
         entity.setDisplayOrder(2);
 

@@ -17,7 +17,7 @@ import com.booking.engine.entity.BookingEntity;
 import com.booking.engine.entity.BookingStatus;
 import com.booking.engine.entity.SlotHoldEntity;
 import com.booking.engine.entity.SlotHoldScope;
-import com.booking.engine.entity.TreatmentEntity;
+import com.booking.engine.entity.Service;
 import com.booking.engine.exception.BookingValidationException;
 import com.booking.engine.properties.BookingProperties;
 import com.booking.engine.repository.EmployeeDailyScheduleRepository;
@@ -111,7 +111,7 @@ class AvailabilityServiceImplTest {
     @Test
     void validateBookingRequestShouldIgnoreTreatmentDurationMismatchForFixedSlotFlow() {
         EmployeeEntity employee = buildActiveEmployee();
-        TreatmentEntity treatment = buildActiveTreatment(90);
+        Service treatment = buildActiveTreatment(90);
         EmployeeDailyScheduleEntity hours = buildWorkingDay(
                 request.getBookingDate(),
                 LocalTime.of(9, 0),
@@ -153,7 +153,7 @@ class AvailabilityServiceImplTest {
     @Test
     void validateBookingRequestShouldFailWhenOutsideEmployeeHours() {
         EmployeeEntity employee = buildActiveEmployee();
-        TreatmentEntity treatment = buildActiveTreatment(30);
+        Service treatment = buildActiveTreatment(30);
         EmployeeDailyScheduleEntity hours = buildWorkingDay(
                 request.getBookingDate(),
                 LocalTime.of(11, 0),
@@ -172,7 +172,7 @@ class AvailabilityServiceImplTest {
     @Test
     void validateBookingRequestShouldFailWhenSlotConflictsWithConfirmedBooking() {
         EmployeeEntity employee = buildActiveEmployee();
-        TreatmentEntity treatment = buildActiveTreatment(30);
+        Service treatment = buildActiveTreatment(30);
         EmployeeDailyScheduleEntity hours = buildWorkingDay(
                 request.getBookingDate(),
                 LocalTime.of(9, 0),
@@ -205,7 +205,7 @@ class AvailabilityServiceImplTest {
     @Test
     void validateBookingRequestShouldFailWhenSlotIsHeldByAnotherGuest() {
         EmployeeEntity employee = buildActiveEmployee();
-        TreatmentEntity treatment = buildActiveTreatment(30);
+        Service treatment = buildActiveTreatment(30);
         EmployeeDailyScheduleEntity hours = buildWorkingDay(
                 request.getBookingDate(),
                 LocalTime.of(9, 0),
@@ -251,7 +251,7 @@ class AvailabilityServiceImplTest {
     @Test
     void validateBookingRequestShouldFailWhenSlotConflictsWithActiveSlotHold() {
         EmployeeEntity employee = buildActiveEmployee();
-        TreatmentEntity treatment = buildActiveTreatment(30);
+        Service treatment = buildActiveTreatment(30);
         EmployeeDailyScheduleEntity hours = buildWorkingDay(
                 request.getBookingDate(),
                 LocalTime.of(9, 0),
@@ -294,7 +294,7 @@ class AvailabilityServiceImplTest {
     @Test
     void validateBookingRequestShouldIgnoreExpiredPendingBooking() {
         EmployeeEntity employee = buildActiveEmployee();
-        TreatmentEntity treatment = buildActiveTreatment(30);
+        Service treatment = buildActiveTreatment(30);
         EmployeeDailyScheduleEntity hours = buildWorkingDay(
                 request.getBookingDate(),
                 LocalTime.of(9, 0),
@@ -326,7 +326,7 @@ class AvailabilityServiceImplTest {
     @Test
     void validateBookingRequestShouldFailWhenSlotOverlapsBreak() {
         EmployeeEntity employee = buildActiveEmployee();
-        TreatmentEntity treatment = buildActiveTreatment(60);
+        Service treatment = buildActiveTreatment(60);
         EmployeeDailyScheduleEntity hours = buildWorkingDay(
                 request.getBookingDate(),
                 LocalTime.of(9, 0),
@@ -355,7 +355,7 @@ class AvailabilityServiceImplTest {
     @Test
     void validateBookingRequestShouldPassWhenBreakIsAbsent() {
         EmployeeEntity employee = buildActiveEmployee();
-        TreatmentEntity treatment = buildActiveTreatment(60);
+        Service treatment = buildActiveTreatment(60);
         EmployeeDailyScheduleEntity hours = buildWorkingDay(
                 request.getBookingDate(),
                 LocalTime.of(9, 0),
@@ -389,7 +389,7 @@ class AvailabilityServiceImplTest {
     @Test
     void getAvailabilityShouldReturnHourlySlotsWithBreakAndBookedStatuses() {
         EmployeeEntity employee = buildActiveEmployee();
-        TreatmentEntity treatment = buildActiveTreatment(30);
+        Service treatment = buildActiveTreatment(30);
         EmployeeDailyScheduleEntity hours = buildWorkingDay(
                 request.getBookingDate(),
                 LocalTime.of(9, 0),
@@ -426,7 +426,7 @@ class AvailabilityServiceImplTest {
     void getAvailabilityShouldReturnHeldStatusForActivePendingBooking() {
         LocalDate futureDate = SECOND_ACTIVE_BOOKING_DATE;
         EmployeeEntity employee = buildActiveEmployee();
-        TreatmentEntity treatment = buildActiveTreatment(30);
+        Service treatment = buildActiveTreatment(30);
         EmployeeDailyScheduleEntity hours = buildWorkingDay(
                 futureDate,
                 LocalTime.of(9, 0),
@@ -462,7 +462,7 @@ class AvailabilityServiceImplTest {
     void getAvailabilityShouldReturnHeldStatusForActiveAdminSlotHold() {
         LocalDate futureDate = SECOND_ACTIVE_BOOKING_DATE;
         EmployeeEntity employee = buildActiveEmployee();
-        TreatmentEntity treatment = buildActiveTreatment(30);
+        Service treatment = buildActiveTreatment(30);
         EmployeeDailyScheduleEntity hours = buildWorkingDay(
                 futureDate,
                 LocalTime.of(9, 0),
@@ -517,7 +517,7 @@ class AvailabilityServiceImplTest {
     @Test
     void getAvailabilityShouldRejectUnsupportedEmployeeTreatmentPair() {
         EmployeeEntity employee = buildActiveEmployee();
-        TreatmentEntity treatment = buildActiveTreatment(30);
+        Service treatment = buildActiveTreatment(30);
 
         when(employeeRepository.findById(employeeId)).thenReturn(Optional.of(employee));
         when(employeeRepository.existsActiveEmployeeTreatment(employeeId, treatmentId)).thenReturn(false);
@@ -534,7 +534,7 @@ class AvailabilityServiceImplTest {
     void getAvailabilityShouldTreatPaidPendingBookingAsBooked() {
         LocalDate futureDate = SECOND_ACTIVE_BOOKING_DATE;
         EmployeeEntity employee = buildActiveEmployee();
-        TreatmentEntity treatment = buildActiveTreatment(30);
+        Service treatment = buildActiveTreatment(30);
         EmployeeDailyScheduleEntity hours = buildWorkingDay(
                 futureDate,
                 LocalTime.of(9, 0),
@@ -572,7 +572,7 @@ class AvailabilityServiceImplTest {
     void getAvailabilityShouldMarkEndedBookedSlotsAsPast() {
         LocalDate pastDate = PAST_BOOKING_DATE;
         EmployeeEntity employee = buildActiveEmployee();
-        TreatmentEntity treatment = buildActiveTreatment(30);
+        Service treatment = buildActiveTreatment(30);
         EmployeeDailyScheduleEntity hours = buildWorkingDay(
                 pastDate,
                 LocalTime.of(9, 0),
@@ -606,7 +606,7 @@ class AvailabilityServiceImplTest {
     @Test
     void validateSlotSelectionExcludingBookingShouldIgnoreCurrentBooking() {
         EmployeeEntity employee = buildActiveEmployee();
-        TreatmentEntity treatment = buildActiveTreatment(60);
+        Service treatment = buildActiveTreatment(60);
         EmployeeDailyScheduleEntity hours = buildWorkingDay(
                 request.getBookingDate(),
                 LocalTime.of(9, 0),
@@ -643,7 +643,7 @@ class AvailabilityServiceImplTest {
     @Test
     void validateBookingRequestShouldFailWhenAdminCancelledSlotRemainsLocked() {
         EmployeeEntity employee = buildActiveEmployee();
-        TreatmentEntity treatment = buildActiveTreatment(30);
+        Service treatment = buildActiveTreatment(30);
         EmployeeDailyScheduleEntity hours = buildWorkingDay(
                 request.getBookingDate(),
                 LocalTime.of(9, 0),
@@ -678,7 +678,7 @@ class AvailabilityServiceImplTest {
     void validateBookingRequestShouldFailWhenSlotConflictsWithActiveAdminSlotHold() {
         LocalDate futureDate = SECOND_ACTIVE_BOOKING_DATE;
         EmployeeEntity employee = buildActiveEmployee();
-        TreatmentEntity treatment = buildActiveTreatment(30);
+        Service treatment = buildActiveTreatment(30);
         EmployeeDailyScheduleEntity hours = buildWorkingDay(
                 futureDate,
                 LocalTime.of(9, 0),
@@ -730,7 +730,7 @@ class AvailabilityServiceImplTest {
     @Test
     void validateBookingRequestShouldFailWhenSlotConflictsWithDoneBooking() {
         EmployeeEntity employee = buildActiveEmployee();
-        TreatmentEntity treatment = buildActiveTreatment(30);
+        Service treatment = buildActiveTreatment(30);
         EmployeeDailyScheduleEntity hours = buildWorkingDay(
                 request.getBookingDate(),
                 LocalTime.of(9, 0),
@@ -764,7 +764,7 @@ class AvailabilityServiceImplTest {
     void getAvailabilityShouldTreatFutureDoneBookingAsBooked() {
         LocalDate futureDate = SECOND_ACTIVE_BOOKING_DATE;
         EmployeeEntity employee = buildActiveEmployee();
-        TreatmentEntity treatment = buildActiveTreatment(30);
+        Service treatment = buildActiveTreatment(30);
         EmployeeDailyScheduleEntity hours = buildWorkingDay(
                 futureDate,
                 LocalTime.of(9, 0),
@@ -798,7 +798,7 @@ class AvailabilityServiceImplTest {
     @Test
     void validateBookingRequestShouldFailWhenEmployeeDoesNotProvideTreatment() {
         EmployeeEntity employee = buildActiveEmployee();
-        TreatmentEntity treatment = buildActiveTreatment(30);
+        Service treatment = buildActiveTreatment(30);
 
         when(employeeRepository.findById(employeeId)).thenReturn(Optional.of(employee));
         when(employeeRepository.existsActiveEmployeeTreatment(employeeId, treatmentId)).thenReturn(false);
@@ -819,8 +819,8 @@ class AvailabilityServiceImplTest {
         return employee;
     }
 
-    private TreatmentEntity buildActiveTreatment(int durationMinutes) {
-        TreatmentEntity treatment = new TreatmentEntity();
+    private Service buildActiveTreatment(int durationMinutes) {
+        Service treatment = new Service();
         treatment.setId(treatmentId);
         treatment.setActive(true);
         treatment.setDurationMinutes(durationMinutes);

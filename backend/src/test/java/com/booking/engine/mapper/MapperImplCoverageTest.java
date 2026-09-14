@@ -19,7 +19,7 @@ import com.booking.engine.entity.BookingEntity;
 import com.booking.engine.entity.BookingStatus;
 import com.booking.engine.entity.HairSalonEntity;
 import com.booking.engine.entity.HairSalonHoursEntity;
-import com.booking.engine.entity.TreatmentEntity;
+import com.booking.engine.entity.Service;
 import java.math.BigDecimal;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -98,12 +98,12 @@ class MapperImplCoverageTest {
         entity.setUpdatedAt(updatedAt);
         entity.setBookable(true);
         entity.setProvidedTreatments(Set.of(
-                TreatmentEntity.builder()
+                Service.builder()
                         .id(UUID.fromString("11111111-1111-1111-1111-111111111111"))
                         .name("Cut")
                         .displayOrder(2)
                         .build(),
-                TreatmentEntity.builder()
+                Service.builder()
                         .id(UUID.fromString("22222222-2222-2222-2222-222222222222"))
                         .name("Color")
                         .displayOrder(1)
@@ -142,7 +142,7 @@ class MapperImplCoverageTest {
                 .displayOrder(2)
                 .build();
 
-        TreatmentEntity entity = treatmentMapper.toEntity(request);
+        Service entity = treatmentMapper.toEntity(request);
 
         assertThat(entity.getActive()).isTrue();
         assertThat(entity.getName()).isEqualTo("Premium Cut");
@@ -152,7 +152,7 @@ class MapperImplCoverageTest {
         assertThat(entity.getDescription()).isEqualTo("Scissors and fade");
         assertThat(entity.getDisplayOrder()).isEqualTo(2);
 
-        TreatmentEntity existing = TreatmentEntity.builder()
+        Service existing = Service.builder()
                 .name("Legacy")
                 .durationMinutes(30)
                 .price(new BigDecimal("20.00"))
@@ -256,7 +256,7 @@ class MapperImplCoverageTest {
         UUID treatmentId = UUID.randomUUID();
         entity.setId(bookingId);
         entity.setEmployee(EmployeeEntity.builder().id(employeeId).build());
-        entity.setTreatment(TreatmentEntity.builder().id(treatmentId).build());
+        entity.setTreatment(Service.builder().id(treatmentId).build());
         entity.setStatus(BookingStatus.CONFIRMED);
         entity.setExpiresAt(LocalDateTime.of(2030, 1, 15, 11, 15));
         entity.setStripePaymentIntentId("pi_123");

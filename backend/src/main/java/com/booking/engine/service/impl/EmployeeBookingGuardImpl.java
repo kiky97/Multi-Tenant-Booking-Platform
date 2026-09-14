@@ -2,7 +2,7 @@ package com.booking.engine.service.impl;
 
 import com.booking.engine.entity.BookingStatus;
 import com.booking.engine.entity.EmployeeEntity;
-import com.booking.engine.entity.TreatmentEntity;
+import com.booking.engine.entity.Service;
 import com.booking.engine.properties.BookingProperties;
 import com.booking.engine.repository.BookingRepository;
 import com.booking.engine.service.EmployeeBookingGuard;
@@ -65,9 +65,9 @@ public class EmployeeBookingGuardImpl implements EmployeeBookingGuard {
     @Override
     public void validateRemovedTreatmentsHaveNoFutureBookings(
             EmployeeEntity employee,
-            Set<TreatmentEntity> requestedTreatments) {
+            Set<Service> requestedTreatments) {
         Set<UUID> requestedIds = requestedTreatments.stream()
-                .map(TreatmentEntity::getId)
+                .map(Service::getId)
                 .collect(java.util.stream.Collectors.toSet());
 
         LocalDate today = LocalDate.now(getZoneId());

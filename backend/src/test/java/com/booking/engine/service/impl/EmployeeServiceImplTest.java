@@ -11,7 +11,7 @@ import static org.mockito.Mockito.when;
 import com.booking.engine.dto.EmployeeRequestDto;
 import com.booking.engine.dto.EmployeeResponseDto;
 import com.booking.engine.entity.EmployeeEntity;
-import com.booking.engine.entity.TreatmentEntity;
+import com.booking.engine.entity.Service;
 import com.booking.engine.mapper.EmployeeMapper;
 import com.booking.engine.repository.EmployeeRepository;
 import com.booking.engine.service.DisplayOrderService;
@@ -89,7 +89,7 @@ class EmployeeServiceImplTest {
         saved.setDisplayOrder(0);
         saved.setBookable(true);
 
-        TreatmentEntity treatment = new TreatmentEntity();
+        Service treatment = new Service();
         treatment.setId(treatmentId);
         treatment.setActive(true);
 

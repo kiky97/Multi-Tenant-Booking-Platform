@@ -1,7 +1,7 @@
 package com.booking.engine.service;
 
 import com.booking.engine.entity.EmployeeEntity;
-import com.booking.engine.entity.TreatmentEntity;
+import com.booking.engine.entity.Service;
 import java.util.Set;
 import java.util.UUID;
 
@@ -26,5 +26,5 @@ public interface EmployeeBookingGuard {
      */
     void validateRemovedTreatmentsHaveNoFutureBookings(
             EmployeeEntity employee,
-            Set<TreatmentEntity> requestedTreatments);
+            Set<Service> requestedTreatments);
 }

@@ -16,7 +16,7 @@ import com.booking.engine.entity.BookingStatus;
 import com.booking.engine.entity.EmployeeEntity;
 import com.booking.engine.entity.SlotHoldEntity;
 import com.booking.engine.entity.SlotHoldScope;
-import com.booking.engine.entity.TreatmentEntity;
+import com.booking.engine.entity.Service;
 import com.booking.engine.mapper.BookingMapper;
 import com.booking.engine.properties.BookingProperties;
 import com.booking.engine.repository.BookingRepository;
@@ -123,7 +123,7 @@ class AdminBookingHoldServiceImplTest {
         BookingHoldRequestDto request = buildHoldRequest(employeeId, treatmentId);
 
         EmployeeEntity employee = buildActiveBookableEmployee(employeeId);
-        TreatmentEntity treatment = buildTreatment(treatmentId, new BigDecimal("35.00"));
+        Service treatment = buildTreatment(treatmentId, new BigDecimal("35.00"));
 
         SlotHoldEntity existingHold = buildAdminSlotHold(UUID.randomUUID(), "session-123");
 
@@ -203,7 +203,7 @@ class AdminBookingHoldServiceImplTest {
                 .build();
 
         EmployeeEntity employee = buildActiveBookableEmployee(employeeId);
-        TreatmentEntity treatment = buildTreatment(treatmentId, new BigDecimal("28.00"));
+        Service treatment = buildTreatment(treatmentId, new BigDecimal("28.00"));
         SlotHoldEntity slotHold = buildAdminSlotHold(slotHoldId, "session-123");
         slotHold.setEmployee(employee);
         slotHold.setTreatment(treatment);
@@ -266,8 +266,8 @@ class AdminBookingHoldServiceImplTest {
         return LocalDateTime.now(ZoneId.of(TEST_TIMEZONE)).plusMinutes(1);
     }
 
-    private TreatmentEntity buildTreatment(UUID treatmentId, BigDecimal price) {
-        TreatmentEntity treatment = new TreatmentEntity();
+    private Service buildTreatment(UUID treatmentId, BigDecimal price) {
+        Service treatment = new Service();
         treatment.setId(treatmentId);
         treatment.setPrice(price);
         return treatment;

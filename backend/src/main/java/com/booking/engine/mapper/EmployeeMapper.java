@@ -3,7 +3,7 @@ package com.booking.engine.mapper;
 import com.booking.engine.dto.EmployeeRequestDto;
 import com.booking.engine.dto.EmployeeResponseDto;
 import com.booking.engine.entity.EmployeeEntity;
-import com.booking.engine.entity.TreatmentEntity;
+import com.booking.engine.entity.Service;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
@@ -37,16 +37,16 @@ public interface EmployeeMapper extends BaseMapper<EmployeeEntity, EmployeeReque
     @Mapping(target = "providedTreatments", ignore = true)
     void updateFromDto(EmployeeRequestDto request, @MappingTarget EmployeeEntity entity);
 
-    default List<UUID> map(Set<TreatmentEntity> providedTreatments) {
+    default List<UUID> map(Set<Service> providedTreatments) {
         if (providedTreatments == null) {
             return List.of();
         }
 
         return providedTreatments.stream()
                 .sorted(Comparator
-                        .comparing(TreatmentEntity::getDisplayOrder, Comparator.nullsLast(Integer::compareTo))
-                        .thenComparing(TreatmentEntity::getId, Comparator.nullsLast(UUID::compareTo)))
-                .map(TreatmentEntity::getId)
+                        .comparing(Service::getDisplayOrder, Comparator.nullsLast(Integer::compareTo))
+                        .thenComparing(Service::getId, Comparator.nullsLast(UUID::compareTo)))
+                .map(Service::getId)
                 .toList();
     }
 }

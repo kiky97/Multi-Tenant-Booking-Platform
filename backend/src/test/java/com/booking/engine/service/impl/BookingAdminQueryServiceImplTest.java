@@ -9,7 +9,7 @@ import com.booking.engine.dto.BookingResponseDto;
 import com.booking.engine.entity.BookingEntity;
 import com.booking.engine.entity.BookingStatus;
 import com.booking.engine.entity.EmployeeEntity;
-import com.booking.engine.entity.TreatmentEntity;
+import com.booking.engine.entity.Service;
 import com.booking.engine.mapper.BookingMapper;
 import com.booking.engine.properties.BookingProperties;
 import com.booking.engine.repository.BookingRepository;
@@ -294,7 +294,7 @@ class BookingAdminQueryServiceImplTest {
         employee.setId(UUID.randomUUID());
         employee.setName(employeeName);
 
-        TreatmentEntity treatment = new TreatmentEntity();
+        Service treatment = new Service();
         treatment.setId(UUID.randomUUID());
         treatment.setName(treatmentName);
 

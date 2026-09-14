@@ -6,7 +6,7 @@ import com.booking.engine.dto.BookingRequestDto;
 import com.booking.engine.entity.BookingEntity;
 import com.booking.engine.entity.EmployeeEntity;
 import com.booking.engine.entity.SlotHoldEntity;
-import com.booking.engine.entity.TreatmentEntity;
+import com.booking.engine.entity.Service;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Map;
@@ -46,7 +46,7 @@ class BookingStripeMetadataFactoryTest {
         UUID treatmentId = UUID.randomUUID();
         EmployeeEntity employee = new EmployeeEntity();
         employee.setId(employeeId);
-        TreatmentEntity treatment = new TreatmentEntity();
+        Service treatment = new Service();
         treatment.setId(treatmentId);
 
         BookingEntity booking = new BookingEntity();
@@ -75,7 +75,7 @@ class BookingStripeMetadataFactoryTest {
         UUID treatmentId = UUID.randomUUID();
         EmployeeEntity employee = new EmployeeEntity();
         employee.setId(employeeId);
-        TreatmentEntity treatment = new TreatmentEntity();
+        Service treatment = new Service();
         treatment.setId(treatmentId);
 
         SlotHoldEntity slotHold = new SlotHoldEntity();
