@@ -43,6 +43,28 @@ public class RedisBookingHoldService {
         redis.delete(tokenKey);
     }
 
+    /**
+     * Burns a hold when the customer's slot is confirmed into a real booking. Returns {@code true}
+     * only if {@code token} still holds exactly this organization/staff/time slot; a missing,
+     * expired, or mismatched hold returns {@code false} so the caller can refuse the booking instead
+     * of double-booking the slot.
+     */
+    public boolean consume(String token, UUID organizationId, UUID staffId, Instant startTime, Instant endTime) {
+        String tokenKey = TOKEN_PREFIX + token;
+        String slotKey = redis.opsForValue().get(tokenKey);
+        if (slotKey == null) return false;
+        // A mismatch (wrong slot details for an otherwise valid token) leaves the hold untouched so
+        // the legitimate holder can still confirm it with the correct slot details.
+        if (!slotKey.equals(slotKey(organizationId, staffId, startTime, endTime))) return false;
+        String currentToken = redis.opsForValue().get(slotKey);
+        boolean matches = token.equals(currentToken);
+        if (matches) {
+            redis.delete(slotKey);
+            redis.delete(tokenKey);
+        }
+        return matches;
+    }
+
     private static String slotKey(UUID organizationId, UUID staffId, Instant startTime, Instant endTime) {
         return SLOT_PREFIX + organizationId + ':' + staffId + ':' + startTime.toEpochMilli() + ':' + endTime.toEpochMilli();
     }

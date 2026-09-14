@@ -5,7 +5,9 @@ import com.booking.engine.entity.Staff;
 import com.booking.engine.platform.repository.OrganizationRepository;
 import com.booking.engine.platform.repository.ServiceRepository;
 import com.booking.engine.platform.repository.StaffRepository;
+import com.booking.engine.platform.service.RedisBookingHoldRateLimiter;
 import com.booking.engine.platform.service.RedisBookingHoldService;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import java.time.Instant;
@@ -26,17 +28,20 @@ public class BookingHoldController {
     private final StaffRepository staff;
     private final ServiceRepository services;
     private final RedisBookingHoldService holds;
+    private final RedisBookingHoldRateLimiter rateLimiter;
 
     public BookingHoldController(OrganizationRepository organizations, StaffRepository staff,
-            ServiceRepository services, RedisBookingHoldService holds) {
+            ServiceRepository services, RedisBookingHoldService holds, RedisBookingHoldRateLimiter rateLimiter) {
         this.organizations = organizations;
         this.staff = staff;
         this.services = services;
         this.holds = holds;
+        this.rateLimiter = rateLimiter;
     }
 
     @PostMapping
-    public HoldResponse create(@Valid @RequestBody HoldRequest request) {
+    public HoldResponse create(@Valid @RequestBody HoldRequest request, HttpServletRequest httpRequest) {
+        rateLimiter.check(httpRequest.getRemoteAddr());
         if (organizations.findById(request.organizationId()).isEmpty()) throw notFound("Organization");
         Staff member = staff.findById(request.staffId()).orElseThrow(() -> notFound("Staff"));
         Service service = services.findById(request.serviceId()).orElseThrow(() -> notFound("Service"));

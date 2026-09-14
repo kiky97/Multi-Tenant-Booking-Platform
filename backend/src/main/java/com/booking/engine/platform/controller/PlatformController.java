@@ -21,6 +21,8 @@ import com.booking.engine.platform.repository.ServiceRepository;
 import com.booking.engine.platform.repository.StaffRepository;
 import com.booking.engine.platform.repository.UserRepository;
 import com.booking.engine.platform.security.PlatformPrincipal;
+import com.booking.engine.platform.service.OrganizationServiceCatalog;
+import com.booking.engine.platform.service.RedisBookingHoldService;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
@@ -66,6 +68,8 @@ public class PlatformController {
     private final AvailabilityRepository availability;
     private final BookingRepository bookings;
     private final ReviewRepository reviews;
+    private final OrganizationServiceCatalog serviceCatalog;
+    private final RedisBookingHoldService holds;
     private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     public PlatformController(
@@ -77,7 +81,9 @@ public class PlatformController {
             StaffRepository staff,
             AvailabilityRepository availability,
             BookingRepository bookings,
-            ReviewRepository reviews) {
+            ReviewRepository reviews,
+            OrganizationServiceCatalog serviceCatalog,
+            RedisBookingHoldService holds) {
         this.users = users;
         this.providers = providers;
         this.customers = customers;
@@ -87,6 +93,8 @@ public class PlatformController {
         this.availability = availability;
         this.bookings = bookings;
         this.reviews = reviews;
+        this.serviceCatalog = serviceCatalog;
+        this.holds = holds;
     }
 
     @PostMapping("/providers")
@@ -148,7 +156,7 @@ public class PlatformController {
     @GetMapping("/organizations/{organizationId}/services")
     public List<ServiceView> services(@PathVariable UUID organizationId) {
         requireOrganization(organizationId);
-        return services.findAllByOrganizationId(organizationId).stream().map(this::serviceView).toList();
+        return serviceCatalog.servicesFor(organizationId).stream().map(this::serviceView).toList();
     }
 
     /** Tenant-scoped alternative to the nested endpoint. */
@@ -166,7 +174,9 @@ public class PlatformController {
         service.setName(request.name().trim());
         service.setDurationMinutes(request.durationMinutes());
         service.setPrice(request.price());
-        return serviceView(services.save(service));
+        ServiceView view = serviceView(services.save(service));
+        serviceCatalog.invalidate(organizationId);
+        return view;
     }
 
     @GetMapping("/organizations/{organizationId}/staff")
@@ -227,6 +237,17 @@ public class PlatformController {
         ensureSameOrganization(organizationId, service.getOrganization().getId(), "Service");
 
         Instant endTime = request.startTime().plusSeconds(service.getDurationMinutes() * 60L);
+
+        // The Redis hold is the primary defense against double-booking: it was acquired atomically
+        // when the customer selected this slot, so a second concurrent request for the same
+        // organization/staff/time window fails here with 409 before either reaches the database.
+        if (!holds.consume(request.holdToken(), organizationId, member.getId(), request.startTime(), endTime)) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT,
+                    "This time slot hold is invalid or has expired; please select the slot again");
+        }
+
+        // Defense in depth: catches bookings created without going through the hold flow (e.g. an
+        // earlier confirmed booking) or a hold that briefly outlived its own TTL.
         if (bookings.existsByStaffIdAndStatusInAndStartTimeLessThanAndEndTimeGreaterThan(
                 member.getId(), BLOCKING_STATUSES, endTime, request.startTime())) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "Staff member is already booked for this time");
@@ -294,6 +315,7 @@ public class PlatformController {
     private CustomerView customerView(Customer customer) { return new CustomerView(customer.getId(), customer.getDisplayName(), customer.getPhoneNumber()); }
     private OrganizationView organizationView(Organization organization) { return new OrganizationView(organization.getId(), organization.getProvider().getId(), organization.getName(), organization.getTimezone()); }
     private ServiceView serviceView(Service service) { return new ServiceView(service.getId(), service.getName(), service.getDurationMinutes(), service.getPrice()); }
+    private ServiceView serviceView(OrganizationServiceCatalog.ServiceSummary service) { return new ServiceView(service.id(), service.name(), service.durationMinutes(), service.price()); }
     private StaffView staffView(Staff member) { return new StaffView(member.getId(), member.getName(), member.getEmail()); }
     private AvailabilityView availabilityView(Availability slot) { return new AvailabilityView(slot.getId(), slot.getStaff().getId(), slot.getDayOfWeek(), slot.getStartTime(), slot.getEndTime()); }
     private BookingView bookingView(Booking booking) { return new BookingView(booking.getId(), booking.getCustomer().getId(), booking.getStaff().getId(), booking.getService().getId(), booking.getStartTime(), booking.getEndTime(), booking.getStatus()); }
@@ -304,7 +326,8 @@ public class PlatformController {
     public record ServiceRequest(@NotBlank String name, @NotNull @Positive Integer durationMinutes, @NotNull @DecimalMin("0.00") BigDecimal price) {}
     public record StaffRequest(@NotBlank String name, @Email String email) {}
     public record AvailabilityRequest(@NotNull UUID staffId, @NotNull DayOfWeek dayOfWeek, @NotNull LocalTime startTime, @NotNull LocalTime endTime) {}
-    public record BookingRequest(@NotNull UUID customerId, @NotNull UUID staffId, @NotNull UUID serviceId, @NotNull Instant startTime) {}
+    public record BookingRequest(@NotNull UUID customerId, @NotNull UUID staffId, @NotNull UUID serviceId,
+                                 @NotNull Instant startTime, @NotBlank String holdToken) {}
     public record ReviewRequest(@NotNull UUID customerId, @NotNull @Min(1) @Max(5) Integer rating, String comment) {}
     public record ProviderView(UUID id, String businessName) {}
     public record CustomerView(UUID id, String displayName, String phoneNumber) {}
