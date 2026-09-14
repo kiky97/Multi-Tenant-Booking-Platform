@@ -47,7 +47,8 @@ export default function Navbar() {
     const navItemsRight = [
         { label: 'Book Now', type: 'route', to: '/booking' },
         { label: 'FAQ', type: 'route', to: '/faq' },
-        { label: 'Contact', type: 'section', fallbackPath: location.pathname, sectionId: 'contact' }
+        { label: 'Contact', type: 'section', fallbackPath: location.pathname, sectionId: 'contact' },
+        { label: 'Console', type: 'route', to: '/console' }
     ];
 
     const mobileItems = [...navItemsLeft, ...navItemsRight];

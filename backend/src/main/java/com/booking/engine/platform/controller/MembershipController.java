@@ -1,5 +1,6 @@
 package com.booking.engine.platform.controller;
 
+import com.booking.engine.entity.AuditAction;
 import com.booking.engine.entity.Membership;
 import com.booking.engine.entity.MembershipRole;
 import com.booking.engine.entity.Organization;
@@ -9,6 +10,7 @@ import com.booking.engine.platform.repository.MembershipRepository;
 import com.booking.engine.platform.repository.StaffRepository;
 import com.booking.engine.platform.repository.UserRepository;
 import com.booking.engine.platform.security.MembershipGuard;
+import com.booking.engine.platform.service.AuditLogService;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
@@ -35,13 +37,15 @@ public class MembershipController {
     private final UserRepository users;
     private final StaffRepository staff;
     private final MembershipGuard guard;
+    private final AuditLogService auditLog;
 
     public MembershipController(MembershipRepository memberships, UserRepository users, StaffRepository staff,
-            MembershipGuard guard) {
+            MembershipGuard guard, AuditLogService auditLog) {
         this.memberships = memberships;
         this.users = users;
         this.staff = staff;
         this.guard = guard;
+        this.auditLog = auditLog;
     }
 
     @GetMapping
@@ -80,13 +84,15 @@ public class MembershipController {
             staff.save(member);
         }
 
+        auditLog.record(organization, guard.currentUserId(), AuditAction.MEMBERSHIP_INVITED, "MEMBERSHIP",
+                membership.getId(), "invited " + invitee.getEmail() + " as " + request.role());
         return membershipView(membership);
     }
 
     @DeleteMapping("/{membershipId}")
     @Transactional
     public void remove(@PathVariable UUID organizationId, @PathVariable UUID membershipId) {
-        guard.require(organizationId, MembershipRole.OWNER);
+        Organization organization = guard.require(organizationId, MembershipRole.OWNER);
         Membership membership = memberships.findByIdAndOrganizationId(membershipId, organizationId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Membership not found"));
         if (membership.getRole() == MembershipRole.OWNER
@@ -94,6 +100,8 @@ public class MembershipController {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "An organization must keep at least one owner");
         }
         memberships.delete(membership);
+        auditLog.record(organization, guard.currentUserId(), AuditAction.MEMBERSHIP_REMOVED, "MEMBERSHIP",
+                membershipId, "removed " + membership.getUser().getEmail() + " (" + membership.getRole() + ")");
     }
 
     private MembershipView membershipView(Membership membership) {

@@ -1,0 +1,181 @@
+.console {
+  min-height: 100vh;
+  background: #f7f7f5;
+  color: #1a1a1a;
+  font-family: system-ui, sans-serif;
+}
+
+.console-header {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 0.75rem 1.5rem;
+  background: #17171b;
+  color: #fff;
+  flex-wrap: wrap;
+}
+
+.console-title {
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.console-nav {
+  display: flex;
+  gap: 1rem;
+  flex: 1;
+}
+
+.console-nav a {
+  color: #cfcfd6;
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+
+.console-nav a.active,
+.console-nav a:hover {
+  color: #fff;
+}
+
+.console-status {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.85rem;
+}
+
+.console-role {
+  padding: 0.1rem 0.5rem;
+  border: 1px solid #4a4a55;
+  border-radius: 999px;
+}
+
+.console-status button {
+  background: transparent;
+  border: 1px solid #4a4a55;
+  color: #fff;
+  border-radius: 4px;
+  padding: 0.25rem 0.6rem;
+  cursor: pointer;
+}
+
+.console-main {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem;
+}
+
+.console-main h2 {
+  margin-top: 0;
+}
+
+.console-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  max-width: 420px;
+  margin-bottom: 2rem;
+}
+
+.console-form label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  font-size: 0.85rem;
+}
+
+.console-form input,
+.console-form select {
+  padding: 0.4rem 0.5rem;
+  border: 1px solid #cfcfd6;
+  border-radius: 4px;
+  font-size: 0.95rem;
+  background: #fff;
+  color: #1a1a1a;
+  color-scheme: light;
+}
+
+.console-form button {
+  align-self: flex-start;
+  padding: 0.5rem 1.2rem;
+  background: #17171b;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.console-form button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.console-error {
+  color: #b3261e;
+  font-size: 0.85rem;
+}
+
+.console-success {
+  color: #1e6b3a;
+  font-size: 0.85rem;
+}
+
+.console-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.console-list li {
+  border: 1px solid #e2e2e6;
+  border-radius: 6px;
+  padding: 0.6rem 0.8rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  background: #fff;
+}
+
+.console-list li button {
+  border: 1px solid #17171b;
+  background: #fff;
+  border-radius: 4px;
+  padding: 0.25rem 0.7rem;
+  cursor: pointer;
+}
+
+.console-step {
+  border: 1px solid #e2e2e6;
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  background: #fff;
+}
+
+.console-muted {
+  color: #6b6b76;
+  font-size: 0.85rem;
+}
+
+.console-auth-toggle {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.console-auth-toggle button {
+  padding: 0.35rem 0.9rem;
+  border-radius: 999px;
+  border: 1px solid #17171b;
+  background: #fff;
+  cursor: pointer;
+}
+
+.console-auth-toggle button.active {
+  background: #17171b;
+  color: #fff;
+}

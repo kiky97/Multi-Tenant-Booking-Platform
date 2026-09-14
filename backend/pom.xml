@@ -29,10 +29,7 @@
     </scm>
     <properties>
         <java.version>21</java.version>
-        <mapstruct.version>1.6.3</mapstruct.version>
         <lombok.version>1.18.32</lombok.version>
-        <testcontainers.version>1.21.3</testcontainers.version>
-        <commons-compress.version>1.28.0</commons-compress.version>
         <!-- Security override: Spring Boot 4.0.7 still resolves Tomcat 11.0.22. Keep until managed
         version is patched. -->
         <tomcat.version>11.0.23</tomcat.version>
@@ -56,6 +53,10 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-redis</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.kafka</groupId>
+            <artifactId>spring-kafka</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -82,11 +83,6 @@
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
             <scope>runtime</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.mapstruct</groupId>
-            <artifactId>mapstruct</artifactId>
-            <version>${mapstruct.version}</version>
         </dependency>
         <dependency>
             <groupId>com.stripe</groupId>
@@ -116,12 +112,6 @@
             <artifactId>lombok</artifactId>
             <version>${lombok.version}</version>
             <optional>true</optional>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok-mapstruct-binding</artifactId>
-            <version>0.2.0</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -157,26 +147,6 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.testcontainers</groupId>
-            <artifactId>junit-jupiter</artifactId>
-            <version>${testcontainers.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.testcontainers</groupId>
-            <artifactId>postgresql</artifactId>
-            <version>${testcontainers.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <!-- Testcontainers still pulls an older commons-compress transitively. Keep
-        the test classpath aligned with dependency-scan expectations. -->
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-compress</artifactId>
-            <version>${commons-compress.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -230,31 +200,11 @@
                 <configuration>
                     <source>${java.version}</source>
                     <target>${java.version}</target>
-                    <!-- Legacy single-salon code stays available as reference while
-                    the application is compiled from the multi-tenant module. -->
-                    <includes>
-                        <include>com/booking/engine/BookingPlatformApplication.java</include>
-                        <include>com/booking/engine/entity/**/*.java</include>
-                        <include>com/booking/engine/platform/**/*.java</include>
-                    </includes>
-                    <testIncludes>
-                        <testInclude>com/booking/engine/platform/**/*.java</testInclude>
-                    </testIncludes>
                     <annotationProcessorPaths>
                         <path>
                             <groupId>org.projectlombok</groupId>
                             <artifactId>lombok</artifactId>
                             <version>${lombok.version}</version>
-                        </path>
-                        <path>
-                            <groupId>org.projectlombok</groupId>
-                            <artifactId>lombok-mapstruct-binding</artifactId>
-                            <version>0.2.0</version>
-                        </path>
-                        <path>
-                            <groupId>org.mapstruct</groupId>
-                            <artifactId>mapstruct-processor</artifactId>
-                            <version>${mapstruct.version}</version>
                         </path>
                     </annotationProcessorPaths>
                 </configuration>
@@ -287,7 +237,7 @@
                                 <rule>
                                     <element>PACKAGE</element>
                                     <includes>
-                                        <include>com.booking.engine.service.impl</include>
+                                        <include>com.booking.engine.platform.service</include>
                                     </includes>
                                     <limits>
                                         <limit>
@@ -300,7 +250,7 @@
                                 <rule>
                                     <element>PACKAGE</element>
                                     <includes>
-                                        <include>com.booking.engine.controller</include>
+                                        <include>com.booking.engine.platform.controller</include>
                                     </includes>
                                     <limits>
                                         <limit>

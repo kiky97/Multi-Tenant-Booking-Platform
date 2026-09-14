@@ -1,5 +1,7 @@
 package com.booking.engine.platform.controller;
 
+import com.booking.engine.entity.AuditAction;
+import com.booking.engine.entity.AuditLog;
 import com.booking.engine.entity.Availability;
 import com.booking.engine.entity.Booking;
 import com.booking.engine.entity.BookingStatus;
@@ -7,23 +9,29 @@ import com.booking.engine.entity.Customer;
 import com.booking.engine.entity.Membership;
 import com.booking.engine.entity.MembershipRole;
 import com.booking.engine.entity.Organization;
+import com.booking.engine.entity.Payment;
+import com.booking.engine.entity.PaymentStatus;
 import com.booking.engine.entity.Review;
 import com.booking.engine.entity.Service;
 import com.booking.engine.entity.Staff;
 import com.booking.engine.entity.User;
 import com.booking.engine.entity.UserRole;
+import com.booking.engine.platform.repository.AuditLogRepository;
 import com.booking.engine.platform.repository.AvailabilityRepository;
 import com.booking.engine.platform.repository.BookingRepository;
 import com.booking.engine.platform.repository.CustomerRepository;
 import com.booking.engine.platform.repository.MembershipRepository;
 import com.booking.engine.platform.repository.OrganizationRepository;
+import com.booking.engine.platform.repository.PaymentRepository;
 import com.booking.engine.platform.repository.ReviewRepository;
 import com.booking.engine.platform.repository.ServiceRepository;
 import com.booking.engine.platform.repository.StaffRepository;
 import com.booking.engine.platform.repository.UserRepository;
 import com.booking.engine.platform.security.MembershipGuard;
 import com.booking.engine.platform.security.PlatformPrincipal;
+import com.booking.engine.platform.service.AuditLogService;
 import com.booking.engine.platform.service.AvailabilityCatalog;
+import com.booking.engine.platform.service.BookingAnalyticsService;
 import com.booking.engine.platform.service.OrganizationServiceCatalog;
 import com.booking.engine.platform.service.RedisBookingHoldService;
 import com.booking.engine.platform.service.StripePaymentService;
@@ -79,6 +87,10 @@ public class PlatformController {
     private final RedisBookingHoldService holds;
     private final MembershipGuard guard;
     private final StripePaymentService stripePayments;
+    private final BookingAnalyticsService analytics;
+    private final PaymentRepository payments;
+    private final AuditLogRepository auditLogs;
+    private final AuditLogService auditLog;
     private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     public PlatformController(
@@ -95,7 +107,11 @@ public class PlatformController {
             AvailabilityCatalog availabilityCatalog,
             RedisBookingHoldService holds,
             MembershipGuard guard,
-            StripePaymentService stripePayments) {
+            StripePaymentService stripePayments,
+            BookingAnalyticsService analytics,
+            PaymentRepository payments,
+            AuditLogRepository auditLogs,
+            AuditLogService auditLog) {
         this.users = users;
         this.customers = customers;
         this.organizations = organizations;
@@ -108,8 +124,12 @@ public class PlatformController {
         this.serviceCatalog = serviceCatalog;
         this.availabilityCatalog = availabilityCatalog;
         this.holds = holds;
+        this.analytics = analytics;
         this.guard = guard;
         this.stripePayments = stripePayments;
+        this.payments = payments;
+        this.auditLogs = auditLogs;
+        this.auditLog = auditLog;
     }
 
     /** Registers an account able to own organizations. Organization access itself is granted
@@ -171,6 +191,8 @@ public class PlatformController {
         ownerMembership.setRole(MembershipRole.OWNER);
         memberships.save(ownerMembership);
 
+        auditLog.record(organization, userId, AuditAction.ORGANIZATION_CREATED, "ORGANIZATION", organization.getId(),
+                "created organization " + organization.getName());
         return organizationView(organization);
     }
 
@@ -310,6 +332,31 @@ public class PlatformController {
         return bookingView(bookings.save(booking), payment.clientSecret());
     }
 
+    /** The append-only history behind a booking's current status — every applied Stripe event,
+     * not just the latest one (see {@code StripePaymentSyncService}). */
+    @GetMapping("/organizations/{organizationId}/bookings/{bookingId}/payments")
+    public List<PaymentView> payments(@PathVariable UUID organizationId, @PathVariable UUID bookingId) {
+        guard.require(organizationId, MembershipRole.ADMIN);
+        Booking booking = required(bookings.findById(bookingId), "Booking");
+        ensureSameOrganization(organizationId, booking.getOrganization().getId(), "Booking");
+        return payments.findAllByBookingIdOrderByCreatedAtDesc(bookingId).stream().map(this::paymentView).toList();
+    }
+
+    /** Fed asynchronously by the Kafka analytics consumer when a booking is confirmed — not read
+     * from Postgres directly, so a backlog in that consumer never slows this endpoint down. */
+    @GetMapping("/organizations/{organizationId}/analytics")
+    public AnalyticsView analytics(@PathVariable UUID organizationId) {
+        guard.require(organizationId, MembershipRole.OWNER);
+        return new AnalyticsView(analytics.confirmedBookingCount(organizationId));
+    }
+
+    /** Who changed membership/organization state and when — see {@link AuditLogService}. */
+    @GetMapping("/organizations/{organizationId}/audit-logs")
+    public List<AuditLogView> auditLogs(@PathVariable UUID organizationId) {
+        guard.require(organizationId, MembershipRole.OWNER);
+        return auditLogs.findAllByOrganizationIdOrderByCreatedAtDesc(organizationId).stream().map(this::auditLogView).toList();
+    }
+
     @GetMapping("/organizations/{organizationId}/reviews")
     public List<ReviewView> reviews(@PathVariable UUID organizationId) {
         guard.require(organizationId, MembershipRole.STAFF);
@@ -351,6 +398,8 @@ public class PlatformController {
     private BookingView bookingView(Booking booking) { return bookingView(booking, null); }
     private BookingView bookingView(Booking booking, String clientSecret) { return new BookingView(booking.getId(), booking.getCustomer().getId(), booking.getStaff().getId(), booking.getService().getId(), booking.getStartTime(), booking.getEndTime(), booking.getStatus(), clientSecret); }
     private ReviewView reviewView(Review review) { return new ReviewView(review.getId(), review.getCustomer().getId(), review.getRating(), review.getComment(), review.getCreatedAt()); }
+    private PaymentView paymentView(Payment payment) { return new PaymentView(payment.getId(), payment.getStripePaymentIntentId(), payment.getAmount(), payment.getCurrency(), payment.getStatus(), payment.getCreatedAt()); }
+    private AuditLogView auditLogView(AuditLog entry) { return new AuditLogView(entry.getId(), entry.getActorUserId(), entry.getAction(), entry.getTargetType(), entry.getTargetId(), entry.getDetail(), entry.getCreatedAt()); }
 
     public record AccountRequest(@NotBlank @Email String email, @NotBlank String password, @NotBlank String displayName, String phoneNumber) {}
     public record OrganizationRequest(@NotBlank String name, @NotBlank String timezone) {}
@@ -369,4 +418,9 @@ public class PlatformController {
     public record BookingView(UUID id, UUID customerId, UUID staffId, UUID serviceId, Instant startTime, Instant endTime,
                               BookingStatus status, String clientSecret) {}
     public record ReviewView(UUID id, UUID customerId, Integer rating, String comment, Instant createdAt) {}
+    public record AnalyticsView(long confirmedBookings) {}
+    public record PaymentView(UUID id, String stripePaymentIntentId, BigDecimal amount, String currency,
+                              PaymentStatus status, Instant createdAt) {}
+    public record AuditLogView(UUID id, UUID actorUserId, AuditAction action, String targetType, UUID targetId,
+                               String detail, Instant createdAt) {}
 }

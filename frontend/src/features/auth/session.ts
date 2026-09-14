@@ -13,3 +13,10 @@ export const clearSession = (): void => {
   localStorage.removeItem('role');
   localStorage.removeItem('organizationId');
 };
+
+export const getSession = (): Session | null => {
+  const accessToken = localStorage.getItem('accessToken');
+  const role = localStorage.getItem('role') as Session['role'] | null;
+  if (!accessToken || !role) return null;
+  return { accessToken, role };
+};

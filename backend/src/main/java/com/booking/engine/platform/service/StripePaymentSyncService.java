@@ -2,8 +2,12 @@ package com.booking.engine.platform.service;
 
 import com.booking.engine.entity.Booking;
 import com.booking.engine.entity.BookingStatus;
+import com.booking.engine.entity.Payment;
+import com.booking.engine.entity.PaymentStatus;
 import com.booking.engine.platform.config.StripeProperties;
+import com.booking.engine.platform.kafka.BookingEventPublisher;
 import com.booking.engine.platform.repository.BookingRepository;
+import com.booking.engine.platform.repository.PaymentRepository;
 import com.booking.engine.platform.stripe.StripePaymentIntentEventTypes;
 import jakarta.transaction.Transactional;
 import java.util.Locale;
@@ -21,11 +25,16 @@ public class StripePaymentSyncService {
     private static final Logger log = LoggerFactory.getLogger(StripePaymentSyncService.class);
 
     private final BookingRepository bookings;
+    private final PaymentRepository payments;
     private final StripeProperties stripeProperties;
+    private final BookingEventPublisher events;
 
-    public StripePaymentSyncService(BookingRepository bookings, StripeProperties stripeProperties) {
+    public StripePaymentSyncService(BookingRepository bookings, PaymentRepository payments,
+            StripeProperties stripeProperties, BookingEventPublisher events) {
         this.bookings = bookings;
+        this.payments = payments;
         this.stripeProperties = stripeProperties;
+        this.events = events;
     }
 
     @Transactional
@@ -52,12 +61,31 @@ public class StripePaymentSyncService {
             booking.setStatus(BookingStatus.CONFIRMED);
             bookings.save(booking);
             log.info("event=stripe_webhook_applied bookingId={} eventType={} status=CONFIRMED", booking.getId(), eventType);
+            recordPayment(booking, paymentIntentId, currency, PaymentStatus.SUCCEEDED);
+            events.publishConfirmed(booking, stripeProperties.getCurrency());
         } else if (StripePaymentIntentEventTypes.CANCELED.equals(eventType)
                 || StripePaymentIntentEventTypes.PAYMENT_FAILED.equals(eventType)) {
             booking.setStatus(BookingStatus.CANCELLED);
             bookings.save(booking);
             log.info("event=stripe_webhook_applied bookingId={} eventType={} status=CANCELLED", booking.getId(), eventType);
+            PaymentStatus paymentStatus = StripePaymentIntentEventTypes.CANCELED.equals(eventType)
+                    ? PaymentStatus.CANCELED
+                    : PaymentStatus.FAILED;
+            recordPayment(booking, paymentIntentId, currency, paymentStatus);
         }
+    }
+
+    /** Records the event that was just applied. The ledger uses the booking's own amount (the
+     * figure both sides already agreed on) rather than re-deriving it from Stripe's minor-unit
+     * amount, since a failed/canceled event may not carry a verified amount at all. */
+    private void recordPayment(Booking booking, String paymentIntentId, String currency, PaymentStatus status) {
+        Payment payment = new Payment();
+        payment.setBooking(booking);
+        payment.setStripePaymentIntentId(paymentIntentId);
+        payment.setAmount(booking.getAmount());
+        payment.setCurrency(currency != null ? currency : stripeProperties.getCurrency());
+        payment.setStatus(status);
+        payments.save(payment);
     }
 
     private boolean amountAndCurrencyMatch(Booking booking, Long amountMinor, String currency) {

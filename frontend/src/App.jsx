@@ -22,6 +22,7 @@ import { FORCE_HOME_TOP_STORAGE_KEY } from './utils/bookingSuccessNavigation';
 const Services = lazy(() => import('./pages/Services'));
 const Faq = lazy(() => import('./pages/Faq'));
 const Booking = lazy(() => import('./pages/Booking'));
+const ConsoleRoutes = lazy(() => import('./pages/console/ConsoleRoutes'));
 
 function getSeoConfig(pathname) {
     if (pathname === '/services') {
@@ -355,6 +356,16 @@ export default function App() {
 
         window.location.replace(`/admin.html${queryString}#${normalizedAdminSubpath}`);
         return null;
+    }
+
+    if (location.pathname.startsWith('/console')) {
+        return (
+            <Suspense fallback={null}>
+                <Routes>
+                    <Route path="/console/*" element={<ConsoleRoutes />} />
+                </Routes>
+            </Suspense>
+        );
     }
 
     return (

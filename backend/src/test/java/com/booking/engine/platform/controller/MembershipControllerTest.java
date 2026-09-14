@@ -3,11 +3,13 @@ package com.booking.engine.platform.controller;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import com.booking.engine.entity.AuditAction;
 import com.booking.engine.entity.Membership;
 import com.booking.engine.entity.MembershipRole;
 import com.booking.engine.entity.Organization;
@@ -20,6 +22,7 @@ import com.booking.engine.platform.repository.StaffRepository;
 import com.booking.engine.platform.repository.UserRepository;
 import com.booking.engine.platform.security.MembershipGuard;
 import com.booking.engine.platform.security.PlatformPrincipal;
+import com.booking.engine.platform.service.AuditLogService;
 import com.booking.engine.platform.service.OrganizationCatalog;
 import java.util.Optional;
 import java.util.UUID;
@@ -37,6 +40,7 @@ class MembershipControllerTest {
     private MembershipRepository memberships;
     private UserRepository users;
     private StaffRepository staff;
+    private AuditLogService auditLogService;
     private MembershipController controller;
 
     private final UUID organizationId = UUID.randomUUID();
@@ -50,8 +54,9 @@ class MembershipControllerTest {
         memberships = mock(MembershipRepository.class);
         users = mock(UserRepository.class);
         staff = mock(StaffRepository.class);
+        auditLogService = mock(AuditLogService.class);
         MembershipGuard guard = new MembershipGuard(organizationCatalog, organizations, memberships);
-        controller = new MembershipController(memberships, users, staff, guard);
+        controller = new MembershipController(memberships, users, staff, guard, auditLogService);
 
         organization.setId(organizationId);
         Membership ownerMembership = new Membership();
@@ -84,6 +89,8 @@ class MembershipControllerTest {
 
         assertThat(view.email()).isEqualTo("staff@example.com");
         assertThat(view.role()).isEqualTo(MembershipRole.STAFF);
+        verify(auditLogService).record(eq(organization), eq(ownerId), eq(AuditAction.MEMBERSHIP_INVITED),
+                eq("MEMBERSHIP"), any(), any());
     }
 
     @Test
@@ -95,6 +102,7 @@ class MembershipControllerTest {
                 .isInstanceOf(ResponseStatusException.class)
                 .satisfies(exception -> assertThat(((ResponseStatusException) exception).getStatusCode())
                         .isEqualTo(HttpStatus.NOT_FOUND));
+        verify(auditLogService, never()).record(any(), any(), any(), any(), any(), any());
     }
 
     @Test
@@ -110,6 +118,7 @@ class MembershipControllerTest {
                 .isInstanceOf(ResponseStatusException.class)
                 .satisfies(exception -> assertThat(((ResponseStatusException) exception).getStatusCode())
                         .isEqualTo(HttpStatus.CONFLICT));
+        verify(auditLogService, never()).record(any(), any(), any(), any(), any(), any());
     }
 
     @Test
@@ -146,19 +155,25 @@ class MembershipControllerTest {
                 .satisfies(exception -> assertThat(((ResponseStatusException) exception).getStatusCode())
                         .isEqualTo(HttpStatus.CONFLICT));
         verify(memberships, never()).delete(any());
+        verify(auditLogService, never()).record(any(), any(), any(), any(), any(), any());
     }
 
     @Test
     void removingAMemberWhenAnotherOwnerRemainsSucceeds() {
         UUID membershipId = UUID.randomUUID();
+        User removedUser = new User();
+        removedUser.setEmail("owner2@example.com");
         Membership targetMembership = new Membership();
         targetMembership.setId(membershipId);
         targetMembership.setRole(MembershipRole.OWNER);
+        targetMembership.setUser(removedUser);
         when(memberships.findByIdAndOrganizationId(membershipId, organizationId)).thenReturn(Optional.of(targetMembership));
         when(memberships.countByOrganizationIdAndRole(organizationId, MembershipRole.OWNER)).thenReturn(2L);
 
         controller.remove(organizationId, membershipId);
 
         verify(memberships).delete(targetMembership);
+        verify(auditLogService).record(eq(organization), eq(ownerId), eq(AuditAction.MEMBERSHIP_REMOVED),
+                eq("MEMBERSHIP"), eq(membershipId), any());
     }
 }

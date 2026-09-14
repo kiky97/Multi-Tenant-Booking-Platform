@@ -18,18 +18,22 @@ import com.booking.engine.entity.Service;
 import com.booking.engine.entity.Staff;
 import com.booking.engine.entity.User;
 import com.booking.engine.entity.UserRole;
+import com.booking.engine.platform.repository.AuditLogRepository;
 import com.booking.engine.platform.repository.AvailabilityRepository;
 import com.booking.engine.platform.repository.BookingRepository;
 import com.booking.engine.platform.repository.CustomerRepository;
 import com.booking.engine.platform.repository.MembershipRepository;
 import com.booking.engine.platform.repository.OrganizationRepository;
+import com.booking.engine.platform.repository.PaymentRepository;
 import com.booking.engine.platform.repository.ReviewRepository;
 import com.booking.engine.platform.repository.ServiceRepository;
 import com.booking.engine.platform.repository.StaffRepository;
 import com.booking.engine.platform.repository.UserRepository;
 import com.booking.engine.platform.security.MembershipGuard;
 import com.booking.engine.platform.security.PlatformPrincipal;
+import com.booking.engine.platform.service.AuditLogService;
 import com.booking.engine.platform.service.AvailabilityCatalog;
+import com.booking.engine.platform.service.BookingAnalyticsService;
 import com.booking.engine.platform.service.OrganizationCatalog;
 import com.booking.engine.platform.service.OrganizationServiceCatalog;
 import com.booking.engine.platform.service.RedisBookingHoldService;
@@ -86,9 +90,14 @@ class PlatformControllerCreateBookingTest {
         stripePayments = mock(StripePaymentService.class);
         OrganizationCatalog organizationCatalog = mock(OrganizationCatalog.class);
         MembershipGuard guard = new MembershipGuard(organizationCatalog, organizations, memberships);
+        BookingAnalyticsService analyticsService = mock(BookingAnalyticsService.class);
+        PaymentRepository paymentRepository = mock(PaymentRepository.class);
+        AuditLogRepository auditLogRepository = mock(AuditLogRepository.class);
+        AuditLogService auditLogService = mock(AuditLogService.class);
 
         controller = new PlatformController(users, customers, organizations, services, staff,
-                availability, bookings, reviews, memberships, serviceCatalog, availabilityCatalog, holds, guard, stripePayments);
+                availability, bookings, reviews, memberships, serviceCatalog, availabilityCatalog, holds, guard,
+                stripePayments, analyticsService, paymentRepository, auditLogRepository, auditLogService);
 
         User owner = new User();
         owner.setId(UUID.randomUUID());
