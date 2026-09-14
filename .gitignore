@@ -4,6 +4,7 @@
 !.env.*.example
 
 frontend/node_modules/
+frontend/.npm-cache/
 frontend/dist/
 frontend/build/
 frontend/.env

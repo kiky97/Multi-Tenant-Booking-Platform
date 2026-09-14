@@ -12,8 +12,8 @@
     <groupId>com.booking</groupId>
     <artifactId>salon-booking-platform</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>Salon Booking Platform</name>
-    <description>Full-stack booking platform with Stripe payments, admin scheduling, secure booking holds, and production-oriented Spring Boot backend architecture.</description>
+    <name>Multi-Tenant Booking Platform</name>
+    <description>Multi-tenant booking platform for providers, organizations, customers, staff, availability, bookings, and reviews.</description>
     <url />
     <licenses>
         <license />
@@ -52,6 +52,10 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -226,6 +230,16 @@
                 <configuration>
                     <source>${java.version}</source>
                     <target>${java.version}</target>
+                    <!-- Legacy single-salon code stays available as reference while
+                    the application is compiled from the multi-tenant module. -->
+                    <includes>
+                        <include>com/booking/engine/BookingPlatformApplication.java</include>
+                        <include>com/booking/engine/entity/**/*.java</include>
+                        <include>com/booking/engine/platform/**/*.java</include>
+                    </includes>
+                    <testIncludes>
+                        <testInclude>com/booking/engine/platform/**/*.java</testInclude>
+                    </testIncludes>
                     <annotationProcessorPaths>
                         <path>
                             <groupId>org.projectlombok</groupId>
