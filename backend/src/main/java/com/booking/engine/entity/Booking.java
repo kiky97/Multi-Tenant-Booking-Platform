@@ -5,7 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
- 
+
+import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.UUID;
  
@@ -46,7 +47,15 @@ public class Booking {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 20)
     private BookingStatus status;
- 
+
+    /** Price snapshot at booking time, used to verify Stripe webhook amounts without re-reading
+     * {@link Service#getPrice()}, which could have changed since. */
+    @Column(precision = 10, scale = 2)
+    private BigDecimal amount;
+
+    @Column(name = "stripe_payment_intent_id")
+    private String stripePaymentIntentId;
+
     @Column(name = "created_at", nullable = false, updatable = false)
     private Instant createdAt;
  
@@ -54,7 +63,7 @@ public class Booking {
     protected void onCreate() {
         this.createdAt = Instant.now();
         if (this.status == null) {
-            this.status = BookingStatus.PENDING;
+            this.status = BookingStatus.HELD;
         }
     }
 }

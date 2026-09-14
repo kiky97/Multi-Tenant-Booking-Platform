@@ -4,8 +4,9 @@ import com.booking.engine.entity.Availability;
 import com.booking.engine.entity.Booking;
 import com.booking.engine.entity.BookingStatus;
 import com.booking.engine.entity.Customer;
+import com.booking.engine.entity.Membership;
+import com.booking.engine.entity.MembershipRole;
 import com.booking.engine.entity.Organization;
-import com.booking.engine.entity.Provider;
 import com.booking.engine.entity.Review;
 import com.booking.engine.entity.Service;
 import com.booking.engine.entity.Staff;
@@ -14,15 +15,18 @@ import com.booking.engine.entity.UserRole;
 import com.booking.engine.platform.repository.AvailabilityRepository;
 import com.booking.engine.platform.repository.BookingRepository;
 import com.booking.engine.platform.repository.CustomerRepository;
+import com.booking.engine.platform.repository.MembershipRepository;
 import com.booking.engine.platform.repository.OrganizationRepository;
-import com.booking.engine.platform.repository.ProviderRepository;
 import com.booking.engine.platform.repository.ReviewRepository;
 import com.booking.engine.platform.repository.ServiceRepository;
 import com.booking.engine.platform.repository.StaffRepository;
 import com.booking.engine.platform.repository.UserRepository;
+import com.booking.engine.platform.security.MembershipGuard;
 import com.booking.engine.platform.security.PlatformPrincipal;
+import com.booking.engine.platform.service.AvailabilityCatalog;
 import com.booking.engine.platform.service.OrganizationServiceCatalog;
 import com.booking.engine.platform.service.RedisBookingHoldService;
+import com.booking.engine.platform.service.StripePaymentService;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
@@ -38,6 +42,7 @@ import java.time.Instant;
 import java.time.LocalTime;
 import java.time.ZoneId;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -49,18 +54,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
-import org.springframework.security.core.context.SecurityContextHolder;
 
-/** REST API for the multi-tenant booking hierarchy. */
+/** REST API for the multi-tenant booking hierarchy. Per-organization authorization is enforced
+ * by {@link MembershipGuard}: every organization-scoped endpoint declares the minimum
+ * {@link MembershipRole} a caller's membership must satisfy (OWNER > ADMIN > STAFF). */
 @RestController
 @RequestMapping("/api/v1")
 public class PlatformController {
 
     private static final List<BookingStatus> BLOCKING_STATUSES = List.of(
-            BookingStatus.PENDING, BookingStatus.CONFIRMED);
+            BookingStatus.HELD, BookingStatus.CONFIRMED);
 
     private final UserRepository users;
-    private final ProviderRepository providers;
     private final CustomerRepository customers;
     private final OrganizationRepository organizations;
     private final ServiceRepository services;
@@ -68,13 +73,16 @@ public class PlatformController {
     private final AvailabilityRepository availability;
     private final BookingRepository bookings;
     private final ReviewRepository reviews;
+    private final MembershipRepository memberships;
     private final OrganizationServiceCatalog serviceCatalog;
+    private final AvailabilityCatalog availabilityCatalog;
     private final RedisBookingHoldService holds;
+    private final MembershipGuard guard;
+    private final StripePaymentService stripePayments;
     private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     public PlatformController(
             UserRepository users,
-            ProviderRepository providers,
             CustomerRepository customers,
             OrganizationRepository organizations,
             ServiceRepository services,
@@ -82,10 +90,13 @@ public class PlatformController {
             AvailabilityRepository availability,
             BookingRepository bookings,
             ReviewRepository reviews,
+            MembershipRepository memberships,
             OrganizationServiceCatalog serviceCatalog,
-            RedisBookingHoldService holds) {
+            AvailabilityCatalog availabilityCatalog,
+            RedisBookingHoldService holds,
+            MembershipGuard guard,
+            StripePaymentService stripePayments) {
         this.users = users;
-        this.providers = providers;
         this.customers = customers;
         this.organizations = organizations;
         this.services = services;
@@ -93,23 +104,25 @@ public class PlatformController {
         this.availability = availability;
         this.bookings = bookings;
         this.reviews = reviews;
+        this.memberships = memberships;
         this.serviceCatalog = serviceCatalog;
+        this.availabilityCatalog = availabilityCatalog;
         this.holds = holds;
+        this.guard = guard;
+        this.stripePayments = stripePayments;
     }
 
+    /** Registers an account able to own organizations. Organization access itself is granted
+     * separately via {@link Membership} rows, not by this endpoint. */
     @PostMapping("/providers")
     @Transactional
-    public ProviderView createProvider(@Valid @RequestBody AccountRequest request) {
+    public BusinessAccountView createProvider(@Valid @RequestBody AccountRequest request) {
         User user = new User();
         user.setEmail(request.email().trim().toLowerCase());
         user.setPasswordHash(passwordEncoder.encode(request.password()));
         user.setRole(UserRole.PROVIDER);
         users.save(user);
-
-        Provider provider = new Provider();
-        provider.setUser(user);
-        provider.setBusinessName(request.displayName().trim());
-        return providerView(providers.save(provider));
+        return new BusinessAccountView(user.getId(), user.getEmail());
     }
 
     @PostMapping("/customers")
@@ -128,18 +141,19 @@ public class PlatformController {
         return customerView(customers.save(customer));
     }
 
+    /** Organizations the current user is a member of, regardless of role. */
     @GetMapping("/organizations")
     public List<OrganizationView> organizations() {
-        Provider provider = currentProvider();
-        return organizations.findAllByProviderId(provider.getId()).stream().map(this::organizationView).toList();
+        return organizations.findAllByMembershipsUserId(guard.currentUserId()).stream().map(this::organizationView).toList();
     }
 
-    @PostMapping("/providers/{providerId}/organizations")
-    public OrganizationView createOrganization(
-            @PathVariable UUID providerId, @Valid @RequestBody OrganizationRequest request) {
-        Provider provider = currentProvider();
-        if (!provider.getId().equals(providerId)) {
-            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Providers can create organizations only for themselves");
+    @PostMapping("/organizations")
+    @Transactional
+    public OrganizationView createOrganization(@Valid @RequestBody OrganizationRequest request) {
+        UUID userId = guard.currentUserId();
+        User currentUser = required(users.findById(userId), "User");
+        if (currentUser.getRole() != UserRole.PROVIDER) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "A provider account is required to create organizations");
         }
         try {
             ZoneId.of(request.timezone());
@@ -147,15 +161,22 @@ public class PlatformController {
             throw badRequest("timezone must be an IANA zone, for example Europe/Zurich");
         }
         Organization organization = new Organization();
-        organization.setProvider(provider);
         organization.setName(request.name().trim());
         organization.setTimezone(request.timezone());
-        return organizationView(organizations.save(organization));
+        organizations.save(organization);
+
+        Membership ownerMembership = new Membership();
+        ownerMembership.setUser(currentUser);
+        ownerMembership.setOrganization(organization);
+        ownerMembership.setRole(MembershipRole.OWNER);
+        memberships.save(ownerMembership);
+
+        return organizationView(organization);
     }
 
     @GetMapping("/organizations/{organizationId}/services")
     public List<ServiceView> services(@PathVariable UUID organizationId) {
-        requireOrganization(organizationId);
+        guard.require(organizationId, MembershipRole.STAFF);
         return serviceCatalog.servicesFor(organizationId).stream().map(this::serviceView).toList();
     }
 
@@ -168,7 +189,7 @@ public class PlatformController {
     @PostMapping("/organizations/{organizationId}/services")
     public ServiceView createService(
             @PathVariable UUID organizationId, @Valid @RequestBody ServiceRequest request) {
-        Organization organization = requireOrganization(organizationId);
+        Organization organization = guard.require(organizationId, MembershipRole.ADMIN);
         Service service = new Service();
         service.setOrganization(organization);
         service.setName(request.name().trim());
@@ -181,23 +202,39 @@ public class PlatformController {
 
     @GetMapping("/organizations/{organizationId}/staff")
     public List<StaffView> staff(@PathVariable UUID organizationId) {
-        requireOrganization(organizationId);
+        guard.require(organizationId, MembershipRole.STAFF);
         return staff.findAllByOrganizationId(organizationId).stream().map(this::staffView).toList();
     }
 
     @PostMapping("/organizations/{organizationId}/staff")
     public StaffView createStaff(@PathVariable UUID organizationId, @Valid @RequestBody StaffRequest request) {
+        Organization organization = guard.require(organizationId, MembershipRole.ADMIN);
         Staff member = new Staff();
-        member.setOrganization(requireOrganization(organizationId));
+        member.setOrganization(organization);
         member.setName(request.name().trim());
         member.setEmail(request.email());
         return staffView(staff.save(member));
     }
 
+    /** The Staff schedule linked to the current user's own membership (set up via
+     * {@code POST /organizations/{organizationId}/memberships} with a {@code staffId}). */
+    @GetMapping("/organizations/{organizationId}/my-schedule")
+    public List<BookingView> mySchedule(@PathVariable UUID organizationId) {
+        guard.require(organizationId, MembershipRole.STAFF);
+        Staff member = staff.findByUserId(guard.currentUserId())
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
+                        "No staff schedule is linked to this account"));
+        ensureSameOrganization(organizationId, member.getOrganization().getId(), "Staff");
+        return bookings.findAllByOrganizationIdOrderByStartTime(organizationId).stream()
+                .filter(booking -> booking.getStaff().getId().equals(member.getId()))
+                .map(this::bookingView)
+                .toList();
+    }
+
     @GetMapping("/organizations/{organizationId}/availability")
     public List<AvailabilityView> availability(@PathVariable UUID organizationId) {
-        requireOrganization(organizationId);
-        return availability.findAllByOrganizationId(organizationId).stream().map(this::availabilityView).toList();
+        guard.require(organizationId, MembershipRole.STAFF);
+        return availabilityCatalog.availabilityFor(organizationId).stream().map(this::availabilityView).toList();
     }
 
     @PostMapping("/organizations/{organizationId}/availability")
@@ -206,7 +243,7 @@ public class PlatformController {
         if (!request.endTime().isAfter(request.startTime())) {
             throw badRequest("endTime must be after startTime");
         }
-        Organization organization = requireOrganization(organizationId);
+        Organization organization = guard.require(organizationId, MembershipRole.ADMIN);
         Staff member = required(staff.findById(request.staffId()), "Staff");
         ensureSameOrganization(organizationId, member.getOrganization().getId(), "Staff");
 
@@ -216,12 +253,14 @@ public class PlatformController {
         slot.setDayOfWeek(request.dayOfWeek());
         slot.setStartTime(request.startTime());
         slot.setEndTime(request.endTime());
-        return availabilityView(availability.save(slot));
+        AvailabilityView view = availabilityView(availability.save(slot));
+        availabilityCatalog.invalidate(organizationId);
+        return view;
     }
 
     @GetMapping("/organizations/{organizationId}/bookings")
     public List<BookingView> bookings(@PathVariable UUID organizationId) {
-        requireOrganization(organizationId);
+        guard.require(organizationId, MembershipRole.STAFF);
         return bookings.findAllByOrganizationIdOrderByStartTime(organizationId).stream().map(this::bookingView).toList();
     }
 
@@ -229,7 +268,7 @@ public class PlatformController {
     @Transactional
     public BookingView createBooking(
             @PathVariable UUID organizationId, @Valid @RequestBody BookingRequest request) {
-        Organization organization = requireOrganization(organizationId);
+        Organization organization = guard.require(organizationId, MembershipRole.STAFF);
         Customer customer = required(customers.findById(request.customerId()), "Customer");
         Staff member = required(staff.findById(request.staffId()), "Staff");
         Service service = required(services.findById(request.serviceId()), "Service");
@@ -252,6 +291,12 @@ public class PlatformController {
                 member.getId(), BLOCKING_STATUSES, endTime, request.startTime())) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "Staff member is already booked for this time");
         }
+        // A Stripe PaymentIntent is created now, but nothing here ever trusts it as "paid" — only
+        // the webhook (StripePaymentSyncService) is allowed to move the booking to CONFIRMED.
+        StripePaymentService.PaymentIntentSnapshot payment = stripePayments.createPaymentIntentForBooking(
+                service.getPrice(), customer.getUser().getEmail(),
+                Map.of("organizationId", organizationId.toString(), "staffId", member.getId().toString()));
+
         Booking booking = new Booking();
         booking.setOrganization(organization);
         booking.setCustomer(customer);
@@ -259,42 +304,27 @@ public class PlatformController {
         booking.setService(service);
         booking.setStartTime(request.startTime());
         booking.setEndTime(endTime);
-        booking.setStatus(BookingStatus.PENDING);
-        return bookingView(bookings.save(booking));
+        booking.setStatus(BookingStatus.HELD);
+        booking.setAmount(service.getPrice());
+        booking.setStripePaymentIntentId(payment.paymentIntentId());
+        return bookingView(bookings.save(booking), payment.clientSecret());
     }
 
     @GetMapping("/organizations/{organizationId}/reviews")
     public List<ReviewView> reviews(@PathVariable UUID organizationId) {
-        requireOrganization(organizationId);
+        guard.require(organizationId, MembershipRole.STAFF);
         return reviews.findAllByOrganizationIdOrderByCreatedAtDesc(organizationId).stream().map(this::reviewView).toList();
     }
 
     @PostMapping("/organizations/{organizationId}/reviews")
     public ReviewView createReview(@PathVariable UUID organizationId, @Valid @RequestBody ReviewRequest request) {
+        Organization organization = guard.require(organizationId, MembershipRole.STAFF);
         Review review = new Review();
-        review.setOrganization(requireOrganization(organizationId));
+        review.setOrganization(organization);
         review.setCustomer(required(customers.findById(request.customerId()), "Customer"));
         review.setRating(request.rating());
         review.setComment(request.comment());
         return reviewView(reviews.save(review));
-    }
-
-    private Organization requireOrganization(UUID id) {
-        Organization organization = required(organizations.findById(id), "Organization");
-        Provider provider = currentProvider();
-        if (!organization.getProvider().getId().equals(provider.getId())) {
-            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Organization does not belong to the current provider");
-        }
-        return organization;
-    }
-
-    private Provider currentProvider() {
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if (!(principal instanceof PlatformPrincipal platformPrincipal)) {
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Authentication is required");
-        }
-        return providers.findByUserId(platformPrincipal.userId())
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.FORBIDDEN, "A provider account is required"));
     }
 
     private void ensureSameOrganization(UUID expected, UUID actual, String resource) {
@@ -311,14 +341,15 @@ public class PlatformController {
         return new ResponseStatusException(HttpStatus.BAD_REQUEST, message);
     }
 
-    private ProviderView providerView(Provider provider) { return new ProviderView(provider.getId(), provider.getBusinessName()); }
     private CustomerView customerView(Customer customer) { return new CustomerView(customer.getId(), customer.getDisplayName(), customer.getPhoneNumber()); }
-    private OrganizationView organizationView(Organization organization) { return new OrganizationView(organization.getId(), organization.getProvider().getId(), organization.getName(), organization.getTimezone()); }
+    private OrganizationView organizationView(Organization organization) { return new OrganizationView(organization.getId(), organization.getName(), organization.getTimezone()); }
     private ServiceView serviceView(Service service) { return new ServiceView(service.getId(), service.getName(), service.getDurationMinutes(), service.getPrice()); }
     private ServiceView serviceView(OrganizationServiceCatalog.ServiceSummary service) { return new ServiceView(service.id(), service.name(), service.durationMinutes(), service.price()); }
     private StaffView staffView(Staff member) { return new StaffView(member.getId(), member.getName(), member.getEmail()); }
     private AvailabilityView availabilityView(Availability slot) { return new AvailabilityView(slot.getId(), slot.getStaff().getId(), slot.getDayOfWeek(), slot.getStartTime(), slot.getEndTime()); }
-    private BookingView bookingView(Booking booking) { return new BookingView(booking.getId(), booking.getCustomer().getId(), booking.getStaff().getId(), booking.getService().getId(), booking.getStartTime(), booking.getEndTime(), booking.getStatus()); }
+    private AvailabilityView availabilityView(AvailabilityCatalog.AvailabilitySummary slot) { return new AvailabilityView(slot.id(), slot.staffId(), slot.dayOfWeek(), slot.startTime(), slot.endTime()); }
+    private BookingView bookingView(Booking booking) { return bookingView(booking, null); }
+    private BookingView bookingView(Booking booking, String clientSecret) { return new BookingView(booking.getId(), booking.getCustomer().getId(), booking.getStaff().getId(), booking.getService().getId(), booking.getStartTime(), booking.getEndTime(), booking.getStatus(), clientSecret); }
     private ReviewView reviewView(Review review) { return new ReviewView(review.getId(), review.getCustomer().getId(), review.getRating(), review.getComment(), review.getCreatedAt()); }
 
     public record AccountRequest(@NotBlank @Email String email, @NotBlank String password, @NotBlank String displayName, String phoneNumber) {}
@@ -329,12 +360,13 @@ public class PlatformController {
     public record BookingRequest(@NotNull UUID customerId, @NotNull UUID staffId, @NotNull UUID serviceId,
                                  @NotNull Instant startTime, @NotBlank String holdToken) {}
     public record ReviewRequest(@NotNull UUID customerId, @NotNull @Min(1) @Max(5) Integer rating, String comment) {}
-    public record ProviderView(UUID id, String businessName) {}
+    public record BusinessAccountView(UUID userId, String email) {}
     public record CustomerView(UUID id, String displayName, String phoneNumber) {}
-    public record OrganizationView(UUID id, UUID providerId, String name, String timezone) {}
+    public record OrganizationView(UUID id, String name, String timezone) {}
     public record ServiceView(UUID id, String name, Integer durationMinutes, BigDecimal price) {}
     public record StaffView(UUID id, String name, String email) {}
     public record AvailabilityView(UUID id, UUID staffId, DayOfWeek dayOfWeek, LocalTime startTime, LocalTime endTime) {}
-    public record BookingView(UUID id, UUID customerId, UUID staffId, UUID serviceId, Instant startTime, Instant endTime, BookingStatus status) {}
+    public record BookingView(UUID id, UUID customerId, UUID staffId, UUID serviceId, Instant startTime, Instant endTime,
+                              BookingStatus status, String clientSecret) {}
     public record ReviewView(UUID id, UUID customerId, Integer rating, String comment, Instant createdAt) {}
 }

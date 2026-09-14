@@ -6,5 +6,5 @@ import java.util.UUID;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface OrganizationRepository extends JpaRepository<Organization, UUID> {
-    List<Organization> findAllByProviderId(UUID providerId);
+    List<Organization> findAllByMembershipsUserId(UUID userId);
 }

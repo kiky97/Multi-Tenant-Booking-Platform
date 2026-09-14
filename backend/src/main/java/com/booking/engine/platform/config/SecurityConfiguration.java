@@ -10,7 +10,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.security.web.SecurityFilterChain;
 import com.booking.engine.platform.security.JwtAuthenticationFilter;
 
-/** JWT authentication and provider-only tenant administration boundary. */
+/** JWT authentication boundary. Only requires "logged in" at this layer; per-organization role
+ * checks (OWNER/ADMIN/STAFF) are enforced by {@link com.booking.engine.platform.security.MembershipGuard}. */
 @Configuration
 @EnableWebSecurity
 public class SecurityConfiguration {
@@ -28,8 +29,14 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/api/v1/auth/**", "/actuator/health").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/v1/providers", "/api/v1/customers").permitAll()
+                        // Stripe's servers call the webhook directly (no JWT); its own signature is
+                        // the auth. checkout-config only exposes the publishable key, which is public.
+                        .requestMatchers("/api/v1/stripe/**").permitAll()
                         .requestMatchers("/api/v1/booking-holds/**").hasAnyRole("CUSTOMER", "PROVIDER")
-                        .anyRequest().hasRole("PROVIDER"))
+                        // Fine-grained per-organization role checks (OWNER/ADMIN/STAFF) happen in
+                        // MembershipGuard, which needs the :organizationId path variable that a
+                        // path-based hasRole() rule here cannot see.
+                        .anyRequest().authenticated())
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }

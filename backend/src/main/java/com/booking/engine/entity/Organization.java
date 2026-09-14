@@ -23,10 +23,6 @@ public class Organization {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
  
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "provider_id", nullable = false)
-    private Provider provider;
- 
     @NotBlank
     @Column(nullable = false)
     private String name;
@@ -34,6 +30,9 @@ public class Organization {
     @Column(nullable = false)
     private String timezone;
  
+    @OneToMany(mappedBy = "organization", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Membership> memberships = new ArrayList<>();
+
     @OneToMany(mappedBy = "organization", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Service> services = new ArrayList<>();
  
