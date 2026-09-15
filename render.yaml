@@ -18,12 +18,23 @@ services:
         sync: false
       - key: SPRING_JPA_SHOW_SQL
         value: "false"
-      - key: APP_HAIR_SALON_ID
-        value: 550e8400-e29b-41d4-a716-446655440000
       - key: APP_BOOKING_TIMEZONE
         value: Europe/Dublin
       - key: APP_CORS_ALLOWED_ORIGINS
         sync: false
+      # Redis (slot holds, rate limiting, service/availability cache) — point these at a
+      # TLS-capable free-tier provider such as Upstash; see DEPLOYMENT.md.
+      - key: REDIS_HOST
+        sync: false
+      - key: REDIS_PORT
+        value: "6379"
+      - key: REDIS_PASSWORD
+        sync: false
+      - key: REDIS_SSL_ENABLED
+        value: "true"
+      # Kafka (booking-confirmed fan-out) is intentionally left unset for the live demo — the
+      # producer/consumer beans still start and retry in the background without one, they just
+      # never deliver. See README.md's "What's not in the live demo" section.
       - key: APP_STRIPE_SECRET_KEY
         sync: false
       - key: APP_STRIPE_WEBHOOK_SECRET
@@ -58,7 +69,7 @@ services:
     buildCommand: npm ci && npm run build
     staticPublishPath: dist
     envVars:
-      - key: VITE_API_BASE_URL
+      - key: VITE_API_URL
         sync: false
     # The frontend is served by Render Static Site, so browser-facing security
     # headers must be enforced here at the CDN edge rather than in Spring Boot.
