@@ -27,6 +27,11 @@ public class SecurityConfiguration {
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
+                        // Tomcat forwards to /error internally on response.sendError() (thrown
+                        // ResponseStatusException, validation failures, etc.) — without this, that
+                        // forward is itself blocked by anyRequest().authenticated(), so every non-2xx
+                        // response becomes an empty 403 regardless of the status the controller set.
+                        .requestMatchers("/error").permitAll()
                         .requestMatchers("/api/v1/auth/**", "/actuator/health").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/v1/providers", "/api/v1/customers").permitAll()
                         // Stripe's servers call the webhook directly (no JWT); its own signature is

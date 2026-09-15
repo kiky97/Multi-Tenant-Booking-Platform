@@ -29,7 +29,11 @@
     </scm>
     <properties>
         <java.version>21</java.version>
-        <lombok.version>1.18.32</lombok.version>
+        <!-- 1.18.32 doesn't run under JDK 25 (this machine only has JDK 8 and 25 installed, no 21) —
+        Lombok's annotation processor silently produces no getters/setters, so every entity fails
+        to compile. 1.18.42 is the first version confirmed to work here; safe to raise further once
+        JDK 21 is available. -->
+        <lombok.version>1.18.42</lombok.version>
         <!-- Security override: Spring Boot 4.0.7 still resolves Tomcat 11.0.22. Keep until managed
         version is patched. -->
         <tomcat.version>11.0.23</tomcat.version>

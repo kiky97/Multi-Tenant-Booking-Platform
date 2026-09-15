@@ -7,8 +7,8 @@ export interface ServiceRequest {
   price: number;
 }
 
-export const getServices = async (): Promise<Service[]> => {
-  const { data } = await api.get<Service[]>('/services');
+export const listServices = async (organizationId: string): Promise<Service[]> => {
+  const { data } = await api.get<Service[]>(`/organizations/${organizationId}/services`);
   return data;
 };
 
