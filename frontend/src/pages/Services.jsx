@@ -3,13 +3,13 @@ import ServicesSection from '../components/ServicesSection';
 export default function Services() {
     return (
         <section className="pt-10 sm:pt-12 lg:pt-14">
-            ///手机：padding-top = 10，平板/较大屏幕：padding-top = 12//大屏幕：padding-top = 14
+            {/* 手机：padding-top = 10，平板/较大屏幕：padding-top = 12，大屏幕：padding-top = 14 */}
             <div className="services-page-shell">
                 <div className="services-intro">
                     <p className="mb-3 text-[11px] uppercase tracking-[0.3em] text-goldBright/90 sm:text-xs">
                         Royal Chair Barber & Beauty Salon
                     </p>
-                    //tracking-[0.3em]，字符之间增加间距，使用 goldBright 这个颜色，并且大约 90% opacity。
+                    {/* tracking-[0.3em]，字符之间增加间距，使用 goldBright 这个颜色，并且大约 90% opacity。 */}
 
                     <h1 className="font-heading text-[2rem] uppercase tracking-[0.12em] text-goldBright sm:text-[2.4rem] lg:text-[2.8rem]">
                         Haircuts, Beard Trims & Beauty Services in Ennis
@@ -21,7 +21,7 @@ export default function Services() {
                     </p>
 
                     <div className="ornament !mt-5 !w-[140px] sm:!w-[180px]" />
-                    //!w-[140px] 强制的意思
+                    {/* !w-[140px] 强制的意思 */}
                 </div>
             </div>
 
