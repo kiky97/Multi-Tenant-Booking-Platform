@@ -1,5 +1,7 @@
 # Multi-Tenant Booking Platform
 
+[![CI](https://github.com/kiky97/Multi-Tenant-Booking-Platform/actions/workflows/ci.yml/badge.svg)](https://github.com/kiky97/Multi-Tenant-Booking-Platform/actions/workflows/ci.yml)
+
 A multi-tenant SaaS booking platform (think: the infrastructure behind Calendly/Fresha-style
 products) built to explore how far a booking engine's hardest problem — **never double-booking a
 slot** — can be pushed with Redis, and how that same system scales into a real multi-tenant
