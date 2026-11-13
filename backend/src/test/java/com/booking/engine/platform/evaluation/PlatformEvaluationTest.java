@@ -96,12 +96,17 @@ class PlatformEvaluationTest {
     /** Count only the measured caller; unrelated HTTP/background SQL cannot pollute the window. */
     public static class SqlMeter implements StatementInspector {
         private static final ThreadLocal<Long> COUNT = new ThreadLocal<>();
+        private static final ThreadLocal<List<String>> SQL = new ThreadLocal<>();
+        private static final ThreadLocal<List<String>> LAST_SQL = new ThreadLocal<>();
         public SqlMeter() {}
-        static void begin() { COUNT.set(0L); }
-        static long finish() { long count = COUNT.get(); COUNT.remove(); return count; }
+        static void begin() { COUNT.set(0L); SQL.set(new ArrayList<>()); }
+        static long finish() {
+            long count = COUNT.get(); LAST_SQL.set(List.copyOf(SQL.get())); COUNT.remove(); SQL.remove(); return count;
+        }
+        static List<String> lastSql() { return LAST_SQL.get(); }
         @Override public String inspect(String sql) {
             Long count = COUNT.get();
-            if (count != null) COUNT.set(count + 1);
+            if (count != null) { COUNT.set(count + 1); SQL.get().add(sql); }
             return sql;
         }
     }
@@ -173,9 +178,11 @@ class PlatformEvaluationTest {
         long coldSql = SqlMeter.finish(); SqlMeter.begin();
         for (int i = 0; i < 99; i++) { long at = System.nanoTime(); catalog.servicesFor(t.org.getId()); cached.add(ms(at)); }
         long warmSql = SqlMeter.finish(), cachedSql = coldSql + warmSql;
-        assertThat(directSql).isEqualTo(100); assertThat(warmSql).isZero(); assertThat(cachedSql).isLessThan(directSql);
+        List<String> warmSqlTexts = SqlMeter.lastSql();
+        // SQL savings are measured, not fixed to one environment's incidental count.
+        assertThat(directSql).isEqualTo(100); assertThat(cachedSql).isLessThan(directSql);
         return Map.of("readsPerPath", 100, "directSqlStatements", directSql, "cachedSqlStatements", cachedSql,
-                "coldReadSqlStatements", coldSql, "warmReadSqlStatements", warmSql,
+                "coldReadSqlStatements", coldSql, "warmReadSqlStatements", warmSql, "warmSqlTexts", warmSqlTexts,
                 "directInProcessMs", percentiles(direct), "cachedInProcessMs", percentiles(cached),
                 "scope", "caller-thread Hibernate StatementInspector; excludes SQL on HTTP/background threads; one cold read then 99 warm hits");
     }

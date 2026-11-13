@@ -23,7 +23,7 @@ lines += [f"| Role/tenant matrix | {m['passed']}/{m['matrixRequests']} expected 
           f"| Identical-slot holds (10 rounds, 32 workers) | {h['acquired']} accepts, {h['conflicts']} conflicts / {h['totalRequests']} attempts |",
           f"| Redis limiter (100 attempts, threshold 20) | {rate['allowed']} allowed, {rate['rejected']} rejected |",
           f"| Kafka fan-out | {k['published']} published; {k['notificationListenerInvocations']} notification calls + {k['analyticsRedisCount']} analytics increments, 2 groups |", '',
-          'The hold result applies only to identical start/end keys. The SQL reduction is a service-catalogue query count comparison with 99 warm hits, not a measured end-to-end speedup.', '',
+          'The hold result applies only to identical start/end keys. The SQL reduction is a service-catalogue query count comparison with 99 warm-window calls, not a measured end-to-end speedup. Counts may vary across runs; any SQL observed in the warm window is preserved in the raw JSON.', '',
           '## Authenticated HTTP catalogue reads', '', '| Closed-loop workers | Requests | HTTP 200 | P50 ms | P95 ms | Observed req/s |', '|---:|---:|---:|---:|---:|---:|']
 for row in r['httpReads']:
     lines.append(f"| {row['workers']} | {row['requests']} | {row['successes']} | {row['latencyMs']['p50']:.2f} | {row['latencyMs']['p95']:.2f} | {row['observedRequestsPerSecond']:.1f} |")
