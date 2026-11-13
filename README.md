@@ -131,6 +131,16 @@ against the `:organizationId` path variable — `OWNER > ADMIN > STAFF`, enforce
 threshold per endpoint (e.g. creating a service needs `ADMIN`+, viewing analytics needs `OWNER`).
 JWT authentication only proves *who* the caller is; membership decides *what* they can touch.
 
+## Reproducible quantitative evidence
+
+The repository includes an opt-in real-infrastructure evaluation with **20 tenants, 60 membership users, and 1,000 initial services**. It checks a **480-request role/tenant matrix**, measures Redis catalogue-cache SQL reduction, samples authenticated HTTP reads at 1/8/32 workers, checks identical-slot hold contention, and observes real Kafka fan-out to two consumer groups.
+
+See [measured results](docs/evaluation/RESULTS.md), [raw measurements](docs/evaluation/platform.json), [methodology and commands](evaluation/README.md), and [Chinese resume guidance](docs/RESUME_ZH.md). The evaluation runs separately from unit-test coverage, with no live Stripe payment or real notification delivery.
+
+**Scheduling boundary:** exact-slot Redis hold creation is not a general no-double-booking guarantee. Concurrent token consumption and overlapping intervals are measured as explicit diagnostics. Read their observed results before making correctness claims. A DB check-then-insert alone is not an exclusion constraint.
+
+The evaluation also uncovered an immutable-list cache JSON round-trip failure. The fix uses explicit per-cache JSON types, Java time support, and a versioned key prefix; three regression tests cover records, empty/immutable lists, and availability times.
+
 ## Local development
 
 ```bash
@@ -159,7 +169,7 @@ See [DEPLOYMENT.md](DEPLOYMENT.md) — Render (backend + frontend) with an exter
 ## CI/CD
 
 [`.github/workflows/ci.yml`](.github/workflows/ci.yml): every push/PR runs backend tests (pure
-Mockito unit tests — no Testcontainers/real DB needed), an OWASP dependency scan, and frontend
+Mockito unit tests — no real DB needed — plus a separate disposable PostgreSQL/Redis/Kafka evaluation), an OWASP dependency scan, and frontend
 lint/test/build. On a push to `main`, it also builds the backend image, pushes it to
 `ghcr.io/<repo>/backend`, and pings the Render deploy hook (once configured — see
 [DEPLOYMENT.md](DEPLOYMENT.md)). The frontend redeploys on push automatically via Render's own
