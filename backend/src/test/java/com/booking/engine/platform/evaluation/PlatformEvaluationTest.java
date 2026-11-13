@@ -11,7 +11,6 @@ import com.booking.engine.platform.repository.*;
 import com.booking.engine.platform.security.JwtTokenService;
 import com.booking.engine.platform.service.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import jakarta.persistence.EntityManagerFactory;
 import java.math.BigDecimal;
 import java.net.URI;
 import java.net.http.*;
@@ -20,7 +19,7 @@ import java.time.*;
 import java.util.*;
 import java.util.concurrent.*;
 import java.util.function.IntFunction;
-import org.hibernate.SessionFactory;
+import org.hibernate.resource.jdbc.spi.StatementInspector;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.condition.EnabledIfSystemProperty;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,7 +41,7 @@ import org.springframework.web.server.ResponseStatusException;
     "app.stripe.secret-key=sk_test_evaluation_not_a_real_key",
     "app.stripe.webhook-secret=whsec_evaluation_not_a_real_key",
     "app.redis.booking-hold-rate-limit.max-attempts=100000",
-    "spring.jpa.properties.hibernate.generate_statistics=true",
+    "spring.jpa.properties.hibernate.session_factory.statement_inspector=com.booking.engine.platform.evaluation.PlatformEvaluationTest$SqlMeter",
     "logging.level.org.hibernate.stat=OFF", "logging.level.org.hibernate.engine.internal.StatisticalLoggingSessionEventListener=OFF",
     "logging.level.org.apache.kafka=WARN", "spring.jpa.show-sql=false"
 })
@@ -61,7 +60,6 @@ class PlatformEvaluationTest {
     @Autowired RedisBookingHoldService holds;
     @Autowired RedisRateLimiter limiter;
     @Autowired StringRedisTemplate redis;
-    @Autowired EntityManagerFactory emf;
     @Autowired BookingAnalyticsService analytics;
     @Autowired KafkaTemplate<String, BookingConfirmedEvent> kafka;
     @MockitoBean StripePaymentService stripePayments;
@@ -93,6 +91,19 @@ class PlatformEvaluationTest {
         report.put("fixedWindowLimiter", rateLimit()); write(output, report);
         report.put("knownConcurrencyDiagnostics", diagnostics()); write(output, report);
         report.put("kafka", events()); write(output, report);
+    }
+
+    /** Count only the measured caller; unrelated HTTP/background SQL cannot pollute the window. */
+    public static class SqlMeter implements StatementInspector {
+        private static final ThreadLocal<Long> COUNT = new ThreadLocal<>();
+        public SqlMeter() {}
+        static void begin() { COUNT.set(0L); }
+        static long finish() { long count = COUNT.get(); COUNT.remove(); return count; }
+        @Override public String inspect(String sql) {
+            Long count = COUNT.get();
+            if (count != null) COUNT.set(count + 1);
+            return sql;
+        }
     }
 
     private void seed() {
@@ -149,25 +160,24 @@ class PlatformEvaluationTest {
     }
 
     private Map<String, Object> cache() {
-        var stats = emf.unwrap(SessionFactory.class).getStatistics();
         Tenant t = tenants.getFirst();
         // Warm both paths; eviction is outside the measured warm-cache window.
         services.findAllByOrganizationId(t.org.getId()); catalog.servicesFor(t.org.getId());
-        stats.clear();
+        SqlMeter.begin();
         List<Double> direct = new ArrayList<>();
         for (int i = 0; i < 100; i++) { long at = System.nanoTime(); services.findAllByOrganizationId(t.org.getId()); direct.add(ms(at)); }
-        long directSql = stats.getPrepareStatementCount();
-        catalog.invalidate(t.org.getId()); stats.clear();
+        long directSql = SqlMeter.finish();
+        catalog.invalidate(t.org.getId()); SqlMeter.begin();
         List<Double> cached = new ArrayList<>();
         long first = System.nanoTime(); catalog.servicesFor(t.org.getId()); cached.add(ms(first));
-        long coldSql = stats.getPrepareStatementCount(); stats.clear();
+        long coldSql = SqlMeter.finish(); SqlMeter.begin();
         for (int i = 0; i < 99; i++) { long at = System.nanoTime(); catalog.servicesFor(t.org.getId()); cached.add(ms(at)); }
-        long warmSql = stats.getPrepareStatementCount(), cachedSql = coldSql + warmSql;
+        long warmSql = SqlMeter.finish(), cachedSql = coldSql + warmSql;
         assertThat(directSql).isEqualTo(100); assertThat(warmSql).isZero(); assertThat(cachedSql).isLessThan(directSql);
         return Map.of("readsPerPath", 100, "directSqlStatements", directSql, "cachedSqlStatements", cachedSql,
                 "coldReadSqlStatements", coldSql, "warmReadSqlStatements", warmSql,
                 "directInProcessMs", percentiles(direct), "cachedInProcessMs", percentiles(cached),
-                "scope", "direct service-catalogue reads; excludes HTTP/authentication; one cold read then 99 warm hits");
+                "scope", "caller-thread Hibernate StatementInspector; excludes SQL on HTTP/background threads; one cold read then 99 warm hits");
     }
 
     private List<Map<String, Object>> reads() throws Exception {
