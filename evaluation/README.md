@@ -11,7 +11,7 @@ docker compose -p booking-evaluation -f evaluation/compose.yml up -d --wait
 cd backend
 bash mvnw clean verify
 bash mvnw test -Dtest=PlatformEvaluationTest -Dbooking.evaluate=true -Djacoco.skip=true \
-  -DargLine=-Xmx512m -Dsurefire.reportsDirectory=target/evaluation-test-reports \
+  -Devaluation.jvmArgs=-Xmx512m -Dsurefire.reportsDirectory=target/evaluation-test-reports \
   -Devaluation.revision=$(git rev-parse HEAD)
 cd ..
 python evaluation/report.py

@@ -44,6 +44,7 @@
         <coverage.service.minimum>0.40</coverage.service.minimum>
         <coverage.controller.minimum>0.40</coverage.controller.minimum>
         <argLine />
+        <evaluation.jvmArgs />
         <surefire.reportsDirectory>${project.build.directory}/surefire-reports</surefire.reportsDirectory>
     </properties>
     <dependencies>
@@ -285,7 +286,7 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <configuration>
                     <argLine>@{argLine} -Djdk.net.URLClassPath.disableClassPathURLCheck=true
-                        -javaagent:${org.mockito:mockito-core:jar} -Xshare:off</argLine>
+                        -javaagent:${org.mockito:mockito-core:jar} -Xshare:off ${evaluation.jvmArgs}</argLine>
                     <useManifestOnlyJar>false</useManifestOnlyJar>
                     <reportsDirectory>${surefire.reportsDirectory}</reportsDirectory>
                 </configuration>

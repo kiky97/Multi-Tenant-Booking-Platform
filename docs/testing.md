@@ -52,3 +52,7 @@ The frontend test stack uses Vitest, Testing Library, ESLint, and Vite productio
 - `frontend`: sets up Node.js 20, runs `npm ci`, `npm run lint`, `npm run test`, and `npm run build` from `frontend/`.
 
 SpotBugs is available as a manual Maven report command, but it is not currently enforced by GitHub Actions.
+
+## Real-infrastructure measurements
+
+See [evaluation/README.md](../evaluation/README.md). `PlatformEvaluationTest` is opt-in via `-Dbooking.evaluate=true`, runs an actual HTTP server against disposable PostgreSQL/Redis/Kafka, and writes raw measurements. Unit tests skip it by default. Run the evaluation with JaCoCo disabled and a separate Surefire directory so neither coverage nor unit-test counts are inflated. CI uploads both evidence sets separately. The benchmark deliberately records unsupported concurrency behaviour instead of silently treating it as a guarantee.

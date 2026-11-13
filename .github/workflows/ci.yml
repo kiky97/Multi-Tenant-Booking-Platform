@@ -62,7 +62,7 @@ jobs:
         run: docker compose -p booking-evaluation -f evaluation/compose.yml up -d --wait
       - name: Run real-infrastructure measurements without coverage instrumentation
         working-directory: backend
-        run: bash mvnw -B test -Dtest=PlatformEvaluationTest -Dbooking.evaluate=true -Djacoco.skip=true -DargLine=-Xmx512m -Dsurefire.reportsDirectory=target/evaluation-test-reports -Devaluation.revision=${{ github.sha }}
+        run: bash mvnw -B test -Dtest=PlatformEvaluationTest -Dbooking.evaluate=true -Djacoco.skip=true -Devaluation.jvmArgs=-Xmx512m -Dsurefire.reportsDirectory=target/evaluation-test-reports -Devaluation.revision=${{ github.sha }}
       - name: Archive evidence
         if: always()
         uses: actions/upload-artifact@v4

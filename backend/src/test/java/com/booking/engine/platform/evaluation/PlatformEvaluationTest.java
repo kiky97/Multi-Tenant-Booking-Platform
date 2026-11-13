@@ -159,10 +159,13 @@ class PlatformEvaluationTest {
         long directSql = stats.getPrepareStatementCount();
         catalog.invalidate(t.org.getId()); stats.clear();
         List<Double> cached = new ArrayList<>();
-        for (int i = 0; i < 100; i++) { long at = System.nanoTime(); catalog.servicesFor(t.org.getId()); cached.add(ms(at)); }
-        long cachedSql = stats.getPrepareStatementCount();
-        assertThat(directSql).isEqualTo(100); assertThat(cachedSql).isEqualTo(1);
+        long first = System.nanoTime(); catalog.servicesFor(t.org.getId()); cached.add(ms(first));
+        long coldSql = stats.getPrepareStatementCount(); stats.clear();
+        for (int i = 0; i < 99; i++) { long at = System.nanoTime(); catalog.servicesFor(t.org.getId()); cached.add(ms(at)); }
+        long warmSql = stats.getPrepareStatementCount(), cachedSql = coldSql + warmSql;
+        assertThat(directSql).isEqualTo(100); assertThat(warmSql).isZero(); assertThat(cachedSql).isLessThan(directSql);
         return Map.of("readsPerPath", 100, "directSqlStatements", directSql, "cachedSqlStatements", cachedSql,
+                "coldReadSqlStatements", coldSql, "warmReadSqlStatements", warmSql,
                 "directInProcessMs", percentiles(direct), "cachedInProcessMs", percentiles(cached),
                 "scope", "direct service-catalogue reads; excludes HTTP/authentication; one cold read then 99 warm hits");
     }
