@@ -56,7 +56,7 @@ for file in (ROOT/'backend/target/surefire-reports').glob('TEST-*.xml'):
     for key in counts: counts[key] += int(suite.get(key,0))
 lines += ['', f"Normal backend run: {counts['tests']} discovered, {counts['failures']} failures, {counts['errors']} errors, {counts['skipped']} skipped. Evaluation runs separately with JaCoCo disabled.", '',
           'Separately recorded local frontend verification: 21 Vitest tests passed; ESLint and Vite production build passed. This renderer does not rerun frontend checks. Dependency security scans are outside these measurements.', '',
-          'Raw evidence: [platform.json](platform.json). CI uploads integration measurements, Surefire reports, and separate unit-test coverage.']
+          'Raw evidence: [platform.json](platform.json). CI uploads integration measurements, Surefire reports, and separate unit-test coverage.', '', 'For checked-in local results, see [environment details and source provenance](ENVIRONMENT.md).']
 text = '\n'.join(lines) + '\n'
 (TARGET/'RESULTS.md').write_text(text)
 print(text)
