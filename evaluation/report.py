@@ -9,7 +9,7 @@ TARGET = ROOT / 'backend/target/evaluation'
 r = json.loads((TARGET / 'platform.json').read_text())
 required = ['tenantRbac', 'cache', 'httpReads', 'sameSlotHolds', 'fixedWindowLimiter', 'knownConcurrencyDiagnostics', 'kafka']
 assert all(k in r for k in required), 'Evaluation incomplete; inspect test failures before publishing results'
-lines = ['# Measured platform results', '', f"Measured source snapshot: `{r.get('sourceSnapshotRevision', r['revision'])}`. Execution label: `{r['revision']}`.", '',
+lines = ['# Measured platform results', '', f"Measured source revision: `{r['revision']}`.", '',
          f"Measured at {r['measuredAt']}; Java {r['java']}, {r['os']}, {r['processors']} reported processors, max JVM heap {r['jvmMaxHeapMb']} MiB.", '',
          'Local synthetic evaluation; real PostgreSQL 16, Redis 7, Kafka 3.8.0. The application and load generator share one JVM/host; Stripe is mocked and notifications log only. See [methodology](../../evaluation/README.md).', '',
          'Fixture: 20 tenants, 60 membership users, 1,000 initial services, 20 staff. Allowed RBAC writes add 40 service records. Tokens use real JWT signing/parsing; login is outside this test.', '',

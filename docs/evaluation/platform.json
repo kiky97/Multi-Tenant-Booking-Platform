@@ -1,3591 +1,3589 @@
 {
-  "revision": "736dc89-harness-updates",
+  "revision": "776790303a1ba86558cce5a29f67bbbe00168f0b",
   "java": "21.0.13",
   "os": "Linux amd64",
   "processors": 2,
   "jvmMaxHeapMb": 512,
-  "measuredAt": "2026-11-13T22:44:26.508422044Z",
+  "measuredAt": "2026-11-13T22:53:51.102825470Z",
   "infrastructure": [
     "PostgreSQL 16",
     "Redis 7",
     "Kafka 3.8.0"
   ],
   "fixture": {
-    "holdRateLimitForEvaluation": 100000,
     "paymentBoundary": "mock; no Stripe network calls",
-    "membershipUsers": 60,
-    "staff": 20,
+    "holdRateLimitForEvaluation": 100000,
+    "initialServices": 1000,
     "organizations": 20,
-    "initialServices": 1000
+    "staff": 20,
+    "membershipUsers": 60
   },
   "tenantRbac": {
     "passed": 480,
-    "matrixRequests": 480,
-    "unauthenticatedRequestStatus": 403,
     "cases": [
       {
-        "actual": 200,
         "tenantIndex": 0,
-        "endpoint": "services",
+        "actual": 200,
+        "expected": 200,
         "role": "OWNER",
-        "expected": 200
+        "endpoint": "services"
       },
       {
-        "actual": 200,
         "tenantIndex": 0,
-        "endpoint": "services-write",
+        "actual": 200,
+        "expected": 200,
         "role": "OWNER",
-        "expected": 200
+        "endpoint": "services-write"
       },
       {
-        "actual": 200,
         "tenantIndex": 0,
-        "endpoint": "staff",
+        "actual": 200,
+        "expected": 200,
         "role": "OWNER",
-        "expected": 200
+        "endpoint": "staff"
       },
       {
-        "actual": 200,
         "tenantIndex": 0,
-        "endpoint": "bookings",
+        "actual": 200,
+        "expected": 200,
         "role": "OWNER",
-        "expected": 200
+        "endpoint": "bookings"
       },
       {
-        "actual": 200,
         "tenantIndex": 0,
-        "endpoint": "analytics",
+        "actual": 200,
+        "expected": 200,
         "role": "OWNER",
-        "expected": 200
+        "endpoint": "analytics"
       },
       {
-        "actual": 200,
         "tenantIndex": 0,
-        "endpoint": "audit-logs",
+        "actual": 200,
+        "expected": 200,
         "role": "OWNER",
-        "expected": 200
+        "endpoint": "audit-logs"
       },
       {
-        "actual": 200,
         "tenantIndex": 0,
-        "endpoint": "services",
+        "actual": 200,
+        "expected": 200,
         "role": "ADMIN",
-        "expected": 200
+        "endpoint": "services"
       },
       {
-        "actual": 200,
         "tenantIndex": 0,
-        "endpoint": "services-write",
+        "actual": 200,
+        "expected": 200,
         "role": "ADMIN",
-        "expected": 200
+        "endpoint": "services-write"
       },
       {
-        "actual": 200,
         "tenantIndex": 0,
-        "endpoint": "staff",
+        "actual": 200,
+        "expected": 200,
         "role": "ADMIN",
-        "expected": 200
+        "endpoint": "staff"
       },
       {
-        "actual": 200,
         "tenantIndex": 0,
-        "endpoint": "bookings",
+        "actual": 200,
+        "expected": 200,
         "role": "ADMIN",
-        "expected": 200
+        "endpoint": "bookings"
       },
       {
-        "actual": 403,
         "tenantIndex": 0,
-        "endpoint": "analytics",
+        "actual": 403,
+        "expected": 403,
         "role": "ADMIN",
-        "expected": 403
+        "endpoint": "analytics"
       },
       {
-        "actual": 403,
         "tenantIndex": 0,
-        "endpoint": "audit-logs",
+        "actual": 403,
+        "expected": 403,
         "role": "ADMIN",
-        "expected": 403
+        "endpoint": "audit-logs"
       },
       {
-        "actual": 200,
         "tenantIndex": 0,
-        "endpoint": "services",
+        "actual": 200,
+        "expected": 200,
         "role": "STAFF",
-        "expected": 200
+        "endpoint": "services"
       },
       {
-        "actual": 403,
         "tenantIndex": 0,
-        "endpoint": "services-write",
+        "actual": 403,
+        "expected": 403,
         "role": "STAFF",
-        "expected": 403
+        "endpoint": "services-write"
       },
       {
-        "actual": 200,
         "tenantIndex": 0,
-        "endpoint": "staff",
+        "actual": 200,
+        "expected": 200,
         "role": "STAFF",
-        "expected": 200
+        "endpoint": "staff"
       },
       {
-        "actual": 200,
         "tenantIndex": 0,
-        "endpoint": "bookings",
+        "actual": 200,
+        "expected": 200,
         "role": "STAFF",
-        "expected": 200
+        "endpoint": "bookings"
       },
       {
-        "actual": 403,
         "tenantIndex": 0,
-        "endpoint": "analytics",
+        "actual": 403,
+        "expected": 403,
         "role": "STAFF",
-        "expected": 403
+        "endpoint": "analytics"
       },
       {
-        "actual": 403,
         "tenantIndex": 0,
-        "endpoint": "audit-logs",
+        "actual": 403,
+        "expected": 403,
         "role": "STAFF",
-        "expected": 403
+        "endpoint": "audit-logs"
       },
       {
-        "actual": 403,
         "tenantIndex": 0,
-        "endpoint": "services",
+        "actual": 403,
+        "expected": 403,
         "role": "FOREIGN_OWNER",
-        "expected": 403
+        "endpoint": "services"
       },
       {
-        "actual": 403,
         "tenantIndex": 0,
-        "endpoint": "services-write",
+        "actual": 403,
+        "expected": 403,
         "role": "FOREIGN_OWNER",
-        "expected": 403
+        "endpoint": "services-write"
       },
       {
-        "actual": 403,
         "tenantIndex": 0,
-        "endpoint": "staff",
+        "actual": 403,
+        "expected": 403,
         "role": "FOREIGN_OWNER",
-        "expected": 403
+        "endpoint": "staff"
       },
       {
-        "actual": 403,
         "tenantIndex": 0,
-        "endpoint": "bookings",
+        "actual": 403,
+        "expected": 403,
         "role": "FOREIGN_OWNER",
-        "expected": 403
+        "endpoint": "bookings"
       },
       {
-        "actual": 403,
         "tenantIndex": 0,
-        "endpoint": "analytics",
+        "actual": 403,
+        "expected": 403,
         "role": "FOREIGN_OWNER",
-        "expected": 403
+        "endpoint": "analytics"
       },
       {
-        "actual": 403,
         "tenantIndex": 0,
-        "endpoint": "audit-logs",
+        "actual": 403,
+        "expected": 403,
         "role": "FOREIGN_OWNER",
-        "expected": 403
+        "endpoint": "audit-logs"
       },
       {
-        "actual": 200,
         "tenantIndex": 1,
-        "endpoint": "services",
+        "actual": 200,
+        "expected": 200,
         "role": "OWNER",
-        "expected": 200
+        "endpoint": "services"
       },
       {
-        "actual": 200,
         "tenantIndex": 1,
-        "endpoint": "services-write",
+        "actual": 200,
+        "expected": 200,
         "role": "OWNER",
-        "expected": 200
+        "endpoint": "services-write"
       },
       {
-        "actual": 200,
         "tenantIndex": 1,
-        "endpoint": "staff",
+        "actual": 200,
+        "expected": 200,
         "role": "OWNER",
-        "expected": 200
+        "endpoint": "staff"
       },
       {
-        "actual": 200,
         "tenantIndex": 1,
-        "endpoint": "bookings",
+        "actual": 200,
+        "expected": 200,
         "role": "OWNER",
-        "expected": 200
+        "endpoint": "bookings"
       },
       {
-        "actual": 200,
         "tenantIndex": 1,
-        "endpoint": "analytics",
+        "actual": 200,
+        "expected": 200,
         "role": "OWNER",
-        "expected": 200
+        "endpoint": "analytics"
       },
       {
-        "actual": 200,
         "tenantIndex": 1,
-        "endpoint": "audit-logs",
+        "actual": 200,
+        "expected": 200,
         "role": "OWNER",
-        "expected": 200
+        "endpoint": "audit-logs"
       },
       {
-        "actual": 200,
         "tenantIndex": 1,
-        "endpoint": "services",
+        "actual": 200,
+        "expected": 200,
         "role": "ADMIN",
-        "expected": 200
+        "endpoint": "services"
       },
       {
-        "actual": 200,
         "tenantIndex": 1,
-        "endpoint": "services-write",
+        "actual": 200,
+        "expected": 200,
         "role": "ADMIN",
-        "expected": 200
+        "endpoint": "services-write"
       },
       {
-        "actual": 200,
         "tenantIndex": 1,
-        "endpoint": "staff",
+        "actual": 200,
+        "expected": 200,
         "role": "ADMIN",
-        "expected": 200
+        "endpoint": "staff"
       },
       {
-        "actual": 200,
         "tenantIndex": 1,
-        "endpoint": "bookings",
+        "actual": 200,
+        "expected": 200,
         "role": "ADMIN",
-        "expected": 200
+        "endpoint": "bookings"
       },
       {
-        "actual": 403,
         "tenantIndex": 1,
-        "endpoint": "analytics",
+        "actual": 403,
+        "expected": 403,
         "role": "ADMIN",
-        "expected": 403
+        "endpoint": "analytics"
       },
       {
-        "actual": 403,
         "tenantIndex": 1,
-        "endpoint": "audit-logs",
+        "actual": 403,
+        "expected": 403,
         "role": "ADMIN",
-        "expected": 403
+        "endpoint": "audit-logs"
       },
       {
-        "actual": 200,
         "tenantIndex": 1,
-        "endpoint": "services",
+        "actual": 200,
+        "expected": 200,
         "role": "STAFF",
-        "expected": 200
+        "endpoint": "services"
       },
       {
-        "actual": 403,
         "tenantIndex": 1,
-        "endpoint": "services-write",
+        "actual": 403,
+        "expected": 403,
         "role": "STAFF",
-        "expected": 403
+        "endpoint": "services-write"
       },
       {
-        "actual": 200,
         "tenantIndex": 1,
-        "endpoint": "staff",
+        "actual": 200,
+        "expected": 200,
         "role": "STAFF",
-        "expected": 200
+        "endpoint": "staff"
       },
       {
-        "actual": 200,
         "tenantIndex": 1,
-        "endpoint": "bookings",
+        "actual": 200,
+        "expected": 200,
         "role": "STAFF",
-        "expected": 200
+        "endpoint": "bookings"
       },
       {
-        "actual": 403,
         "tenantIndex": 1,
-        "endpoint": "analytics",
+        "actual": 403,
+        "expected": 403,
         "role": "STAFF",
-        "expected": 403
+        "endpoint": "analytics"
       },
       {
-        "actual": 403,
         "tenantIndex": 1,
-        "endpoint": "audit-logs",
+        "actual": 403,
+        "expected": 403,
         "role": "STAFF",
-        "expected": 403
+        "endpoint": "audit-logs"
       },
       {
-        "actual": 403,
         "tenantIndex": 1,
-        "endpoint": "services",
+        "actual": 403,
+        "expected": 403,
         "role": "FOREIGN_OWNER",
-        "expected": 403
+        "endpoint": "services"
       },
       {
-        "actual": 403,
         "tenantIndex": 1,
-        "endpoint": "services-write",
+        "actual": 403,
+        "expected": 403,
         "role": "FOREIGN_OWNER",
-        "expected": 403
+        "endpoint": "services-write"
       },
       {
-        "actual": 403,
         "tenantIndex": 1,
-        "endpoint": "staff",
+        "actual": 403,
+        "expected": 403,
         "role": "FOREIGN_OWNER",
-        "expected": 403
+        "endpoint": "staff"
       },
       {
-        "actual": 403,
         "tenantIndex": 1,
-        "endpoint": "bookings",
+        "actual": 403,
+        "expected": 403,
         "role": "FOREIGN_OWNER",
-        "expected": 403
+        "endpoint": "bookings"
       },
       {
-        "actual": 403,
         "tenantIndex": 1,
-        "endpoint": "analytics",
+        "actual": 403,
+        "expected": 403,
         "role": "FOREIGN_OWNER",
-        "expected": 403
+        "endpoint": "analytics"
       },
       {
-        "actual": 403,
         "tenantIndex": 1,
-        "endpoint": "audit-logs",
+        "actual": 403,
+        "expected": 403,
         "role": "FOREIGN_OWNER",
-        "expected": 403
+        "endpoint": "audit-logs"
       },
       {
-        "actual": 200,
         "tenantIndex": 2,
-        "endpoint": "services",
+        "actual": 200,
+        "expected": 200,
         "role": "OWNER",
-        "expected": 200
+        "endpoint": "services"
       },
       {
-        "actual": 200,
         "tenantIndex": 2,
-        "endpoint": "services-write",
+        "actual": 200,
+        "expected": 200,
         "role": "OWNER",
-        "expected": 200
+        "endpoint": "services-write"
       },
       {
-        "actual": 200,
         "tenantIndex": 2,
-        "endpoint": "staff",
+        "actual": 200,
+        "expected": 200,
         "role": "OWNER",
-        "expected": 200
+        "endpoint": "staff"
       },
       {
-        "actual": 200,
         "tenantIndex": 2,
-        "endpoint": "bookings",
+        "actual": 200,
+        "expected": 200,
         "role": "OWNER",
-        "expected": 200
+        "endpoint": "bookings"
       },
       {
-        "actual": 200,
         "tenantIndex": 2,
-        "endpoint": "analytics",
+        "actual": 200,
+        "expected": 200,
         "role": "OWNER",
-        "expected": 200
+        "endpoint": "analytics"
       },
       {
-        "actual": 200,
         "tenantIndex": 2,
-        "endpoint": "audit-logs",
+        "actual": 200,
+        "expected": 200,
         "role": "OWNER",
-        "expected": 200
+        "endpoint": "audit-logs"
       },
       {
-        "actual": 200,
         "tenantIndex": 2,
-        "endpoint": "services",
+        "actual": 200,
+        "expected": 200,
         "role": "ADMIN",
-        "expected": 200
+        "endpoint": "services"
       },
       {
-        "actual": 200,
         "tenantIndex": 2,
-        "endpoint": "services-write",
+        "actual": 200,
+        "expected": 200,
         "role": "ADMIN",
-        "expected": 200
+        "endpoint": "services-write"
       },
       {
-        "actual": 200,
         "tenantIndex": 2,
-        "endpoint": "staff",
+        "actual": 200,
+        "expected": 200,
         "role": "ADMIN",
-        "expected": 200
+        "endpoint": "staff"
       },
       {
-        "actual": 200,
         "tenantIndex": 2,
-        "endpoint": "bookings",
+        "actual": 200,
+        "expected": 200,
         "role": "ADMIN",
-        "expected": 200
+        "endpoint": "bookings"
       },
       {
-        "actual": 403,
         "tenantIndex": 2,
-        "endpoint": "analytics",
+        "actual": 403,
+        "expected": 403,
         "role": "ADMIN",
-        "expected": 403
+        "endpoint": "analytics"
       },
       {
-        "actual": 403,
         "tenantIndex": 2,
-        "endpoint": "audit-logs",
+        "actual": 403,
+        "expected": 403,
         "role": "ADMIN",
-        "expected": 403
+        "endpoint": "audit-logs"
       },
       {
-        "actual": 200,
         "tenantIndex": 2,
-        "endpoint": "services",
+        "actual": 200,
+        "expected": 200,
         "role": "STAFF",
-        "expected": 200
+        "endpoint": "services"
       },
       {
-        "actual": 403,
         "tenantIndex": 2,
-        "endpoint": "services-write",
+        "actual": 403,
+        "expected": 403,
         "role": "STAFF",
-        "expected": 403
+        "endpoint": "services-write"
       },
       {
-        "actual": 200,
         "tenantIndex": 2,
-        "endpoint": "staff",
+        "actual": 200,
+        "expected": 200,
         "role": "STAFF",
-        "expected": 200
+        "endpoint": "staff"
       },
       {
-        "actual": 200,
         "tenantIndex": 2,
-        "endpoint": "bookings",
+        "actual": 200,
+        "expected": 200,
         "role": "STAFF",
-        "expected": 200
+        "endpoint": "bookings"
       },
       {
-        "actual": 403,
         "tenantIndex": 2,
-        "endpoint": "analytics",
+        "actual": 403,
+        "expected": 403,
         "role": "STAFF",
-        "expected": 403
+        "endpoint": "analytics"
       },
       {
-        "actual": 403,
         "tenantIndex": 2,
-        "endpoint": "audit-logs",
+        "actual": 403,
+        "expected": 403,
         "role": "STAFF",
-        "expected": 403
+        "endpoint": "audit-logs"
       },
       {
-        "actual": 403,
         "tenantIndex": 2,
-        "endpoint": "services",
+        "actual": 403,
+        "expected": 403,
         "role": "FOREIGN_OWNER",
-        "expected": 403
+        "endpoint": "services"
       },
       {
-        "actual": 403,
         "tenantIndex": 2,
-        "endpoint": "services-write",
+        "actual": 403,
+        "expected": 403,
         "role": "FOREIGN_OWNER",
-        "expected": 403
+        "endpoint": "services-write"
       },
       {
-        "actual": 403,
         "tenantIndex": 2,
-        "endpoint": "staff",
+        "actual": 403,
+        "expected": 403,
         "role": "FOREIGN_OWNER",
-        "expected": 403
+        "endpoint": "staff"
       },
       {
-        "actual": 403,
         "tenantIndex": 2,
-        "endpoint": "bookings",
+        "actual": 403,
+        "expected": 403,
         "role": "FOREIGN_OWNER",
-        "expected": 403
+        "endpoint": "bookings"
       },
       {
-        "actual": 403,
         "tenantIndex": 2,
-        "endpoint": "analytics",
+        "actual": 403,
+        "expected": 403,
         "role": "FOREIGN_OWNER",
-        "expected": 403
+        "endpoint": "analytics"
       },
       {
-        "actual": 403,
         "tenantIndex": 2,
-        "endpoint": "audit-logs",
+        "actual": 403,
+        "expected": 403,
         "role": "FOREIGN_OWNER",
-        "expected": 403
+        "endpoint": "audit-logs"
       },
       {
-        "actual": 200,
         "tenantIndex": 3,
-        "endpoint": "services",
+        "actual": 200,
+        "expected": 200,
         "role": "OWNER",
-        "expected": 200
+        "endpoint": "services"
       },
       {
-        "actual": 200,
         "tenantIndex": 3,
-        "endpoint": "services-write",
+        "actual": 200,
+        "expected": 200,
         "role": "OWNER",
-        "expected": 200
+        "endpoint": "services-write"
       },
       {
-        "actual": 200,
         "tenantIndex": 3,
-        "endpoint": "staff",
+        "actual": 200,
+        "expected": 200,
         "role": "OWNER",
-        "expected": 200
+        "endpoint": "staff"
       },
       {
-        "actual": 200,
         "tenantIndex": 3,
-        "endpoint": "bookings",
+        "actual": 200,
+        "expected": 200,
         "role": "OWNER",
-        "expected": 200
+        "endpoint": "bookings"
       },
       {
-        "actual": 200,
         "tenantIndex": 3,
-        "endpoint": "analytics",
+        "actual": 200,
+        "expected": 200,
         "role": "OWNER",
-        "expected": 200
+        "endpoint": "analytics"
       },
       {
-        "actual": 200,
         "tenantIndex": 3,
-        "endpoint": "audit-logs",
+        "actual": 200,
+        "expected": 200,
         "role": "OWNER",
-        "expected": 200
+        "endpoint": "audit-logs"
       },
       {
-        "actual": 200,
         "tenantIndex": 3,
-        "endpoint": "services",
+        "actual": 200,
+        "expected": 200,
         "role": "ADMIN",
-        "expected": 200
+        "endpoint": "services"
       },
       {
-        "actual": 200,
         "tenantIndex": 3,
-        "endpoint": "services-write",
+        "actual": 200,
+        "expected": 200,
         "role": "ADMIN",
-        "expected": 200
+        "endpoint": "services-write"
       },
       {
-        "actual": 200,
         "tenantIndex": 3,
-        "endpoint": "staff",
+        "actual": 200,
+        "expected": 200,
         "role": "ADMIN",
-        "expected": 200
+        "endpoint": "staff"
       },
       {
-        "actual": 200,
         "tenantIndex": 3,
-        "endpoint": "bookings",
+        "actual": 200,
+        "expected": 200,
         "role": "ADMIN",
-        "expected": 200
+        "endpoint": "bookings"
       },
       {
-        "actual": 403,
         "tenantIndex": 3,
-        "endpoint": "analytics",
+        "actual": 403,
+        "expected": 403,
         "role": "ADMIN",
-        "expected": 403
+        "endpoint": "analytics"
       },
       {
-        "actual": 403,
         "tenantIndex": 3,
-        "endpoint": "audit-logs",
+        "actual": 403,
+        "expected": 403,
         "role": "ADMIN",
-        "expected": 403
+        "endpoint": "audit-logs"
       },
       {
-        "actual": 200,
         "tenantIndex": 3,
-        "endpoint": "services",
+        "actual": 200,
+        "expected": 200,
         "role": "STAFF",
-        "expected": 200
+        "endpoint": "services"
       },
       {
-        "actual": 403,
         "tenantIndex": 3,
-        "endpoint": "services-write",
+        "actual": 403,
+        "expected": 403,
         "role": "STAFF",
-        "expected": 403
+        "endpoint": "services-write"
       },
       {
-        "actual": 200,
         "tenantIndex": 3,
-        "endpoint": "staff",
+        "actual": 200,
+        "expected": 200,
         "role": "STAFF",
-        "expected": 200
+        "endpoint": "staff"
       },
       {
-        "actual": 200,
         "tenantIndex": 3,
-        "endpoint": "bookings",
+        "actual": 200,
+        "expected": 200,
         "role": "STAFF",
-        "expected": 200
+        "endpoint": "bookings"
       },
       {
-        "actual": 403,
         "tenantIndex": 3,
-        "endpoint": "analytics",
+        "actual": 403,
+        "expected": 403,
         "role": "STAFF",
-        "expected": 403
+        "endpoint": "analytics"
       },
       {
-        "actual": 403,
         "tenantIndex": 3,
-        "endpoint": "audit-logs",
+        "actual": 403,
+        "expected": 403,
         "role": "STAFF",
-        "expected": 403
+        "endpoint": "audit-logs"
       },
       {
-        "actual": 403,
         "tenantIndex": 3,
-        "endpoint": "services",
+        "actual": 403,
+        "expected": 403,
         "role": "FOREIGN_OWNER",
-        "expected": 403
+        "endpoint": "services"
       },
       {
-        "actual": 403,
         "tenantIndex": 3,
-        "endpoint": "services-write",
+        "actual": 403,
+        "expected": 403,
         "role": "FOREIGN_OWNER",
-        "expected": 403
+        "endpoint": "services-write"
       },
       {
-        "actual": 403,
         "tenantIndex": 3,
-        "endpoint": "staff",
+        "actual": 403,
+        "expected": 403,
         "role": "FOREIGN_OWNER",
-        "expected": 403
+        "endpoint": "staff"
       },
       {
-        "actual": 403,
         "tenantIndex": 3,
-        "endpoint": "bookings",
+        "actual": 403,
+        "expected": 403,
         "role": "FOREIGN_OWNER",
-        "expected": 403
+        "endpoint": "bookings"
       },
       {
-        "actual": 403,
         "tenantIndex": 3,
-        "endpoint": "analytics",
+        "actual": 403,
+        "expected": 403,
         "role": "FOREIGN_OWNER",
-        "expected": 403
+        "endpoint": "analytics"
       },
       {
-        "actual": 403,
         "tenantIndex": 3,
-        "endpoint": "audit-logs",
+        "actual": 403,
+        "expected": 403,
         "role": "FOREIGN_OWNER",
-        "expected": 403
+        "endpoint": "audit-logs"
       },
       {
-        "actual": 200,
         "tenantIndex": 4,
-        "endpoint": "services",
+        "actual": 200,
+        "expected": 200,
         "role": "OWNER",
-        "expected": 200
+        "endpoint": "services"
       },
       {
-        "actual": 200,
         "tenantIndex": 4,
-        "endpoint": "services-write",
+        "actual": 200,
+        "expected": 200,
         "role": "OWNER",
-        "expected": 200
+        "endpoint": "services-write"
       },
       {
-        "actual": 200,
         "tenantIndex": 4,
-        "endpoint": "staff",
+        "actual": 200,
+        "expected": 200,
         "role": "OWNER",
-        "expected": 200
+        "endpoint": "staff"
       },
       {
-        "actual": 200,
         "tenantIndex": 4,
-        "endpoint": "bookings",
+        "actual": 200,
+        "expected": 200,
         "role": "OWNER",
-        "expected": 200
+        "endpoint": "bookings"
       },
       {
-        "actual": 200,
         "tenantIndex": 4,
-        "endpoint": "analytics",
+        "actual": 200,
+        "expected": 200,
         "role": "OWNER",
-        "expected": 200
+        "endpoint": "analytics"
       },
       {
-        "actual": 200,
         "tenantIndex": 4,
-        "endpoint": "audit-logs",
+        "actual": 200,
+        "expected": 200,
         "role": "OWNER",
-        "expected": 200
+        "endpoint": "audit-logs"
       },
       {
-        "actual": 200,
         "tenantIndex": 4,
-        "endpoint": "services",
+        "actual": 200,
+        "expected": 200,
         "role": "ADMIN",
-        "expected": 200
+        "endpoint": "services"
       },
       {
-        "actual": 200,
         "tenantIndex": 4,
-        "endpoint": "services-write",
+        "actual": 200,
+        "expected": 200,
         "role": "ADMIN",
-        "expected": 200
+        "endpoint": "services-write"
       },
       {
-        "actual": 200,
         "tenantIndex": 4,
-        "endpoint": "staff",
+        "actual": 200,
+        "expected": 200,
         "role": "ADMIN",
-        "expected": 200
+        "endpoint": "staff"
       },
       {
-        "actual": 200,
         "tenantIndex": 4,
-        "endpoint": "bookings",
+        "actual": 200,
+        "expected": 200,
         "role": "ADMIN",
-        "expected": 200
+        "endpoint": "bookings"
       },
       {
-        "actual": 403,
         "tenantIndex": 4,
-        "endpoint": "analytics",
+        "actual": 403,
+        "expected": 403,
         "role": "ADMIN",
-        "expected": 403
+        "endpoint": "analytics"
       },
       {
-        "actual": 403,
         "tenantIndex": 4,
-        "endpoint": "audit-logs",
+        "actual": 403,
+        "expected": 403,
         "role": "ADMIN",
-        "expected": 403
+        "endpoint": "audit-logs"
       },
       {
-        "actual": 200,
         "tenantIndex": 4,
-        "endpoint": "services",
+        "actual": 200,
+        "expected": 200,
         "role": "STAFF",
-        "expected": 200
+        "endpoint": "services"
       },
       {
-        "actual": 403,
         "tenantIndex": 4,
-        "endpoint": "services-write",
+        "actual": 403,
+        "expected": 403,
         "role": "STAFF",
-        "expected": 403
+        "endpoint": "services-write"
       },
       {
-        "actual": 200,
         "tenantIndex": 4,
-        "endpoint": "staff",
+        "actual": 200,
+        "expected": 200,
         "role": "STAFF",
-        "expected": 200
+        "endpoint": "staff"
       },
       {
-        "actual": 200,
         "tenantIndex": 4,
-        "endpoint": "bookings",
+        "actual": 200,
+        "expected": 200,
         "role": "STAFF",
-        "expected": 200
+        "endpoint": "bookings"
       },
       {
-        "actual": 403,
         "tenantIndex": 4,
-        "endpoint": "analytics",
+        "actual": 403,
+        "expected": 403,
         "role": "STAFF",
-        "expected": 403
+        "endpoint": "analytics"
       },
       {
-        "actual": 403,
         "tenantIndex": 4,
-        "endpoint": "audit-logs",
+        "actual": 403,
+        "expected": 403,
         "role": "STAFF",
-        "expected": 403
+        "endpoint": "audit-logs"
       },
       {
-        "actual": 403,
         "tenantIndex": 4,
-        "endpoint": "services",
+        "actual": 403,
+        "expected": 403,
         "role": "FOREIGN_OWNER",
-        "expected": 403
+        "endpoint": "services"
       },
       {
-        "actual": 403,
         "tenantIndex": 4,
-        "endpoint": "services-write",
+        "actual": 403,
+        "expected": 403,
         "role": "FOREIGN_OWNER",
-        "expected": 403
+        "endpoint": "services-write"
       },
       {
-        "actual": 403,
         "tenantIndex": 4,
-        "endpoint": "staff",
+        "actual": 403,
+        "expected": 403,
         "role": "FOREIGN_OWNER",
-        "expected": 403
+        "endpoint": "staff"
       },
       {
-        "actual": 403,
         "tenantIndex": 4,
-        "endpoint": "bookings",
+        "actual": 403,
+        "expected": 403,
         "role": "FOREIGN_OWNER",
-        "expected": 403
+        "endpoint": "bookings"
       },
       {
-        "actual": 403,
         "tenantIndex": 4,
-        "endpoint": "analytics",
+        "actual": 403,
+        "expected": 403,
         "role": "FOREIGN_OWNER",
-        "expected": 403
+        "endpoint": "analytics"
       },
       {
-        "actual": 403,
         "tenantIndex": 4,
-        "endpoint": "audit-logs",
+        "actual": 403,
+        "expected": 403,
         "role": "FOREIGN_OWNER",
-        "expected": 403
+        "endpoint": "audit-logs"
       },
       {
-        "actual": 200,
         "tenantIndex": 5,
-        "endpoint": "services",
+        "actual": 200,
+        "expected": 200,
         "role": "OWNER",
-        "expected": 200
+        "endpoint": "services"
       },
       {
-        "actual": 200,
         "tenantIndex": 5,
-        "endpoint": "services-write",
+        "actual": 200,
+        "expected": 200,
         "role": "OWNER",
-        "expected": 200
+        "endpoint": "services-write"
       },
       {
-        "actual": 200,
         "tenantIndex": 5,
-        "endpoint": "staff",
+        "actual": 200,
+        "expected": 200,
         "role": "OWNER",
-        "expected": 200
+        "endpoint": "staff"
       },
       {
-        "actual": 200,
         "tenantIndex": 5,
-        "endpoint": "bookings",
+        "actual": 200,
+        "expected": 200,
         "role": "OWNER",
-        "expected": 200
+        "endpoint": "bookings"
       },
       {
-        "actual": 200,
         "tenantIndex": 5,
-        "endpoint": "analytics",
+        "actual": 200,
+        "expected": 200,
         "role": "OWNER",
-        "expected": 200
+        "endpoint": "analytics"
       },
       {
-        "actual": 200,
         "tenantIndex": 5,
-        "endpoint": "audit-logs",
+        "actual": 200,
+        "expected": 200,
         "role": "OWNER",
-        "expected": 200
+        "endpoint": "audit-logs"
       },
       {
-        "actual": 200,
         "tenantIndex": 5,
-        "endpoint": "services",
+        "actual": 200,
+        "expected": 200,
         "role": "ADMIN",
-        "expected": 200
+        "endpoint": "services"
       },
       {
-        "actual": 200,
         "tenantIndex": 5,
-        "endpoint": "services-write",
+        "actual": 200,
+        "expected": 200,
         "role": "ADMIN",
-        "expected": 200
+        "endpoint": "services-write"
       },
       {
-        "actual": 200,
         "tenantIndex": 5,
-        "endpoint": "staff",
+        "actual": 200,
+        "expected": 200,
         "role": "ADMIN",
-        "expected": 200
+        "endpoint": "staff"
       },
       {
-        "actual": 200,
         "tenantIndex": 5,
-        "endpoint": "bookings",
+        "actual": 200,
+        "expected": 200,
         "role": "ADMIN",
-        "expected": 200
+        "endpoint": "bookings"
       },
       {
-        "actual": 403,
         "tenantIndex": 5,
-        "endpoint": "analytics",
+        "actual": 403,
+        "expected": 403,
         "role": "ADMIN",
-        "expected": 403
+        "endpoint": "analytics"
       },
       {
-        "actual": 403,
         "tenantIndex": 5,
-        "endpoint": "audit-logs",
+        "actual": 403,
+        "expected": 403,
         "role": "ADMIN",
-        "expected": 403
+        "endpoint": "audit-logs"
       },
       {
-        "actual": 200,
         "tenantIndex": 5,
-        "endpoint": "services",
+        "actual": 200,
+        "expected": 200,
         "role": "STAFF",
-        "expected": 200
+        "endpoint": "services"
       },
       {
-        "actual": 403,
         "tenantIndex": 5,
-        "endpoint": "services-write",
+        "actual": 403,
+        "expected": 403,
         "role": "STAFF",
-        "expected": 403
+        "endpoint": "services-write"
       },
       {
-        "actual": 200,
         "tenantIndex": 5,
-        "endpoint": "staff",
+        "actual": 200,
+        "expected": 200,
         "role": "STAFF",
-        "expected": 200
+        "endpoint": "staff"
       },
       {
-        "actual": 200,
         "tenantIndex": 5,
-        "endpoint": "bookings",
+        "actual": 200,
+        "expected": 200,
         "role": "STAFF",
-        "expected": 200
+        "endpoint": "bookings"
       },
       {
-        "actual": 403,
         "tenantIndex": 5,
-        "endpoint": "analytics",
+        "actual": 403,
+        "expected": 403,
         "role": "STAFF",
-        "expected": 403
+        "endpoint": "analytics"
       },
       {
-        "actual": 403,
         "tenantIndex": 5,
-        "endpoint": "audit-logs",
+        "actual": 403,
+        "expected": 403,
         "role": "STAFF",
-        "expected": 403
+        "endpoint": "audit-logs"
       },
       {
-        "actual": 403,
         "tenantIndex": 5,
-        "endpoint": "services",
+        "actual": 403,
+        "expected": 403,
         "role": "FOREIGN_OWNER",
-        "expected": 403
+        "endpoint": "services"
       },
       {
-        "actual": 403,
         "tenantIndex": 5,
-        "endpoint": "services-write",
+        "actual": 403,
+        "expected": 403,
         "role": "FOREIGN_OWNER",
-        "expected": 403
+        "endpoint": "services-write"
       },
       {
-        "actual": 403,
         "tenantIndex": 5,
-        "endpoint": "staff",
+        "actual": 403,
+        "expected": 403,
         "role": "FOREIGN_OWNER",
-        "expected": 403
+        "endpoint": "staff"
       },
       {
-        "actual": 403,
         "tenantIndex": 5,
-        "endpoint": "bookings",
+        "actual": 403,
+        "expected": 403,
         "role": "FOREIGN_OWNER",
-        "expected": 403
+        "endpoint": "bookings"
       },
       {
-        "actual": 403,
         "tenantIndex": 5,
-        "endpoint": "analytics",
+        "actual": 403,
+        "expected": 403,
         "role": "FOREIGN_OWNER",
-        "expected": 403
+        "endpoint": "analytics"
       },
       {
-        "actual": 403,
         "tenantIndex": 5,
-        "endpoint": "audit-logs",
+        "actual": 403,
+        "expected": 403,
         "role": "FOREIGN_OWNER",
-        "expected": 403
+        "endpoint": "audit-logs"
       },
       {
-        "actual": 200,
         "tenantIndex": 6,
-        "endpoint": "services",
+        "actual": 200,
+        "expected": 200,
         "role": "OWNER",
-        "expected": 200
+        "endpoint": "services"
       },
       {
-        "actual": 200,
         "tenantIndex": 6,
-        "endpoint": "services-write",
+        "actual": 200,
+        "expected": 200,
         "role": "OWNER",
-        "expected": 200
+        "endpoint": "services-write"
       },
       {
-        "actual": 200,
         "tenantIndex": 6,
-        "endpoint": "staff",
+        "actual": 200,
+        "expected": 200,
         "role": "OWNER",
-        "expected": 200
+        "endpoint": "staff"
       },
       {
-        "actual": 200,
         "tenantIndex": 6,
-        "endpoint": "bookings",
+        "actual": 200,
+        "expected": 200,
         "role": "OWNER",
-        "expected": 200
+        "endpoint": "bookings"
       },
       {
-        "actual": 200,
         "tenantIndex": 6,
-        "endpoint": "analytics",
+        "actual": 200,
+        "expected": 200,
         "role": "OWNER",
-        "expected": 200
+        "endpoint": "analytics"
       },
       {
-        "actual": 200,
         "tenantIndex": 6,
-        "endpoint": "audit-logs",
+        "actual": 200,
+        "expected": 200,
         "role": "OWNER",
-        "expected": 200
+        "endpoint": "audit-logs"
       },
       {
-        "actual": 200,
         "tenantIndex": 6,
-        "endpoint": "services",
+        "actual": 200,
+        "expected": 200,
         "role": "ADMIN",
-        "expected": 200
+        "endpoint": "services"
       },
       {
-        "actual": 200,
         "tenantIndex": 6,
-        "endpoint": "services-write",
+        "actual": 200,
+        "expected": 200,
         "role": "ADMIN",
-        "expected": 200
+        "endpoint": "services-write"
       },
       {
-        "actual": 200,
         "tenantIndex": 6,
-        "endpoint": "staff",
+        "actual": 200,
+        "expected": 200,
         "role": "ADMIN",
-        "expected": 200
+        "endpoint": "staff"
       },
       {
-        "actual": 200,
         "tenantIndex": 6,
-        "endpoint": "bookings",
+        "actual": 200,
+        "expected": 200,
         "role": "ADMIN",
-        "expected": 200
+        "endpoint": "bookings"
       },
       {
-        "actual": 403,
         "tenantIndex": 6,
-        "endpoint": "analytics",
+        "actual": 403,
+        "expected": 403,
         "role": "ADMIN",
-        "expected": 403
+        "endpoint": "analytics"
       },
       {
-        "actual": 403,
         "tenantIndex": 6,
-        "endpoint": "audit-logs",
+        "actual": 403,
+        "expected": 403,
         "role": "ADMIN",
-        "expected": 403
+        "endpoint": "audit-logs"
       },
       {
-        "actual": 200,
         "tenantIndex": 6,
-        "endpoint": "services",
+        "actual": 200,
+        "expected": 200,
         "role": "STAFF",
-        "expected": 200
+        "endpoint": "services"
       },
       {
-        "actual": 403,
         "tenantIndex": 6,
-        "endpoint": "services-write",
+        "actual": 403,
+        "expected": 403,
         "role": "STAFF",
-        "expected": 403
+        "endpoint": "services-write"
       },
       {
-        "actual": 200,
         "tenantIndex": 6,
-        "endpoint": "staff",
+        "actual": 200,
+        "expected": 200,
         "role": "STAFF",
-        "expected": 200
+        "endpoint": "staff"
       },
       {
-        "actual": 200,
         "tenantIndex": 6,
-        "endpoint": "bookings",
+        "actual": 200,
+        "expected": 200,
         "role": "STAFF",
-        "expected": 200
+        "endpoint": "bookings"
       },
       {
-        "actual": 403,
         "tenantIndex": 6,
-        "endpoint": "analytics",
+        "actual": 403,
+        "expected": 403,
         "role": "STAFF",
-        "expected": 403
+        "endpoint": "analytics"
       },
       {
-        "actual": 403,
         "tenantIndex": 6,
-        "endpoint": "audit-logs",
+        "actual": 403,
+        "expected": 403,
         "role": "STAFF",
-        "expected": 403
+        "endpoint": "audit-logs"
       },
       {
-        "actual": 403,
         "tenantIndex": 6,
-        "endpoint": "services",
+        "actual": 403,
+        "expected": 403,
         "role": "FOREIGN_OWNER",
-        "expected": 403
+        "endpoint": "services"
       },
       {
-        "actual": 403,
         "tenantIndex": 6,
-        "endpoint": "services-write",
+        "actual": 403,
+        "expected": 403,
         "role": "FOREIGN_OWNER",
-        "expected": 403
+        "endpoint": "services-write"
       },
       {
-        "actual": 403,
         "tenantIndex": 6,
-        "endpoint": "staff",
+        "actual": 403,
+        "expected": 403,
         "role": "FOREIGN_OWNER",
-        "expected": 403
+        "endpoint": "staff"
       },
       {
-        "actual": 403,
         "tenantIndex": 6,
-        "endpoint": "bookings",
+        "actual": 403,
+        "expected": 403,
         "role": "FOREIGN_OWNER",
-        "expected": 403
+        "endpoint": "bookings"
       },
       {
-        "actual": 403,
         "tenantIndex": 6,
-        "endpoint": "analytics",
+        "actual": 403,
+        "expected": 403,
         "role": "FOREIGN_OWNER",
-        "expected": 403
+        "endpoint": "analytics"
       },
       {
-        "actual": 403,
         "tenantIndex": 6,
-        "endpoint": "audit-logs",
+        "actual": 403,
+        "expected": 403,
         "role": "FOREIGN_OWNER",
-        "expected": 403
+        "endpoint": "audit-logs"
       },
       {
-        "actual": 200,
         "tenantIndex": 7,
-        "endpoint": "services",
+        "actual": 200,
+        "expected": 200,
         "role": "OWNER",
-        "expected": 200
+        "endpoint": "services"
       },
       {
-        "actual": 200,
         "tenantIndex": 7,
-        "endpoint": "services-write",
+        "actual": 200,
+        "expected": 200,
         "role": "OWNER",
-        "expected": 200
+        "endpoint": "services-write"
       },
       {
-        "actual": 200,
         "tenantIndex": 7,
-        "endpoint": "staff",
+        "actual": 200,
+        "expected": 200,
         "role": "OWNER",
-        "expected": 200
+        "endpoint": "staff"
       },
       {
-        "actual": 200,
         "tenantIndex": 7,
-        "endpoint": "bookings",
+        "actual": 200,
+        "expected": 200,
         "role": "OWNER",
-        "expected": 200
+        "endpoint": "bookings"
       },
       {
-        "actual": 200,
         "tenantIndex": 7,
-        "endpoint": "analytics",
+        "actual": 200,
+        "expected": 200,
         "role": "OWNER",
-        "expected": 200
+        "endpoint": "analytics"
       },
       {
-        "actual": 200,
         "tenantIndex": 7,
-        "endpoint": "audit-logs",
+        "actual": 200,
+        "expected": 200,
         "role": "OWNER",
-        "expected": 200
+        "endpoint": "audit-logs"
       },
       {
-        "actual": 200,
         "tenantIndex": 7,
-        "endpoint": "services",
+        "actual": 200,
+        "expected": 200,
         "role": "ADMIN",
-        "expected": 200
+        "endpoint": "services"
       },
       {
-        "actual": 200,
         "tenantIndex": 7,
-        "endpoint": "services-write",
+        "actual": 200,
+        "expected": 200,
         "role": "ADMIN",
-        "expected": 200
+        "endpoint": "services-write"
       },
       {
-        "actual": 200,
         "tenantIndex": 7,
-        "endpoint": "staff",
+        "actual": 200,
+        "expected": 200,
         "role": "ADMIN",
-        "expected": 200
+        "endpoint": "staff"
       },
       {
-        "actual": 200,
         "tenantIndex": 7,
-        "endpoint": "bookings",
+        "actual": 200,
+        "expected": 200,
         "role": "ADMIN",
-        "expected": 200
+        "endpoint": "bookings"
       },
       {
-        "actual": 403,
         "tenantIndex": 7,
-        "endpoint": "analytics",
+        "actual": 403,
+        "expected": 403,
         "role": "ADMIN",
-        "expected": 403
+        "endpoint": "analytics"
       },
       {
-        "actual": 403,
         "tenantIndex": 7,
-        "endpoint": "audit-logs",
+        "actual": 403,
+        "expected": 403,
         "role": "ADMIN",
-        "expected": 403
+        "endpoint": "audit-logs"
       },
       {
-        "actual": 200,
         "tenantIndex": 7,
-        "endpoint": "services",
+        "actual": 200,
+        "expected": 200,
         "role": "STAFF",
-        "expected": 200
+        "endpoint": "services"
       },
       {
-        "actual": 403,
         "tenantIndex": 7,
-        "endpoint": "services-write",
+        "actual": 403,
+        "expected": 403,
         "role": "STAFF",
-        "expected": 403
+        "endpoint": "services-write"
       },
       {
-        "actual": 200,
         "tenantIndex": 7,
-        "endpoint": "staff",
+        "actual": 200,
+        "expected": 200,
         "role": "STAFF",
-        "expected": 200
+        "endpoint": "staff"
       },
       {
-        "actual": 200,
         "tenantIndex": 7,
-        "endpoint": "bookings",
+        "actual": 200,
+        "expected": 200,
         "role": "STAFF",
-        "expected": 200
+        "endpoint": "bookings"
       },
       {
-        "actual": 403,
         "tenantIndex": 7,
-        "endpoint": "analytics",
+        "actual": 403,
+        "expected": 403,
         "role": "STAFF",
-        "expected": 403
+        "endpoint": "analytics"
       },
       {
-        "actual": 403,
         "tenantIndex": 7,
-        "endpoint": "audit-logs",
+        "actual": 403,
+        "expected": 403,
         "role": "STAFF",
-        "expected": 403
+        "endpoint": "audit-logs"
       },
       {
-        "actual": 403,
         "tenantIndex": 7,
-        "endpoint": "services",
+        "actual": 403,
+        "expected": 403,
         "role": "FOREIGN_OWNER",
-        "expected": 403
+        "endpoint": "services"
       },
       {
-        "actual": 403,
         "tenantIndex": 7,
-        "endpoint": "services-write",
+        "actual": 403,
+        "expected": 403,
         "role": "FOREIGN_OWNER",
-        "expected": 403
+        "endpoint": "services-write"
       },
       {
-        "actual": 403,
         "tenantIndex": 7,
-        "endpoint": "staff",
+        "actual": 403,
+        "expected": 403,
         "role": "FOREIGN_OWNER",
-        "expected": 403
+        "endpoint": "staff"
       },
       {
-        "actual": 403,
         "tenantIndex": 7,
-        "endpoint": "bookings",
+        "actual": 403,
+        "expected": 403,
         "role": "FOREIGN_OWNER",
-        "expected": 403
+        "endpoint": "bookings"
       },
       {
-        "actual": 403,
         "tenantIndex": 7,
-        "endpoint": "analytics",
+        "actual": 403,
+        "expected": 403,
         "role": "FOREIGN_OWNER",
-        "expected": 403
+        "endpoint": "analytics"
       },
       {
-        "actual": 403,
         "tenantIndex": 7,
-        "endpoint": "audit-logs",
+        "actual": 403,
+        "expected": 403,
         "role": "FOREIGN_OWNER",
-        "expected": 403
+        "endpoint": "audit-logs"
       },
       {
-        "actual": 200,
         "tenantIndex": 8,
-        "endpoint": "services",
+        "actual": 200,
+        "expected": 200,
         "role": "OWNER",
-        "expected": 200
+        "endpoint": "services"
       },
       {
-        "actual": 200,
         "tenantIndex": 8,
-        "endpoint": "services-write",
+        "actual": 200,
+        "expected": 200,
         "role": "OWNER",
-        "expected": 200
+        "endpoint": "services-write"
       },
       {
-        "actual": 200,
         "tenantIndex": 8,
-        "endpoint": "staff",
+        "actual": 200,
+        "expected": 200,
         "role": "OWNER",
-        "expected": 200
+        "endpoint": "staff"
       },
       {
-        "actual": 200,
         "tenantIndex": 8,
-        "endpoint": "bookings",
+        "actual": 200,
+        "expected": 200,
         "role": "OWNER",
-        "expected": 200
+        "endpoint": "bookings"
       },
       {
-        "actual": 200,
         "tenantIndex": 8,
-        "endpoint": "analytics",
+        "actual": 200,
+        "expected": 200,
         "role": "OWNER",
-        "expected": 200
+        "endpoint": "analytics"
       },
       {
-        "actual": 200,
         "tenantIndex": 8,
-        "endpoint": "audit-logs",
+        "actual": 200,
+        "expected": 200,
         "role": "OWNER",
-        "expected": 200
+        "endpoint": "audit-logs"
       },
       {
-        "actual": 200,
         "tenantIndex": 8,
-        "endpoint": "services",
+        "actual": 200,
+        "expected": 200,
         "role": "ADMIN",
-        "expected": 200
+        "endpoint": "services"
       },
       {
-        "actual": 200,
         "tenantIndex": 8,
-        "endpoint": "services-write",
+        "actual": 200,
+        "expected": 200,
         "role": "ADMIN",
-        "expected": 200
+        "endpoint": "services-write"
       },
       {
-        "actual": 200,
         "tenantIndex": 8,
-        "endpoint": "staff",
+        "actual": 200,
+        "expected": 200,
         "role": "ADMIN",
-        "expected": 200
+        "endpoint": "staff"
       },
       {
-        "actual": 200,
         "tenantIndex": 8,
-        "endpoint": "bookings",
+        "actual": 200,
+        "expected": 200,
         "role": "ADMIN",
-        "expected": 200
+        "endpoint": "bookings"
       },
       {
-        "actual": 403,
         "tenantIndex": 8,
-        "endpoint": "analytics",
+        "actual": 403,
+        "expected": 403,
         "role": "ADMIN",
-        "expected": 403
+        "endpoint": "analytics"
       },
       {
-        "actual": 403,
         "tenantIndex": 8,
-        "endpoint": "audit-logs",
+        "actual": 403,
+        "expected": 403,
         "role": "ADMIN",
-        "expected": 403
+        "endpoint": "audit-logs"
       },
       {
-        "actual": 200,
         "tenantIndex": 8,
-        "endpoint": "services",
+        "actual": 200,
+        "expected": 200,
         "role": "STAFF",
-        "expected": 200
+        "endpoint": "services"
       },
       {
-        "actual": 403,
         "tenantIndex": 8,
-        "endpoint": "services-write",
+        "actual": 403,
+        "expected": 403,
         "role": "STAFF",
-        "expected": 403
+        "endpoint": "services-write"
       },
       {
-        "actual": 200,
         "tenantIndex": 8,
-        "endpoint": "staff",
+        "actual": 200,
+        "expected": 200,
         "role": "STAFF",
-        "expected": 200
+        "endpoint": "staff"
       },
       {
-        "actual": 200,
         "tenantIndex": 8,
-        "endpoint": "bookings",
+        "actual": 200,
+        "expected": 200,
         "role": "STAFF",
-        "expected": 200
+        "endpoint": "bookings"
       },
       {
-        "actual": 403,
         "tenantIndex": 8,
-        "endpoint": "analytics",
+        "actual": 403,
+        "expected": 403,
         "role": "STAFF",
-        "expected": 403
+        "endpoint": "analytics"
       },
       {
-        "actual": 403,
         "tenantIndex": 8,
-        "endpoint": "audit-logs",
+        "actual": 403,
+        "expected": 403,
         "role": "STAFF",
-        "expected": 403
+        "endpoint": "audit-logs"
       },
       {
-        "actual": 403,
         "tenantIndex": 8,
-        "endpoint": "services",
+        "actual": 403,
+        "expected": 403,
         "role": "FOREIGN_OWNER",
-        "expected": 403
+        "endpoint": "services"
       },
       {
-        "actual": 403,
         "tenantIndex": 8,
-        "endpoint": "services-write",
+        "actual": 403,
+        "expected": 403,
         "role": "FOREIGN_OWNER",
-        "expected": 403
+        "endpoint": "services-write"
       },
       {
-        "actual": 403,
         "tenantIndex": 8,
-        "endpoint": "staff",
+        "actual": 403,
+        "expected": 403,
         "role": "FOREIGN_OWNER",
-        "expected": 403
+        "endpoint": "staff"
       },
       {
-        "actual": 403,
         "tenantIndex": 8,
-        "endpoint": "bookings",
+        "actual": 403,
+        "expected": 403,
         "role": "FOREIGN_OWNER",
-        "expected": 403
+        "endpoint": "bookings"
       },
       {
-        "actual": 403,
         "tenantIndex": 8,
-        "endpoint": "analytics",
+        "actual": 403,
+        "expected": 403,
         "role": "FOREIGN_OWNER",
-        "expected": 403
+        "endpoint": "analytics"
       },
       {
-        "actual": 403,
         "tenantIndex": 8,
-        "endpoint": "audit-logs",
+        "actual": 403,
+        "expected": 403,
         "role": "FOREIGN_OWNER",
-        "expected": 403
+        "endpoint": "audit-logs"
       },
       {
-        "actual": 200,
         "tenantIndex": 9,
-        "endpoint": "services",
+        "actual": 200,
+        "expected": 200,
         "role": "OWNER",
-        "expected": 200
+        "endpoint": "services"
       },
       {
-        "actual": 200,
         "tenantIndex": 9,
-        "endpoint": "services-write",
+        "actual": 200,
+        "expected": 200,
         "role": "OWNER",
-        "expected": 200
+        "endpoint": "services-write"
       },
       {
-        "actual": 200,
         "tenantIndex": 9,
-        "endpoint": "staff",
+        "actual": 200,
+        "expected": 200,
         "role": "OWNER",
-        "expected": 200
+        "endpoint": "staff"
       },
       {
-        "actual": 200,
         "tenantIndex": 9,
-        "endpoint": "bookings",
+        "actual": 200,
+        "expected": 200,
         "role": "OWNER",
-        "expected": 200
+        "endpoint": "bookings"
       },
       {
-        "actual": 200,
         "tenantIndex": 9,
-        "endpoint": "analytics",
+        "actual": 200,
+        "expected": 200,
         "role": "OWNER",
-        "expected": 200
+        "endpoint": "analytics"
       },
       {
-        "actual": 200,
         "tenantIndex": 9,
-        "endpoint": "audit-logs",
+        "actual": 200,
+        "expected": 200,
         "role": "OWNER",
-        "expected": 200
+        "endpoint": "audit-logs"
       },
       {
-        "actual": 200,
         "tenantIndex": 9,
-        "endpoint": "services",
+        "actual": 200,
+        "expected": 200,
         "role": "ADMIN",
-        "expected": 200
+        "endpoint": "services"
       },
       {
-        "actual": 200,
         "tenantIndex": 9,
-        "endpoint": "services-write",
+        "actual": 200,
+        "expected": 200,
         "role": "ADMIN",
-        "expected": 200
+        "endpoint": "services-write"
       },
       {
-        "actual": 200,
         "tenantIndex": 9,
-        "endpoint": "staff",
+        "actual": 200,
+        "expected": 200,
         "role": "ADMIN",
-        "expected": 200
+        "endpoint": "staff"
       },
       {
-        "actual": 200,
         "tenantIndex": 9,
-        "endpoint": "bookings",
+        "actual": 200,
+        "expected": 200,
         "role": "ADMIN",
-        "expected": 200
+        "endpoint": "bookings"
       },
       {
-        "actual": 403,
         "tenantIndex": 9,
-        "endpoint": "analytics",
+        "actual": 403,
+        "expected": 403,
         "role": "ADMIN",
-        "expected": 403
+        "endpoint": "analytics"
       },
       {
-        "actual": 403,
         "tenantIndex": 9,
-        "endpoint": "audit-logs",
+        "actual": 403,
+        "expected": 403,
         "role": "ADMIN",
-        "expected": 403
+        "endpoint": "audit-logs"
       },
       {
-        "actual": 200,
         "tenantIndex": 9,
-        "endpoint": "services",
+        "actual": 200,
+        "expected": 200,
         "role": "STAFF",
-        "expected": 200
+        "endpoint": "services"
       },
       {
-        "actual": 403,
         "tenantIndex": 9,
-        "endpoint": "services-write",
+        "actual": 403,
+        "expected": 403,
         "role": "STAFF",
-        "expected": 403
+        "endpoint": "services-write"
       },
       {
-        "actual": 200,
         "tenantIndex": 9,
-        "endpoint": "staff",
+        "actual": 200,
+        "expected": 200,
         "role": "STAFF",
-        "expected": 200
+        "endpoint": "staff"
       },
       {
-        "actual": 200,
         "tenantIndex": 9,
-        "endpoint": "bookings",
+        "actual": 200,
+        "expected": 200,
         "role": "STAFF",
-        "expected": 200
+        "endpoint": "bookings"
       },
       {
-        "actual": 403,
         "tenantIndex": 9,
-        "endpoint": "analytics",
+        "actual": 403,
+        "expected": 403,
         "role": "STAFF",
-        "expected": 403
+        "endpoint": "analytics"
       },
       {
-        "actual": 403,
         "tenantIndex": 9,
-        "endpoint": "audit-logs",
+        "actual": 403,
+        "expected": 403,
         "role": "STAFF",
-        "expected": 403
+        "endpoint": "audit-logs"
       },
       {
-        "actual": 403,
         "tenantIndex": 9,
-        "endpoint": "services",
+        "actual": 403,
+        "expected": 403,
         "role": "FOREIGN_OWNER",
-        "expected": 403
+        "endpoint": "services"
       },
       {
-        "actual": 403,
         "tenantIndex": 9,
-        "endpoint": "services-write",
+        "actual": 403,
+        "expected": 403,
         "role": "FOREIGN_OWNER",
-        "expected": 403
+        "endpoint": "services-write"
       },
       {
-        "actual": 403,
         "tenantIndex": 9,
-        "endpoint": "staff",
+        "actual": 403,
+        "expected": 403,
         "role": "FOREIGN_OWNER",
-        "expected": 403
+        "endpoint": "staff"
       },
       {
-        "actual": 403,
         "tenantIndex": 9,
-        "endpoint": "bookings",
+        "actual": 403,
+        "expected": 403,
         "role": "FOREIGN_OWNER",
-        "expected": 403
+        "endpoint": "bookings"
       },
       {
-        "actual": 403,
         "tenantIndex": 9,
-        "endpoint": "analytics",
+        "actual": 403,
+        "expected": 403,
         "role": "FOREIGN_OWNER",
-        "expected": 403
+        "endpoint": "analytics"
       },
       {
-        "actual": 403,
         "tenantIndex": 9,
-        "endpoint": "audit-logs",
+        "actual": 403,
+        "expected": 403,
         "role": "FOREIGN_OWNER",
-        "expected": 403
+        "endpoint": "audit-logs"
       },
       {
-        "actual": 200,
         "tenantIndex": 10,
-        "endpoint": "services",
+        "actual": 200,
+        "expected": 200,
         "role": "OWNER",
-        "expected": 200
+        "endpoint": "services"
       },
       {
-        "actual": 200,
         "tenantIndex": 10,
-        "endpoint": "services-write",
+        "actual": 200,
+        "expected": 200,
         "role": "OWNER",
-        "expected": 200
+        "endpoint": "services-write"
       },
       {
-        "actual": 200,
         "tenantIndex": 10,
-        "endpoint": "staff",
+        "actual": 200,
+        "expected": 200,
         "role": "OWNER",
-        "expected": 200
+        "endpoint": "staff"
       },
       {
-        "actual": 200,
         "tenantIndex": 10,
-        "endpoint": "bookings",
+        "actual": 200,
+        "expected": 200,
         "role": "OWNER",
-        "expected": 200
+        "endpoint": "bookings"
       },
       {
-        "actual": 200,
         "tenantIndex": 10,
-        "endpoint": "analytics",
+        "actual": 200,
+        "expected": 200,
         "role": "OWNER",
-        "expected": 200
+        "endpoint": "analytics"
       },
       {
-        "actual": 200,
         "tenantIndex": 10,
-        "endpoint": "audit-logs",
+        "actual": 200,
+        "expected": 200,
         "role": "OWNER",
-        "expected": 200
+        "endpoint": "audit-logs"
       },
       {
-        "actual": 200,
         "tenantIndex": 10,
-        "endpoint": "services",
+        "actual": 200,
+        "expected": 200,
         "role": "ADMIN",
-        "expected": 200
+        "endpoint": "services"
       },
       {
-        "actual": 200,
         "tenantIndex": 10,
-        "endpoint": "services-write",
+        "actual": 200,
+        "expected": 200,
         "role": "ADMIN",
-        "expected": 200
+        "endpoint": "services-write"
       },
       {
-        "actual": 200,
         "tenantIndex": 10,
-        "endpoint": "staff",
+        "actual": 200,
+        "expected": 200,
         "role": "ADMIN",
-        "expected": 200
+        "endpoint": "staff"
       },
       {
-        "actual": 200,
         "tenantIndex": 10,
-        "endpoint": "bookings",
+        "actual": 200,
+        "expected": 200,
         "role": "ADMIN",
-        "expected": 200
+        "endpoint": "bookings"
       },
       {
-        "actual": 403,
         "tenantIndex": 10,
-        "endpoint": "analytics",
+        "actual": 403,
+        "expected": 403,
         "role": "ADMIN",
-        "expected": 403
+        "endpoint": "analytics"
       },
       {
-        "actual": 403,
         "tenantIndex": 10,
-        "endpoint": "audit-logs",
+        "actual": 403,
+        "expected": 403,
         "role": "ADMIN",
-        "expected": 403
+        "endpoint": "audit-logs"
       },
       {
-        "actual": 200,
         "tenantIndex": 10,
-        "endpoint": "services",
+        "actual": 200,
+        "expected": 200,
         "role": "STAFF",
-        "expected": 200
+        "endpoint": "services"
       },
       {
-        "actual": 403,
         "tenantIndex": 10,
-        "endpoint": "services-write",
+        "actual": 403,
+        "expected": 403,
         "role": "STAFF",
-        "expected": 403
+        "endpoint": "services-write"
       },
       {
-        "actual": 200,
         "tenantIndex": 10,
-        "endpoint": "staff",
+        "actual": 200,
+        "expected": 200,
         "role": "STAFF",
-        "expected": 200
+        "endpoint": "staff"
       },
       {
-        "actual": 200,
         "tenantIndex": 10,
-        "endpoint": "bookings",
+        "actual": 200,
+        "expected": 200,
         "role": "STAFF",
-        "expected": 200
+        "endpoint": "bookings"
       },
       {
-        "actual": 403,
         "tenantIndex": 10,
-        "endpoint": "analytics",
+        "actual": 403,
+        "expected": 403,
         "role": "STAFF",
-        "expected": 403
+        "endpoint": "analytics"
       },
       {
-        "actual": 403,
         "tenantIndex": 10,
-        "endpoint": "audit-logs",
+        "actual": 403,
+        "expected": 403,
         "role": "STAFF",
-        "expected": 403
+        "endpoint": "audit-logs"
       },
       {
-        "actual": 403,
         "tenantIndex": 10,
-        "endpoint": "services",
+        "actual": 403,
+        "expected": 403,
         "role": "FOREIGN_OWNER",
-        "expected": 403
+        "endpoint": "services"
       },
       {
-        "actual": 403,
         "tenantIndex": 10,
-        "endpoint": "services-write",
+        "actual": 403,
+        "expected": 403,
         "role": "FOREIGN_OWNER",
-        "expected": 403
+        "endpoint": "services-write"
       },
       {
-        "actual": 403,
         "tenantIndex": 10,
-        "endpoint": "staff",
+        "actual": 403,
+        "expected": 403,
         "role": "FOREIGN_OWNER",
-        "expected": 403
+        "endpoint": "staff"
       },
       {
-        "actual": 403,
         "tenantIndex": 10,
-        "endpoint": "bookings",
+        "actual": 403,
+        "expected": 403,
         "role": "FOREIGN_OWNER",
-        "expected": 403
+        "endpoint": "bookings"
       },
       {
-        "actual": 403,
         "tenantIndex": 10,
-        "endpoint": "analytics",
+        "actual": 403,
+        "expected": 403,
         "role": "FOREIGN_OWNER",
-        "expected": 403
+        "endpoint": "analytics"
       },
       {
-        "actual": 403,
         "tenantIndex": 10,
-        "endpoint": "audit-logs",
+        "actual": 403,
+        "expected": 403,
         "role": "FOREIGN_OWNER",
-        "expected": 403
+        "endpoint": "audit-logs"
       },
       {
-        "actual": 200,
         "tenantIndex": 11,
-        "endpoint": "services",
+        "actual": 200,
+        "expected": 200,
         "role": "OWNER",
-        "expected": 200
+        "endpoint": "services"
       },
       {
-        "actual": 200,
         "tenantIndex": 11,
-        "endpoint": "services-write",
+        "actual": 200,
+        "expected": 200,
         "role": "OWNER",
-        "expected": 200
+        "endpoint": "services-write"
       },
       {
-        "actual": 200,
         "tenantIndex": 11,
-        "endpoint": "staff",
+        "actual": 200,
+        "expected": 200,
         "role": "OWNER",
-        "expected": 200
+        "endpoint": "staff"
       },
       {
-        "actual": 200,
         "tenantIndex": 11,
-        "endpoint": "bookings",
+        "actual": 200,
+        "expected": 200,
         "role": "OWNER",
-        "expected": 200
+        "endpoint": "bookings"
       },
       {
-        "actual": 200,
         "tenantIndex": 11,
-        "endpoint": "analytics",
+        "actual": 200,
+        "expected": 200,
         "role": "OWNER",
-        "expected": 200
+        "endpoint": "analytics"
       },
       {
-        "actual": 200,
         "tenantIndex": 11,
-        "endpoint": "audit-logs",
+        "actual": 200,
+        "expected": 200,
         "role": "OWNER",
-        "expected": 200
+        "endpoint": "audit-logs"
       },
       {
-        "actual": 200,
         "tenantIndex": 11,
-        "endpoint": "services",
+        "actual": 200,
+        "expected": 200,
         "role": "ADMIN",
-        "expected": 200
+        "endpoint": "services"
       },
       {
-        "actual": 200,
         "tenantIndex": 11,
-        "endpoint": "services-write",
+        "actual": 200,
+        "expected": 200,
         "role": "ADMIN",
-        "expected": 200
+        "endpoint": "services-write"
       },
       {
-        "actual": 200,
         "tenantIndex": 11,
-        "endpoint": "staff",
+        "actual": 200,
+        "expected": 200,
         "role": "ADMIN",
-        "expected": 200
+        "endpoint": "staff"
       },
       {
-        "actual": 200,
         "tenantIndex": 11,
-        "endpoint": "bookings",
+        "actual": 200,
+        "expected": 200,
         "role": "ADMIN",
-        "expected": 200
+        "endpoint": "bookings"
       },
       {
-        "actual": 403,
         "tenantIndex": 11,
-        "endpoint": "analytics",
+        "actual": 403,
+        "expected": 403,
         "role": "ADMIN",
-        "expected": 403
+        "endpoint": "analytics"
       },
       {
-        "actual": 403,
         "tenantIndex": 11,
-        "endpoint": "audit-logs",
+        "actual": 403,
+        "expected": 403,
         "role": "ADMIN",
-        "expected": 403
+        "endpoint": "audit-logs"
       },
       {
-        "actual": 200,
         "tenantIndex": 11,
-        "endpoint": "services",
+        "actual": 200,
+        "expected": 200,
         "role": "STAFF",
-        "expected": 200
+        "endpoint": "services"
       },
       {
-        "actual": 403,
         "tenantIndex": 11,
-        "endpoint": "services-write",
+        "actual": 403,
+        "expected": 403,
         "role": "STAFF",
-        "expected": 403
+        "endpoint": "services-write"
       },
       {
-        "actual": 200,
         "tenantIndex": 11,
-        "endpoint": "staff",
+        "actual": 200,
+        "expected": 200,
         "role": "STAFF",
-        "expected": 200
+        "endpoint": "staff"
       },
       {
-        "actual": 200,
         "tenantIndex": 11,
-        "endpoint": "bookings",
+        "actual": 200,
+        "expected": 200,
         "role": "STAFF",
-        "expected": 200
+        "endpoint": "bookings"
       },
       {
-        "actual": 403,
         "tenantIndex": 11,
-        "endpoint": "analytics",
+        "actual": 403,
+        "expected": 403,
         "role": "STAFF",
-        "expected": 403
+        "endpoint": "analytics"
       },
       {
-        "actual": 403,
         "tenantIndex": 11,
-        "endpoint": "audit-logs",
+        "actual": 403,
+        "expected": 403,
         "role": "STAFF",
-        "expected": 403
+        "endpoint": "audit-logs"
       },
       {
-        "actual": 403,
         "tenantIndex": 11,
-        "endpoint": "services",
+        "actual": 403,
+        "expected": 403,
         "role": "FOREIGN_OWNER",
-        "expected": 403
+        "endpoint": "services"
       },
       {
-        "actual": 403,
         "tenantIndex": 11,
-        "endpoint": "services-write",
+        "actual": 403,
+        "expected": 403,
         "role": "FOREIGN_OWNER",
-        "expected": 403
+        "endpoint": "services-write"
       },
       {
-        "actual": 403,
         "tenantIndex": 11,
-        "endpoint": "staff",
+        "actual": 403,
+        "expected": 403,
         "role": "FOREIGN_OWNER",
-        "expected": 403
+        "endpoint": "staff"
       },
       {
-        "actual": 403,
         "tenantIndex": 11,
-        "endpoint": "bookings",
+        "actual": 403,
+        "expected": 403,
         "role": "FOREIGN_OWNER",
-        "expected": 403
+        "endpoint": "bookings"
       },
       {
-        "actual": 403,
         "tenantIndex": 11,
-        "endpoint": "analytics",
+        "actual": 403,
+        "expected": 403,
         "role": "FOREIGN_OWNER",
-        "expected": 403
+        "endpoint": "analytics"
       },
       {
-        "actual": 403,
         "tenantIndex": 11,
-        "endpoint": "audit-logs",
+        "actual": 403,
+        "expected": 403,
         "role": "FOREIGN_OWNER",
-        "expected": 403
+        "endpoint": "audit-logs"
       },
       {
-        "actual": 200,
         "tenantIndex": 12,
-        "endpoint": "services",
+        "actual": 200,
+        "expected": 200,
         "role": "OWNER",
-        "expected": 200
+        "endpoint": "services"
       },
       {
-        "actual": 200,
         "tenantIndex": 12,
-        "endpoint": "services-write",
+        "actual": 200,
+        "expected": 200,
         "role": "OWNER",
-        "expected": 200
+        "endpoint": "services-write"
       },
       {
-        "actual": 200,
         "tenantIndex": 12,
-        "endpoint": "staff",
+        "actual": 200,
+        "expected": 200,
         "role": "OWNER",
-        "expected": 200
+        "endpoint": "staff"
       },
       {
-        "actual": 200,
         "tenantIndex": 12,
-        "endpoint": "bookings",
+        "actual": 200,
+        "expected": 200,
         "role": "OWNER",
-        "expected": 200
+        "endpoint": "bookings"
       },
       {
-        "actual": 200,
         "tenantIndex": 12,
-        "endpoint": "analytics",
+        "actual": 200,
+        "expected": 200,
         "role": "OWNER",
-        "expected": 200
+        "endpoint": "analytics"
       },
       {
-        "actual": 200,
         "tenantIndex": 12,
-        "endpoint": "audit-logs",
+        "actual": 200,
+        "expected": 200,
         "role": "OWNER",
-        "expected": 200
+        "endpoint": "audit-logs"
       },
       {
-        "actual": 200,
         "tenantIndex": 12,
-        "endpoint": "services",
+        "actual": 200,
+        "expected": 200,
         "role": "ADMIN",
-        "expected": 200
+        "endpoint": "services"
       },
       {
-        "actual": 200,
         "tenantIndex": 12,
-        "endpoint": "services-write",
+        "actual": 200,
+        "expected": 200,
         "role": "ADMIN",
-        "expected": 200
+        "endpoint": "services-write"
       },
       {
-        "actual": 200,
         "tenantIndex": 12,
-        "endpoint": "staff",
+        "actual": 200,
+        "expected": 200,
         "role": "ADMIN",
-        "expected": 200
+        "endpoint": "staff"
       },
       {
-        "actual": 200,
         "tenantIndex": 12,
-        "endpoint": "bookings",
+        "actual": 200,
+        "expected": 200,
         "role": "ADMIN",
-        "expected": 200
+        "endpoint": "bookings"
       },
       {
-        "actual": 403,
         "tenantIndex": 12,
-        "endpoint": "analytics",
+        "actual": 403,
+        "expected": 403,
         "role": "ADMIN",
-        "expected": 403
+        "endpoint": "analytics"
       },
       {
-        "actual": 403,
         "tenantIndex": 12,
-        "endpoint": "audit-logs",
+        "actual": 403,
+        "expected": 403,
         "role": "ADMIN",
-        "expected": 403
+        "endpoint": "audit-logs"
       },
       {
-        "actual": 200,
         "tenantIndex": 12,
-        "endpoint": "services",
+        "actual": 200,
+        "expected": 200,
         "role": "STAFF",
-        "expected": 200
+        "endpoint": "services"
       },
       {
-        "actual": 403,
         "tenantIndex": 12,
-        "endpoint": "services-write",
+        "actual": 403,
+        "expected": 403,
         "role": "STAFF",
-        "expected": 403
+        "endpoint": "services-write"
       },
       {
-        "actual": 200,
         "tenantIndex": 12,
-        "endpoint": "staff",
+        "actual": 200,
+        "expected": 200,
         "role": "STAFF",
-        "expected": 200
+        "endpoint": "staff"
       },
       {
-        "actual": 200,
         "tenantIndex": 12,
-        "endpoint": "bookings",
+        "actual": 200,
+        "expected": 200,
         "role": "STAFF",
-        "expected": 200
+        "endpoint": "bookings"
       },
       {
-        "actual": 403,
         "tenantIndex": 12,
-        "endpoint": "analytics",
+        "actual": 403,
+        "expected": 403,
         "role": "STAFF",
-        "expected": 403
+        "endpoint": "analytics"
       },
       {
-        "actual": 403,
         "tenantIndex": 12,
-        "endpoint": "audit-logs",
+        "actual": 403,
+        "expected": 403,
         "role": "STAFF",
-        "expected": 403
+        "endpoint": "audit-logs"
       },
       {
-        "actual": 403,
         "tenantIndex": 12,
-        "endpoint": "services",
+        "actual": 403,
+        "expected": 403,
         "role": "FOREIGN_OWNER",
-        "expected": 403
+        "endpoint": "services"
       },
       {
-        "actual": 403,
         "tenantIndex": 12,
-        "endpoint": "services-write",
+        "actual": 403,
+        "expected": 403,
         "role": "FOREIGN_OWNER",
-        "expected": 403
+        "endpoint": "services-write"
       },
       {
-        "actual": 403,
         "tenantIndex": 12,
-        "endpoint": "staff",
+        "actual": 403,
+        "expected": 403,
         "role": "FOREIGN_OWNER",
-        "expected": 403
+        "endpoint": "staff"
       },
       {
-        "actual": 403,
         "tenantIndex": 12,
-        "endpoint": "bookings",
+        "actual": 403,
+        "expected": 403,
         "role": "FOREIGN_OWNER",
-        "expected": 403
+        "endpoint": "bookings"
       },
       {
-        "actual": 403,
         "tenantIndex": 12,
-        "endpoint": "analytics",
+        "actual": 403,
+        "expected": 403,
         "role": "FOREIGN_OWNER",
-        "expected": 403
+        "endpoint": "analytics"
       },
       {
-        "actual": 403,
         "tenantIndex": 12,
-        "endpoint": "audit-logs",
+        "actual": 403,
+        "expected": 403,
         "role": "FOREIGN_OWNER",
-        "expected": 403
+        "endpoint": "audit-logs"
       },
       {
-        "actual": 200,
         "tenantIndex": 13,
-        "endpoint": "services",
+        "actual": 200,
+        "expected": 200,
         "role": "OWNER",
-        "expected": 200
+        "endpoint": "services"
       },
       {
-        "actual": 200,
         "tenantIndex": 13,
-        "endpoint": "services-write",
+        "actual": 200,
+        "expected": 200,
         "role": "OWNER",
-        "expected": 200
+        "endpoint": "services-write"
       },
       {
-        "actual": 200,
         "tenantIndex": 13,
-        "endpoint": "staff",
+        "actual": 200,
+        "expected": 200,
         "role": "OWNER",
-        "expected": 200
+        "endpoint": "staff"
       },
       {
-        "actual": 200,
         "tenantIndex": 13,
-        "endpoint": "bookings",
+        "actual": 200,
+        "expected": 200,
         "role": "OWNER",
-        "expected": 200
+        "endpoint": "bookings"
       },
       {
-        "actual": 200,
         "tenantIndex": 13,
-        "endpoint": "analytics",
+        "actual": 200,
+        "expected": 200,
         "role": "OWNER",
-        "expected": 200
+        "endpoint": "analytics"
       },
       {
-        "actual": 200,
         "tenantIndex": 13,
-        "endpoint": "audit-logs",
+        "actual": 200,
+        "expected": 200,
         "role": "OWNER",
-        "expected": 200
+        "endpoint": "audit-logs"
       },
       {
-        "actual": 200,
         "tenantIndex": 13,
-        "endpoint": "services",
+        "actual": 200,
+        "expected": 200,
         "role": "ADMIN",
-        "expected": 200
+        "endpoint": "services"
       },
       {
-        "actual": 200,
         "tenantIndex": 13,
-        "endpoint": "services-write",
+        "actual": 200,
+        "expected": 200,
         "role": "ADMIN",
-        "expected": 200
+        "endpoint": "services-write"
       },
       {
-        "actual": 200,
         "tenantIndex": 13,
-        "endpoint": "staff",
+        "actual": 200,
+        "expected": 200,
         "role": "ADMIN",
-        "expected": 200
+        "endpoint": "staff"
       },
       {
-        "actual": 200,
         "tenantIndex": 13,
-        "endpoint": "bookings",
+        "actual": 200,
+        "expected": 200,
         "role": "ADMIN",
-        "expected": 200
+        "endpoint": "bookings"
       },
       {
-        "actual": 403,
         "tenantIndex": 13,
-        "endpoint": "analytics",
+        "actual": 403,
+        "expected": 403,
         "role": "ADMIN",
-        "expected": 403
+        "endpoint": "analytics"
       },
       {
-        "actual": 403,
         "tenantIndex": 13,
-        "endpoint": "audit-logs",
+        "actual": 403,
+        "expected": 403,
         "role": "ADMIN",
-        "expected": 403
+        "endpoint": "audit-logs"
       },
       {
-        "actual": 200,
         "tenantIndex": 13,
-        "endpoint": "services",
+        "actual": 200,
+        "expected": 200,
         "role": "STAFF",
-        "expected": 200
+        "endpoint": "services"
       },
       {
-        "actual": 403,
         "tenantIndex": 13,
-        "endpoint": "services-write",
+        "actual": 403,
+        "expected": 403,
         "role": "STAFF",
-        "expected": 403
+        "endpoint": "services-write"
       },
       {
-        "actual": 200,
         "tenantIndex": 13,
-        "endpoint": "staff",
+        "actual": 200,
+        "expected": 200,
         "role": "STAFF",
-        "expected": 200
+        "endpoint": "staff"
       },
       {
-        "actual": 200,
         "tenantIndex": 13,
-        "endpoint": "bookings",
+        "actual": 200,
+        "expected": 200,
         "role": "STAFF",
-        "expected": 200
+        "endpoint": "bookings"
       },
       {
-        "actual": 403,
         "tenantIndex": 13,
-        "endpoint": "analytics",
+        "actual": 403,
+        "expected": 403,
         "role": "STAFF",
-        "expected": 403
+        "endpoint": "analytics"
       },
       {
-        "actual": 403,
         "tenantIndex": 13,
-        "endpoint": "audit-logs",
+        "actual": 403,
+        "expected": 403,
         "role": "STAFF",
-        "expected": 403
+        "endpoint": "audit-logs"
       },
       {
-        "actual": 403,
         "tenantIndex": 13,
-        "endpoint": "services",
+        "actual": 403,
+        "expected": 403,
         "role": "FOREIGN_OWNER",
-        "expected": 403
+        "endpoint": "services"
       },
       {
-        "actual": 403,
         "tenantIndex": 13,
-        "endpoint": "services-write",
+        "actual": 403,
+        "expected": 403,
         "role": "FOREIGN_OWNER",
-        "expected": 403
+        "endpoint": "services-write"
       },
       {
-        "actual": 403,
         "tenantIndex": 13,
-        "endpoint": "staff",
+        "actual": 403,
+        "expected": 403,
         "role": "FOREIGN_OWNER",
-        "expected": 403
+        "endpoint": "staff"
       },
       {
-        "actual": 403,
         "tenantIndex": 13,
-        "endpoint": "bookings",
+        "actual": 403,
+        "expected": 403,
         "role": "FOREIGN_OWNER",
-        "expected": 403
+        "endpoint": "bookings"
       },
       {
-        "actual": 403,
         "tenantIndex": 13,
-        "endpoint": "analytics",
+        "actual": 403,
+        "expected": 403,
         "role": "FOREIGN_OWNER",
-        "expected": 403
+        "endpoint": "analytics"
       },
       {
-        "actual": 403,
         "tenantIndex": 13,
-        "endpoint": "audit-logs",
+        "actual": 403,
+        "expected": 403,
         "role": "FOREIGN_OWNER",
-        "expected": 403
+        "endpoint": "audit-logs"
       },
       {
-        "actual": 200,
         "tenantIndex": 14,
-        "endpoint": "services",
+        "actual": 200,
+        "expected": 200,
         "role": "OWNER",
-        "expected": 200
+        "endpoint": "services"
       },
       {
-        "actual": 200,
         "tenantIndex": 14,
-        "endpoint": "services-write",
+        "actual": 200,
+        "expected": 200,
         "role": "OWNER",
-        "expected": 200
+        "endpoint": "services-write"
       },
       {
-        "actual": 200,
         "tenantIndex": 14,
-        "endpoint": "staff",
+        "actual": 200,
+        "expected": 200,
         "role": "OWNER",
-        "expected": 200
+        "endpoint": "staff"
       },
       {
-        "actual": 200,
         "tenantIndex": 14,
-        "endpoint": "bookings",
+        "actual": 200,
+        "expected": 200,
         "role": "OWNER",
-        "expected": 200
+        "endpoint": "bookings"
       },
       {
-        "actual": 200,
         "tenantIndex": 14,
-        "endpoint": "analytics",
+        "actual": 200,
+        "expected": 200,
         "role": "OWNER",
-        "expected": 200
+        "endpoint": "analytics"
       },
       {
-        "actual": 200,
         "tenantIndex": 14,
-        "endpoint": "audit-logs",
+        "actual": 200,
+        "expected": 200,
         "role": "OWNER",
-        "expected": 200
+        "endpoint": "audit-logs"
       },
       {
-        "actual": 200,
         "tenantIndex": 14,
-        "endpoint": "services",
+        "actual": 200,
+        "expected": 200,
         "role": "ADMIN",
-        "expected": 200
+        "endpoint": "services"
       },
       {
-        "actual": 200,
         "tenantIndex": 14,
-        "endpoint": "services-write",
+        "actual": 200,
+        "expected": 200,
         "role": "ADMIN",
-        "expected": 200
+        "endpoint": "services-write"
       },
       {
-        "actual": 200,
         "tenantIndex": 14,
-        "endpoint": "staff",
+        "actual": 200,
+        "expected": 200,
         "role": "ADMIN",
-        "expected": 200
+        "endpoint": "staff"
       },
       {
-        "actual": 200,
         "tenantIndex": 14,
-        "endpoint": "bookings",
+        "actual": 200,
+        "expected": 200,
         "role": "ADMIN",
-        "expected": 200
+        "endpoint": "bookings"
       },
       {
-        "actual": 403,
         "tenantIndex": 14,
-        "endpoint": "analytics",
+        "actual": 403,
+        "expected": 403,
         "role": "ADMIN",
-        "expected": 403
+        "endpoint": "analytics"
       },
       {
-        "actual": 403,
         "tenantIndex": 14,
-        "endpoint": "audit-logs",
+        "actual": 403,
+        "expected": 403,
         "role": "ADMIN",
-        "expected": 403
+        "endpoint": "audit-logs"
       },
       {
-        "actual": 200,
         "tenantIndex": 14,
-        "endpoint": "services",
+        "actual": 200,
+        "expected": 200,
         "role": "STAFF",
-        "expected": 200
+        "endpoint": "services"
       },
       {
-        "actual": 403,
         "tenantIndex": 14,
-        "endpoint": "services-write",
+        "actual": 403,
+        "expected": 403,
         "role": "STAFF",
-        "expected": 403
+        "endpoint": "services-write"
       },
       {
-        "actual": 200,
         "tenantIndex": 14,
-        "endpoint": "staff",
+        "actual": 200,
+        "expected": 200,
         "role": "STAFF",
-        "expected": 200
+        "endpoint": "staff"
       },
       {
-        "actual": 200,
         "tenantIndex": 14,
-        "endpoint": "bookings",
+        "actual": 200,
+        "expected": 200,
         "role": "STAFF",
-        "expected": 200
+        "endpoint": "bookings"
       },
       {
-        "actual": 403,
         "tenantIndex": 14,
-        "endpoint": "analytics",
+        "actual": 403,
+        "expected": 403,
         "role": "STAFF",
-        "expected": 403
+        "endpoint": "analytics"
       },
       {
-        "actual": 403,
         "tenantIndex": 14,
-        "endpoint": "audit-logs",
+        "actual": 403,
+        "expected": 403,
         "role": "STAFF",
-        "expected": 403
+        "endpoint": "audit-logs"
       },
       {
-        "actual": 403,
         "tenantIndex": 14,
-        "endpoint": "services",
+        "actual": 403,
+        "expected": 403,
         "role": "FOREIGN_OWNER",
-        "expected": 403
+        "endpoint": "services"
       },
       {
-        "actual": 403,
         "tenantIndex": 14,
-        "endpoint": "services-write",
+        "actual": 403,
+        "expected": 403,
         "role": "FOREIGN_OWNER",
-        "expected": 403
+        "endpoint": "services-write"
       },
       {
-        "actual": 403,
         "tenantIndex": 14,
-        "endpoint": "staff",
+        "actual": 403,
+        "expected": 403,
         "role": "FOREIGN_OWNER",
-        "expected": 403
+        "endpoint": "staff"
       },
       {
-        "actual": 403,
         "tenantIndex": 14,
-        "endpoint": "bookings",
+        "actual": 403,
+        "expected": 403,
         "role": "FOREIGN_OWNER",
-        "expected": 403
+        "endpoint": "bookings"
       },
       {
-        "actual": 403,
         "tenantIndex": 14,
-        "endpoint": "analytics",
+        "actual": 403,
+        "expected": 403,
         "role": "FOREIGN_OWNER",
-        "expected": 403
+        "endpoint": "analytics"
       },
       {
-        "actual": 403,
         "tenantIndex": 14,
-        "endpoint": "audit-logs",
+        "actual": 403,
+        "expected": 403,
         "role": "FOREIGN_OWNER",
-        "expected": 403
+        "endpoint": "audit-logs"
       },
       {
-        "actual": 200,
         "tenantIndex": 15,
-        "endpoint": "services",
+        "actual": 200,
+        "expected": 200,
         "role": "OWNER",
-        "expected": 200
+        "endpoint": "services"
       },
       {
-        "actual": 200,
         "tenantIndex": 15,
-        "endpoint": "services-write",
+        "actual": 200,
+        "expected": 200,
         "role": "OWNER",
-        "expected": 200
+        "endpoint": "services-write"
       },
       {
-        "actual": 200,
         "tenantIndex": 15,
-        "endpoint": "staff",
+        "actual": 200,
+        "expected": 200,
         "role": "OWNER",
-        "expected": 200
+        "endpoint": "staff"
       },
       {
-        "actual": 200,
         "tenantIndex": 15,
-        "endpoint": "bookings",
+        "actual": 200,
+        "expected": 200,
         "role": "OWNER",
-        "expected": 200
+        "endpoint": "bookings"
       },
       {
-        "actual": 200,
         "tenantIndex": 15,
-        "endpoint": "analytics",
+        "actual": 200,
+        "expected": 200,
         "role": "OWNER",
-        "expected": 200
+        "endpoint": "analytics"
       },
       {
-        "actual": 200,
         "tenantIndex": 15,
-        "endpoint": "audit-logs",
+        "actual": 200,
+        "expected": 200,
         "role": "OWNER",
-        "expected": 200
+        "endpoint": "audit-logs"
       },
       {
-        "actual": 200,
         "tenantIndex": 15,
-        "endpoint": "services",
+        "actual": 200,
+        "expected": 200,
         "role": "ADMIN",
-        "expected": 200
+        "endpoint": "services"
       },
       {
-        "actual": 200,
         "tenantIndex": 15,
-        "endpoint": "services-write",
+        "actual": 200,
+        "expected": 200,
         "role": "ADMIN",
-        "expected": 200
+        "endpoint": "services-write"
       },
       {
-        "actual": 200,
         "tenantIndex": 15,
-        "endpoint": "staff",
+        "actual": 200,
+        "expected": 200,
         "role": "ADMIN",
-        "expected": 200
+        "endpoint": "staff"
       },
       {
-        "actual": 200,
         "tenantIndex": 15,
-        "endpoint": "bookings",
+        "actual": 200,
+        "expected": 200,
         "role": "ADMIN",
-        "expected": 200
+        "endpoint": "bookings"
       },
       {
-        "actual": 403,
         "tenantIndex": 15,
-        "endpoint": "analytics",
+        "actual": 403,
+        "expected": 403,
         "role": "ADMIN",
-        "expected": 403
+        "endpoint": "analytics"
       },
       {
-        "actual": 403,
         "tenantIndex": 15,
-        "endpoint": "audit-logs",
+        "actual": 403,
+        "expected": 403,
         "role": "ADMIN",
-        "expected": 403
+        "endpoint": "audit-logs"
       },
       {
-        "actual": 200,
         "tenantIndex": 15,
-        "endpoint": "services",
+        "actual": 200,
+        "expected": 200,
         "role": "STAFF",
-        "expected": 200
+        "endpoint": "services"
       },
       {
-        "actual": 403,
         "tenantIndex": 15,
-        "endpoint": "services-write",
+        "actual": 403,
+        "expected": 403,
         "role": "STAFF",
-        "expected": 403
+        "endpoint": "services-write"
       },
       {
-        "actual": 200,
         "tenantIndex": 15,
-        "endpoint": "staff",
+        "actual": 200,
+        "expected": 200,
         "role": "STAFF",
-        "expected": 200
+        "endpoint": "staff"
       },
       {
-        "actual": 200,
         "tenantIndex": 15,
-        "endpoint": "bookings",
+        "actual": 200,
+        "expected": 200,
         "role": "STAFF",
-        "expected": 200
+        "endpoint": "bookings"
       },
       {
-        "actual": 403,
         "tenantIndex": 15,
-        "endpoint": "analytics",
+        "actual": 403,
+        "expected": 403,
         "role": "STAFF",
-        "expected": 403
+        "endpoint": "analytics"
       },
       {
-        "actual": 403,
         "tenantIndex": 15,
-        "endpoint": "audit-logs",
+        "actual": 403,
+        "expected": 403,
         "role": "STAFF",
-        "expected": 403
+        "endpoint": "audit-logs"
       },
       {
-        "actual": 403,
         "tenantIndex": 15,
-        "endpoint": "services",
+        "actual": 403,
+        "expected": 403,
         "role": "FOREIGN_OWNER",
-        "expected": 403
+        "endpoint": "services"
       },
       {
-        "actual": 403,
         "tenantIndex": 15,
-        "endpoint": "services-write",
+        "actual": 403,
+        "expected": 403,
         "role": "FOREIGN_OWNER",
-        "expected": 403
+        "endpoint": "services-write"
       },
       {
-        "actual": 403,
         "tenantIndex": 15,
-        "endpoint": "staff",
+        "actual": 403,
+        "expected": 403,
         "role": "FOREIGN_OWNER",
-        "expected": 403
+        "endpoint": "staff"
       },
       {
-        "actual": 403,
         "tenantIndex": 15,
-        "endpoint": "bookings",
+        "actual": 403,
+        "expected": 403,
         "role": "FOREIGN_OWNER",
-        "expected": 403
+        "endpoint": "bookings"
       },
       {
-        "actual": 403,
         "tenantIndex": 15,
-        "endpoint": "analytics",
+        "actual": 403,
+        "expected": 403,
         "role": "FOREIGN_OWNER",
-        "expected": 403
+        "endpoint": "analytics"
       },
       {
-        "actual": 403,
         "tenantIndex": 15,
-        "endpoint": "audit-logs",
+        "actual": 403,
+        "expected": 403,
         "role": "FOREIGN_OWNER",
-        "expected": 403
+        "endpoint": "audit-logs"
       },
       {
-        "actual": 200,
         "tenantIndex": 16,
-        "endpoint": "services",
+        "actual": 200,
+        "expected": 200,
         "role": "OWNER",
-        "expected": 200
+        "endpoint": "services"
       },
       {
-        "actual": 200,
         "tenantIndex": 16,
-        "endpoint": "services-write",
+        "actual": 200,
+        "expected": 200,
         "role": "OWNER",
-        "expected": 200
+        "endpoint": "services-write"
       },
       {
-        "actual": 200,
         "tenantIndex": 16,
-        "endpoint": "staff",
+        "actual": 200,
+        "expected": 200,
         "role": "OWNER",
-        "expected": 200
+        "endpoint": "staff"
       },
       {
-        "actual": 200,
         "tenantIndex": 16,
-        "endpoint": "bookings",
+        "actual": 200,
+        "expected": 200,
         "role": "OWNER",
-        "expected": 200
+        "endpoint": "bookings"
       },
       {
-        "actual": 200,
         "tenantIndex": 16,
-        "endpoint": "analytics",
+        "actual": 200,
+        "expected": 200,
         "role": "OWNER",
-        "expected": 200
+        "endpoint": "analytics"
       },
       {
-        "actual": 200,
         "tenantIndex": 16,
-        "endpoint": "audit-logs",
+        "actual": 200,
+        "expected": 200,
         "role": "OWNER",
-        "expected": 200
+        "endpoint": "audit-logs"
       },
       {
-        "actual": 200,
         "tenantIndex": 16,
-        "endpoint": "services",
+        "actual": 200,
+        "expected": 200,
         "role": "ADMIN",
-        "expected": 200
+        "endpoint": "services"
       },
       {
-        "actual": 200,
         "tenantIndex": 16,
-        "endpoint": "services-write",
+        "actual": 200,
+        "expected": 200,
         "role": "ADMIN",
-        "expected": 200
+        "endpoint": "services-write"
       },
       {
-        "actual": 200,
         "tenantIndex": 16,
-        "endpoint": "staff",
+        "actual": 200,
+        "expected": 200,
         "role": "ADMIN",
-        "expected": 200
+        "endpoint": "staff"
       },
       {
-        "actual": 200,
         "tenantIndex": 16,
-        "endpoint": "bookings",
+        "actual": 200,
+        "expected": 200,
         "role": "ADMIN",
-        "expected": 200
+        "endpoint": "bookings"
       },
       {
-        "actual": 403,
         "tenantIndex": 16,
-        "endpoint": "analytics",
+        "actual": 403,
+        "expected": 403,
         "role": "ADMIN",
-        "expected": 403
+        "endpoint": "analytics"
       },
       {
-        "actual": 403,
         "tenantIndex": 16,
-        "endpoint": "audit-logs",
+        "actual": 403,
+        "expected": 403,
         "role": "ADMIN",
-        "expected": 403
+        "endpoint": "audit-logs"
       },
       {
-        "actual": 200,
         "tenantIndex": 16,
-        "endpoint": "services",
+        "actual": 200,
+        "expected": 200,
         "role": "STAFF",
-        "expected": 200
+        "endpoint": "services"
       },
       {
-        "actual": 403,
         "tenantIndex": 16,
-        "endpoint": "services-write",
+        "actual": 403,
+        "expected": 403,
         "role": "STAFF",
-        "expected": 403
+        "endpoint": "services-write"
       },
       {
-        "actual": 200,
         "tenantIndex": 16,
-        "endpoint": "staff",
+        "actual": 200,
+        "expected": 200,
         "role": "STAFF",
-        "expected": 200
+        "endpoint": "staff"
       },
       {
-        "actual": 200,
         "tenantIndex": 16,
-        "endpoint": "bookings",
+        "actual": 200,
+        "expected": 200,
         "role": "STAFF",
-        "expected": 200
+        "endpoint": "bookings"
       },
       {
-        "actual": 403,
         "tenantIndex": 16,
-        "endpoint": "analytics",
+        "actual": 403,
+        "expected": 403,
         "role": "STAFF",
-        "expected": 403
+        "endpoint": "analytics"
       },
       {
-        "actual": 403,
         "tenantIndex": 16,
-        "endpoint": "audit-logs",
+        "actual": 403,
+        "expected": 403,
         "role": "STAFF",
-        "expected": 403
+        "endpoint": "audit-logs"
       },
       {
-        "actual": 403,
         "tenantIndex": 16,
-        "endpoint": "services",
+        "actual": 403,
+        "expected": 403,
         "role": "FOREIGN_OWNER",
-        "expected": 403
+        "endpoint": "services"
       },
       {
-        "actual": 403,
         "tenantIndex": 16,
-        "endpoint": "services-write",
+        "actual": 403,
+        "expected": 403,
         "role": "FOREIGN_OWNER",
-        "expected": 403
+        "endpoint": "services-write"
       },
       {
-        "actual": 403,
         "tenantIndex": 16,
-        "endpoint": "staff",
+        "actual": 403,
+        "expected": 403,
         "role": "FOREIGN_OWNER",
-        "expected": 403
+        "endpoint": "staff"
       },
       {
-        "actual": 403,
         "tenantIndex": 16,
-        "endpoint": "bookings",
+        "actual": 403,
+        "expected": 403,
         "role": "FOREIGN_OWNER",
-        "expected": 403
+        "endpoint": "bookings"
       },
       {
-        "actual": 403,
         "tenantIndex": 16,
-        "endpoint": "analytics",
+        "actual": 403,
+        "expected": 403,
         "role": "FOREIGN_OWNER",
-        "expected": 403
+        "endpoint": "analytics"
       },
       {
-        "actual": 403,
         "tenantIndex": 16,
-        "endpoint": "audit-logs",
+        "actual": 403,
+        "expected": 403,
         "role": "FOREIGN_OWNER",
-        "expected": 403
+        "endpoint": "audit-logs"
       },
       {
-        "actual": 200,
         "tenantIndex": 17,
-        "endpoint": "services",
+        "actual": 200,
+        "expected": 200,
         "role": "OWNER",
-        "expected": 200
+        "endpoint": "services"
       },
       {
-        "actual": 200,
         "tenantIndex": 17,
-        "endpoint": "services-write",
+        "actual": 200,
+        "expected": 200,
         "role": "OWNER",
-        "expected": 200
+        "endpoint": "services-write"
       },
       {
-        "actual": 200,
         "tenantIndex": 17,
-        "endpoint": "staff",
+        "actual": 200,
+        "expected": 200,
         "role": "OWNER",
-        "expected": 200
+        "endpoint": "staff"
       },
       {
-        "actual": 200,
         "tenantIndex": 17,
-        "endpoint": "bookings",
+        "actual": 200,
+        "expected": 200,
         "role": "OWNER",
-        "expected": 200
+        "endpoint": "bookings"
       },
       {
-        "actual": 200,
         "tenantIndex": 17,
-        "endpoint": "analytics",
+        "actual": 200,
+        "expected": 200,
         "role": "OWNER",
-        "expected": 200
+        "endpoint": "analytics"
       },
       {
-        "actual": 200,
         "tenantIndex": 17,
-        "endpoint": "audit-logs",
+        "actual": 200,
+        "expected": 200,
         "role": "OWNER",
-        "expected": 200
+        "endpoint": "audit-logs"
       },
       {
-        "actual": 200,
         "tenantIndex": 17,
-        "endpoint": "services",
+        "actual": 200,
+        "expected": 200,
         "role": "ADMIN",
-        "expected": 200
+        "endpoint": "services"
       },
       {
-        "actual": 200,
         "tenantIndex": 17,
-        "endpoint": "services-write",
+        "actual": 200,
+        "expected": 200,
         "role": "ADMIN",
-        "expected": 200
+        "endpoint": "services-write"
       },
       {
-        "actual": 200,
         "tenantIndex": 17,
-        "endpoint": "staff",
+        "actual": 200,
+        "expected": 200,
         "role": "ADMIN",
-        "expected": 200
+        "endpoint": "staff"
       },
       {
-        "actual": 200,
         "tenantIndex": 17,
-        "endpoint": "bookings",
+        "actual": 200,
+        "expected": 200,
         "role": "ADMIN",
-        "expected": 200
+        "endpoint": "bookings"
       },
       {
-        "actual": 403,
         "tenantIndex": 17,
-        "endpoint": "analytics",
+        "actual": 403,
+        "expected": 403,
         "role": "ADMIN",
-        "expected": 403
+        "endpoint": "analytics"
       },
       {
-        "actual": 403,
         "tenantIndex": 17,
-        "endpoint": "audit-logs",
+        "actual": 403,
+        "expected": 403,
         "role": "ADMIN",
-        "expected": 403
+        "endpoint": "audit-logs"
       },
       {
+        "tenantIndex": 17,
         "actual": 200,
-        "tenantIndex": 17,
-        "endpoint": "services",
+        "expected": 200,
         "role": "STAFF",
-        "expected": 200
+        "endpoint": "services"
       },
       {
+        "tenantIndex": 17,
         "actual": 403,
-        "tenantIndex": 17,
-        "endpoint": "services-write",
+        "expected": 403,
         "role": "STAFF",
-        "expected": 403
+        "endpoint": "services-write"
       },
       {
+        "tenantIndex": 17,
         "actual": 200,
-        "tenantIndex": 17,
-        "endpoint": "staff",
+        "expected": 200,
         "role": "STAFF",
-        "expected": 200
+        "endpoint": "staff"
       },
       {
+        "tenantIndex": 17,
         "actual": 200,
-        "tenantIndex": 17,
-        "endpoint": "bookings",
+        "expected": 200,
         "role": "STAFF",
-        "expected": 200
+        "endpoint": "bookings"
       },
       {
-        "actual": 403,
         "tenantIndex": 17,
-        "endpoint": "analytics",
+        "actual": 403,
+        "expected": 403,
         "role": "STAFF",
-        "expected": 403
+        "endpoint": "analytics"
       },
       {
-        "actual": 403,
         "tenantIndex": 17,
-        "endpoint": "audit-logs",
+        "actual": 403,
+        "expected": 403,
         "role": "STAFF",
-        "expected": 403
+        "endpoint": "audit-logs"
       },
       {
-        "actual": 403,
         "tenantIndex": 17,
-        "endpoint": "services",
-        "role": "FOREIGN_OWNER",
-        "expected": 403
-      },
-      {
         "actual": 403,
-        "tenantIndex": 17,
-        "endpoint": "services-write",
+        "expected": 403,
         "role": "FOREIGN_OWNER",
-        "expected": 403
+        "endpoint": "services"
       },
       {
+        "tenantIndex": 17,
         "actual": 403,
-        "tenantIndex": 17,
-        "endpoint": "staff",
+        "expected": 403,
         "role": "FOREIGN_OWNER",
-        "expected": 403
+        "endpoint": "services-write"
       },
       {
+        "tenantIndex": 17,
         "actual": 403,
-        "tenantIndex": 17,
-        "endpoint": "bookings",
+        "expected": 403,
         "role": "FOREIGN_OWNER",
-        "expected": 403
+        "endpoint": "staff"
       },
       {
+        "tenantIndex": 17,
         "actual": 403,
-        "tenantIndex": 17,
-        "endpoint": "analytics",
+        "expected": 403,
         "role": "FOREIGN_OWNER",
-        "expected": 403
+        "endpoint": "bookings"
       },
       {
+        "tenantIndex": 17,
         "actual": 403,
-        "tenantIndex": 17,
-        "endpoint": "audit-logs",
+        "expected": 403,
         "role": "FOREIGN_OWNER",
-        "expected": 403
+        "endpoint": "analytics"
       },
       {
-        "actual": 200,
+        "tenantIndex": 17,
+        "actual": 403,
+        "expected": 403,
+        "role": "FOREIGN_OWNER",
+        "endpoint": "audit-logs"
+      },
+      {
         "tenantIndex": 18,
-        "endpoint": "services",
+        "actual": 200,
+        "expected": 200,
         "role": "OWNER",
-        "expected": 200
+        "endpoint": "services"
       },
       {
-        "actual": 200,
         "tenantIndex": 18,
-        "endpoint": "services-write",
+        "actual": 200,
+        "expected": 200,
         "role": "OWNER",
-        "expected": 200
+        "endpoint": "services-write"
       },
       {
-        "actual": 200,
         "tenantIndex": 18,
-        "endpoint": "staff",
+        "actual": 200,
+        "expected": 200,
         "role": "OWNER",
-        "expected": 200
+        "endpoint": "staff"
       },
       {
-        "actual": 200,
         "tenantIndex": 18,
-        "endpoint": "bookings",
+        "actual": 200,
+        "expected": 200,
         "role": "OWNER",
-        "expected": 200
+        "endpoint": "bookings"
       },
       {
-        "actual": 200,
         "tenantIndex": 18,
-        "endpoint": "analytics",
+        "actual": 200,
+        "expected": 200,
         "role": "OWNER",
-        "expected": 200
+        "endpoint": "analytics"
       },
       {
-        "actual": 200,
         "tenantIndex": 18,
-        "endpoint": "audit-logs",
+        "actual": 200,
+        "expected": 200,
         "role": "OWNER",
-        "expected": 200
+        "endpoint": "audit-logs"
       },
       {
-        "actual": 200,
         "tenantIndex": 18,
-        "endpoint": "services",
+        "actual": 200,
+        "expected": 200,
         "role": "ADMIN",
-        "expected": 200
+        "endpoint": "services"
       },
       {
-        "actual": 200,
         "tenantIndex": 18,
-        "endpoint": "services-write",
+        "actual": 200,
+        "expected": 200,
         "role": "ADMIN",
-        "expected": 200
+        "endpoint": "services-write"
       },
       {
-        "actual": 200,
         "tenantIndex": 18,
-        "endpoint": "staff",
+        "actual": 200,
+        "expected": 200,
         "role": "ADMIN",
-        "expected": 200
+        "endpoint": "staff"
       },
       {
-        "actual": 200,
         "tenantIndex": 18,
-        "endpoint": "bookings",
+        "actual": 200,
+        "expected": 200,
         "role": "ADMIN",
-        "expected": 200
+        "endpoint": "bookings"
       },
       {
-        "actual": 403,
         "tenantIndex": 18,
-        "endpoint": "analytics",
+        "actual": 403,
+        "expected": 403,
         "role": "ADMIN",
-        "expected": 403
+        "endpoint": "analytics"
       },
       {
-        "actual": 403,
         "tenantIndex": 18,
-        "endpoint": "audit-logs",
+        "actual": 403,
+        "expected": 403,
         "role": "ADMIN",
-        "expected": 403
+        "endpoint": "audit-logs"
       },
       {
+        "tenantIndex": 18,
         "actual": 200,
-        "tenantIndex": 18,
-        "endpoint": "services",
+        "expected": 200,
         "role": "STAFF",
-        "expected": 200
+        "endpoint": "services"
       },
       {
+        "tenantIndex": 18,
         "actual": 403,
-        "tenantIndex": 18,
-        "endpoint": "services-write",
+        "expected": 403,
         "role": "STAFF",
-        "expected": 403
+        "endpoint": "services-write"
       },
       {
+        "tenantIndex": 18,
         "actual": 200,
-        "tenantIndex": 18,
-        "endpoint": "staff",
+        "expected": 200,
         "role": "STAFF",
-        "expected": 200
+        "endpoint": "staff"
       },
       {
+        "tenantIndex": 18,
         "actual": 200,
-        "tenantIndex": 18,
-        "endpoint": "bookings",
+        "expected": 200,
         "role": "STAFF",
-        "expected": 200
+        "endpoint": "bookings"
       },
       {
-        "actual": 403,
         "tenantIndex": 18,
-        "endpoint": "analytics",
+        "actual": 403,
+        "expected": 403,
         "role": "STAFF",
-        "expected": 403
+        "endpoint": "analytics"
       },
       {
-        "actual": 403,
         "tenantIndex": 18,
-        "endpoint": "audit-logs",
+        "actual": 403,
+        "expected": 403,
         "role": "STAFF",
-        "expected": 403
+        "endpoint": "audit-logs"
       },
       {
-        "actual": 403,
         "tenantIndex": 18,
-        "endpoint": "services",
-        "role": "FOREIGN_OWNER",
-        "expected": 403
-      },
-      {
         "actual": 403,
-        "tenantIndex": 18,
-        "endpoint": "services-write",
+        "expected": 403,
         "role": "FOREIGN_OWNER",
-        "expected": 403
+        "endpoint": "services"
       },
       {
+        "tenantIndex": 18,
         "actual": 403,
-        "tenantIndex": 18,
-        "endpoint": "staff",
+        "expected": 403,
         "role": "FOREIGN_OWNER",
-        "expected": 403
+        "endpoint": "services-write"
       },
       {
+        "tenantIndex": 18,
         "actual": 403,
-        "tenantIndex": 18,
-        "endpoint": "bookings",
+        "expected": 403,
         "role": "FOREIGN_OWNER",
-        "expected": 403
+        "endpoint": "staff"
       },
       {
+        "tenantIndex": 18,
         "actual": 403,
-        "tenantIndex": 18,
-        "endpoint": "analytics",
+        "expected": 403,
         "role": "FOREIGN_OWNER",
-        "expected": 403
+        "endpoint": "bookings"
       },
       {
+        "tenantIndex": 18,
         "actual": 403,
-        "tenantIndex": 18,
-        "endpoint": "audit-logs",
+        "expected": 403,
         "role": "FOREIGN_OWNER",
-        "expected": 403
+        "endpoint": "analytics"
       },
       {
-        "actual": 200,
+        "tenantIndex": 18,
+        "actual": 403,
+        "expected": 403,
+        "role": "FOREIGN_OWNER",
+        "endpoint": "audit-logs"
+      },
+      {
         "tenantIndex": 19,
-        "endpoint": "services",
+        "actual": 200,
+        "expected": 200,
         "role": "OWNER",
-        "expected": 200
+        "endpoint": "services"
       },
       {
-        "actual": 200,
         "tenantIndex": 19,
-        "endpoint": "services-write",
+        "actual": 200,
+        "expected": 200,
         "role": "OWNER",
-        "expected": 200
+        "endpoint": "services-write"
       },
       {
-        "actual": 200,
         "tenantIndex": 19,
-        "endpoint": "staff",
+        "actual": 200,
+        "expected": 200,
         "role": "OWNER",
-        "expected": 200
+        "endpoint": "staff"
       },
       {
-        "actual": 200,
         "tenantIndex": 19,
-        "endpoint": "bookings",
+        "actual": 200,
+        "expected": 200,
         "role": "OWNER",
-        "expected": 200
+        "endpoint": "bookings"
       },
       {
-        "actual": 200,
         "tenantIndex": 19,
-        "endpoint": "analytics",
+        "actual": 200,
+        "expected": 200,
         "role": "OWNER",
-        "expected": 200
+        "endpoint": "analytics"
       },
       {
-        "actual": 200,
         "tenantIndex": 19,
-        "endpoint": "audit-logs",
+        "actual": 200,
+        "expected": 200,
         "role": "OWNER",
-        "expected": 200
+        "endpoint": "audit-logs"
       },
       {
-        "actual": 200,
         "tenantIndex": 19,
-        "endpoint": "services",
+        "actual": 200,
+        "expected": 200,
         "role": "ADMIN",
-        "expected": 200
+        "endpoint": "services"
       },
       {
-        "actual": 200,
         "tenantIndex": 19,
-        "endpoint": "services-write",
+        "actual": 200,
+        "expected": 200,
         "role": "ADMIN",
-        "expected": 200
+        "endpoint": "services-write"
       },
       {
-        "actual": 200,
         "tenantIndex": 19,
-        "endpoint": "staff",
+        "actual": 200,
+        "expected": 200,
         "role": "ADMIN",
-        "expected": 200
+        "endpoint": "staff"
       },
       {
-        "actual": 200,
         "tenantIndex": 19,
-        "endpoint": "bookings",
+        "actual": 200,
+        "expected": 200,
         "role": "ADMIN",
-        "expected": 200
+        "endpoint": "bookings"
       },
       {
-        "actual": 403,
         "tenantIndex": 19,
-        "endpoint": "analytics",
+        "actual": 403,
+        "expected": 403,
         "role": "ADMIN",
-        "expected": 403
+        "endpoint": "analytics"
       },
       {
-        "actual": 403,
         "tenantIndex": 19,
-        "endpoint": "audit-logs",
+        "actual": 403,
+        "expected": 403,
         "role": "ADMIN",
-        "expected": 403
+        "endpoint": "audit-logs"
       },
       {
+        "tenantIndex": 19,
         "actual": 200,
-        "tenantIndex": 19,
-        "endpoint": "services",
+        "expected": 200,
         "role": "STAFF",
-        "expected": 200
+        "endpoint": "services"
       },
       {
+        "tenantIndex": 19,
         "actual": 403,
-        "tenantIndex": 19,
-        "endpoint": "services-write",
+        "expected": 403,
         "role": "STAFF",
-        "expected": 403
+        "endpoint": "services-write"
       },
       {
+        "tenantIndex": 19,
         "actual": 200,
-        "tenantIndex": 19,
-        "endpoint": "staff",
+        "expected": 200,
         "role": "STAFF",
-        "expected": 200
+        "endpoint": "staff"
       },
       {
+        "tenantIndex": 19,
         "actual": 200,
-        "tenantIndex": 19,
-        "endpoint": "bookings",
+        "expected": 200,
         "role": "STAFF",
-        "expected": 200
+        "endpoint": "bookings"
       },
       {
-        "actual": 403,
         "tenantIndex": 19,
-        "endpoint": "analytics",
+        "actual": 403,
+        "expected": 403,
         "role": "STAFF",
-        "expected": 403
+        "endpoint": "analytics"
       },
       {
-        "actual": 403,
         "tenantIndex": 19,
-        "endpoint": "audit-logs",
+        "actual": 403,
+        "expected": 403,
         "role": "STAFF",
-        "expected": 403
+        "endpoint": "audit-logs"
       },
       {
-        "actual": 403,
         "tenantIndex": 19,
-        "endpoint": "services",
+        "actual": 403,
+        "expected": 403,
         "role": "FOREIGN_OWNER",
-        "expected": 403
+        "endpoint": "services"
       },
       {
-        "actual": 403,
         "tenantIndex": 19,
-        "endpoint": "services-write",
+        "actual": 403,
+        "expected": 403,
         "role": "FOREIGN_OWNER",
-        "expected": 403
+        "endpoint": "services-write"
       },
       {
-        "actual": 403,
         "tenantIndex": 19,
-        "endpoint": "staff",
+        "actual": 403,
+        "expected": 403,
         "role": "FOREIGN_OWNER",
-        "expected": 403
+        "endpoint": "staff"
       },
       {
-        "actual": 403,
         "tenantIndex": 19,
-        "endpoint": "bookings",
+        "actual": 403,
+        "expected": 403,
         "role": "FOREIGN_OWNER",
-        "expected": 403
+        "endpoint": "bookings"
       },
       {
-        "actual": 403,
         "tenantIndex": 19,
-        "endpoint": "analytics",
+        "actual": 403,
+        "expected": 403,
         "role": "FOREIGN_OWNER",
-        "expected": 403
+        "endpoint": "analytics"
       },
       {
-        "actual": 403,
         "tenantIndex": 19,
-        "endpoint": "audit-logs",
+        "actual": 403,
+        "expected": 403,
         "role": "FOREIGN_OWNER",
-        "expected": 403
+        "endpoint": "audit-logs"
       }
-    ]
+    ],
+    "unauthenticatedRequestStatus": 403,
+    "matrixRequests": 480
   },
   "cache": {
-    "cachedSqlStatements": 1,
     "cachedInProcessMs": {
-      "p50": 1.090229,
-      "p95": 3.943033
+      "p95": 3.551927,
+      "p50": 0.788431
     },
-    "directInProcessMs": {
-      "p50": 1.361528,
-      "p95": 2.327733
-    },
-    "directSqlStatements": 100,
-    "coldReadSqlStatements": 1,
-    "warmReadSqlStatements": 0,
+    "cachedSqlStatements": 1,
+    "scope": "caller-thread Hibernate StatementInspector; excludes SQL on HTTP/background threads; one cold read then 99 warm hits",
     "readsPerPath": 100,
-    "scope": "direct service-catalogue reads; excludes HTTP/authentication; one cold read then 99 warm hits"
+    "warmReadSqlStatements": 0,
+    "coldReadSqlStatements": 1,
+    "directSqlStatements": 100,
+    "directInProcessMs": {
+      "p95": 3.788538,
+      "p50": 1.123266
+    }
   },
   "httpReads": [
     {
-      "observedRequestsPerSecond": 127.11464676998388,
-      "workers": 1,
-      "requests": 200,
-      "successes": 200,
+      "observedRequestsPerSecond": 166.31338322364505,
+      "elapsedMs": 1202.549044,
       "latencyMs": {
-        "p50": 5.234227,
-        "p95": 18.107659
+        "p95": 10.393514,
+        "p50": 4.966728
       },
-      "elapsedMs": 1573.382809
+      "successes": 200,
+      "requests": 200,
+      "workers": 1
     },
     {
-      "observedRequestsPerSecond": 210.3565564983838,
-      "workers": 8,
-      "requests": 200,
-      "successes": 200,
+      "observedRequestsPerSecond": 236.4484212862053,
+      "elapsedMs": 845.850435,
       "latencyMs": {
-        "p50": 29.919995,
-        "p95": 60.879027
+        "p95": 69.565786,
+        "p50": 23.223294
       },
-      "elapsedMs": 950.766657
+      "successes": 200,
+      "requests": 200,
+      "workers": 8
     },
     {
-      "observedRequestsPerSecond": 329.5489578755693,
-      "workers": 32,
-      "requests": 200,
-      "successes": 200,
+      "observedRequestsPerSecond": 312.69960201908634,
+      "elapsedMs": 639.591476,
       "latencyMs": {
-        "p50": 88.969337,
-        "p95": 138.89109
+        "p95": 153.189532,
+        "p50": 97.355129
       },
-      "elapsedMs": 606.8901
+      "successes": 200,
+      "requests": 200,
+      "workers": 32
     }
   ],
   "sameSlotHolds": {
+    "acquired": 10,
+    "scope": "identical start AND end time hold creation only; not full booking oversell safety",
+    "totalRequests": 320,
     "rounds": [
       {
-        "conflicts": 31,
-        "requests": 32,
         "acquired": 1,
+        "requests": 32,
+        "conflicts": 31,
+        "round": 0,
         "latencyMs": {
-          "p50": 278.319201,
-          "p95": 330.308468
-        },
-        "round": 0
+          "p95": 299.914226,
+          "p50": 224.144746
+        }
       },
       {
-        "conflicts": 31,
-        "requests": 32,
         "acquired": 1,
+        "requests": 32,
+        "conflicts": 31,
+        "round": 1,
         "latencyMs": {
-          "p50": 235.652518,
-          "p95": 294.960092
-        },
-        "round": 1
+          "p95": 224.363771,
+          "p50": 140.893753
+        }
       },
       {
-        "conflicts": 31,
-        "requests": 32,
         "acquired": 1,
+        "requests": 32,
+        "conflicts": 31,
+        "round": 2,
         "latencyMs": {
-          "p50": 152.211375,
-          "p95": 200.962051
-        },
-        "round": 2
+          "p95": 208.931665,
+          "p50": 144.098414
+        }
       },
       {
-        "conflicts": 31,
-        "requests": 32,
         "acquired": 1,
+        "requests": 32,
+        "conflicts": 31,
+        "round": 3,
         "latencyMs": {
-          "p50": 202.306265,
-          "p95": 265.71685
-        },
-        "round": 3
+          "p95": 209.282467,
+          "p50": 135.610382
+        }
       },
       {
-        "conflicts": 31,
-        "requests": 32,
         "acquired": 1,
+        "requests": 32,
+        "conflicts": 31,
+        "round": 4,
         "latencyMs": {
-          "p50": 142.951973,
-          "p95": 179.16841
-        },
-        "round": 4
+          "p95": 271.299065,
+          "p50": 188.813917
+        }
       },
       {
-        "conflicts": 31,
-        "requests": 32,
         "acquired": 1,
+        "requests": 32,
+        "conflicts": 31,
+        "round": 5,
         "latencyMs": {
-          "p50": 111.456125,
-          "p95": 163.370386
-        },
-        "round": 5
+          "p95": 161.277732,
+          "p50": 123.968299
+        }
       },
       {
-        "conflicts": 31,
-        "requests": 32,
         "acquired": 1,
+        "requests": 32,
+        "conflicts": 31,
+        "round": 6,
         "latencyMs": {
-          "p50": 126.35961,
-          "p95": 162.617541
-        },
-        "round": 6
+          "p95": 189.116447,
+          "p50": 150.530756
+        }
       },
       {
-        "conflicts": 31,
-        "requests": 32,
         "acquired": 1,
+        "requests": 32,
+        "conflicts": 31,
+        "round": 7,
         "latencyMs": {
-          "p50": 100.135004,
-          "p95": 128.956902
-        },
-        "round": 7
+          "p95": 144.436462,
+          "p50": 126.053489
+        }
       },
       {
-        "conflicts": 31,
-        "requests": 32,
         "acquired": 1,
+        "requests": 32,
+        "conflicts": 31,
+        "round": 8,
         "latencyMs": {
-          "p50": 105.37568,
-          "p95": 166.173242
-        },
-        "round": 8
+          "p95": 142.442784,
+          "p50": 106.454532
+        }
       },
       {
-        "conflicts": 31,
-        "requests": 32,
         "acquired": 1,
+        "requests": 32,
+        "conflicts": 31,
+        "round": 9,
         "latencyMs": {
-          "p50": 117.59954,
-          "p95": 152.1065
-        },
-        "round": 9
+          "p95": 147.126781,
+          "p50": 94.741838
+        }
       }
     ],
-    "totalRequests": 320,
-    "scope": "identical start AND end time hold creation only; not full booking oversell safety",
-    "acquired": 10,
     "conflicts": 310
   },
   "fixedWindowLimiter": {
     "scope": "real Redis fixed-window primitive; not HTTP endpoint rate-limit thresholds",
-    "allowed": 20,
-    "attempts": 100,
-    "workers": 20,
-    "windowSeconds": 60,
+    "limit": 20,
     "rejected": 80,
-    "limit": 20
+    "windowSeconds": 60,
+    "workers": 20,
+    "attempts": 100,
+    "allowed": 20
   },
   "knownConcurrencyDiagnostics": {
-    "scope": "real Redis service calls, not persisted booking writes; failures are reported, not hidden",
     "overlappingDifferentStartHoldAccepted": true,
-    "consumeReplaySuccessfulCallsPerRound": [
-      3,
-      8,
-      5,
-      2,
-      3,
-      19,
-      7,
-      17,
-      8,
-      2
-    ],
+    "scope": "real Redis service calls, not persisted booking writes; failures are reported, not hidden",
+    "consumeReplayCallersPerRound": 32,
     "consumeReplayRoundsWithMultipleSuccesses": 10,
-    "consumeReplayCallersPerRound": 32
+    "consumeReplaySuccessfulCallsPerRound": [
+      28,
+      13,
+      15,
+      22,
+      7,
+      18,
+      16,
+      28,
+      5,
+      31
+    ]
   },
   "kafka": {
     "groups": [
       "booking-notifications",
       "booking-analytics"
     ],
-    "elapsedUntilBothObservedMs": 650.556684,
-    "notificationListenerInvocations": 100,
-    "scope": "healthy single-broker synthetic event fan-out; notification logs only, not delivered emails or crash/exactly-once testing",
+    "published": 100,
     "analyticsRedisCount": 100,
-    "published": 100
+    "scope": "healthy single-broker synthetic event fan-out; notification logs only, not delivered emails or crash/exactly-once testing",
+    "notificationListenerInvocations": 100,
+    "elapsedUntilBothObservedMs": 467.151585
   },
-  "sourceSnapshotRevision": "20750060d0afadbb58cead744d641b007d4ce550",
-  "sourceSnapshotNote": "Source snapshot committed immediately after measurement; production cache and evaluation test files were unchanged. Original execution label retained.",
   "sourceSha256": {
     "backend/src/main/java/com/booking/engine/platform/config/RedisCacheConfiguration.java": "f6f7c2f43a1f9f8edb361062a28a5311e025b153accc163bd3a1f6742742edc7",
-    "backend/src/test/java/com/booking/engine/platform/evaluation/PlatformEvaluationTest.java": "cf61d227316a4a5b649b970d373593de93e662551641eaefd0a32e4fd54ff970"
+    "backend/src/test/java/com/booking/engine/platform/evaluation/PlatformEvaluationTest.java": "033e359ec11edb9eb39e253c638be792f7ae80822b127294b2924d8ba5ac395b"
   }
 }
